@@ -1,0 +1,6 @@
+[dev]
+debug = false
+files = ["development.env"]
+exec = "pnpm run dev --port 3000 --host 127.0.0.1"
+required = ["HOST", "PORT"]
+
