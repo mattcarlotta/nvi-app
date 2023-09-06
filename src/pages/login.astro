@@ -1,8 +1,8 @@
 ---
 import MainLayout from "../layouts/main.astro";
+import LoginForm from "../components/forms/LoginForm.tsx";
 ---
 
 <MainLayout description="Login">
-    <h1>Login</h1>
-    <a href="/login">Login</a>
+    <LoginForm client:load />
 </MainLayout>
