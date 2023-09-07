@@ -1,19 +1,20 @@
+import Cookies from "js-cookie";
 import { createStore } from "solid-js/store";
 import clsx from "../../utils/clsx";
 import { fetchAPIPOST } from "../../utils/fetchAPI";
 import { ErrorStatusCode, getMessageFromStatusCode } from "../../utils/errors";
-import { Show, batch, createSignal } from "solid-js";
+import { Show, createSignal, onMount } from "solid-js";
 import HideIcon from "../icons/HideIcon";
 import ShowIcon from "../icons/ShowIcon";
 import { dispatchToastEvent } from "../layout/Toast";
 
-type LoginFormStore = {
+type RegisterFormStore = {
     isSubmitting: boolean;
     formError: string;
 };
 
 export default function RegisterForm() {
-    const [fields, setFields] = createStore<LoginFormStore>({
+    const [fields, setFields] = createStore<RegisterFormStore>({
         isSubmitting: false,
         formError: ''
     })
@@ -28,9 +29,10 @@ export default function RegisterForm() {
         setFields('formError', '');
         setFields('isSubmitting', true);
         try {
-            const name = (document.querySelector("#name") as HTMLInputElement).value;
-            const email = (document.querySelector("#email") as HTMLInputElement).value;
-            const password = (document.querySelector("#password") as HTMLInputElement).value;
+            const form = (document.querySelector("form") as HTMLFormElement);
+            const name = (form.querySelector("#name") as HTMLInputElement).value;
+            const email = (form.querySelector("#email") as HTMLInputElement).value;
+            const password = (form.querySelector("#password") as HTMLInputElement).value;
 
             const res = await fetchAPIPOST({
                 url: "/register",
@@ -42,7 +44,8 @@ export default function RegisterForm() {
                 return
             }
 
-            (document.querySelector("form") as HTMLFormElement).reset();
+            form.reset();
+
 
             dispatchToastEvent({ type: "success", message: res?.message, timeout: 5000 });
 
@@ -57,6 +60,11 @@ export default function RegisterForm() {
         }
     };
 
+    onMount(() => {
+        if (Cookies.get("SESSION_TOKEN")) {
+            window.location.replace("/app/dashboard");
+        }
+    });
 
     return (
         <div class="flex flex-col justify-center items-center space-y-4 rounded bg-primary-400 p-8 text-white">

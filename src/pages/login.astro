@@ -1,6 +1,10 @@
 ---
 import MainLayout from "../layouts/main.astro";
 import LoginForm from "../components/forms/LoginForm";
+
+if (Astro.cookies.get("SESSION_TOKEN")?.value) {
+    return Astro.redirect("/app/dashboard");
+}
 ---
 
 <MainLayout description="Login">

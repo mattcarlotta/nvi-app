@@ -1,0 +1,21 @@
+---
+
+---
+
+<button id="logout" type="button"> Log Out</button>
+<script>
+    import { fetchAPIPOST } from "../../utils/fetchAPI";
+
+    const logoutButton = document.getElementById("logout");
+
+    if (logoutButton) {
+        logoutButton.addEventListener("click", async () => {
+            try {
+                await fetchAPIPOST({ url: "/logout" });
+                window.location.replace("/login");
+            } catch (err) {
+                console.error(err);
+            }
+        });
+    }
+</script>

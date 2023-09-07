@@ -1,6 +1,10 @@
 ---
 import MainLayout from "../layouts/main.astro";
 import RegisterForm from "../components/forms/RegisterForm";
+
+if (Astro.cookies.get("SESSION_TOKEN")?.value) {
+    return Astro.redirect("/app/dashboard");
+}
 ---
 
 <MainLayout description="Register">

@@ -1,3 +1,5 @@
+import Cookies from "js-cookie";
+
 async function tryJSON(res: Response) {
     try {
         const data = await res.json();
@@ -14,17 +16,20 @@ export type FetchAPIArgs = {
     url: string;
     headers?: HeadersInit;
     body?: Record<string, unknown>;
+    token?: string
 };
 
-async function fetchAPI({ method, url, headers, body }: FetchAPIArgs) {
+async function fetchAPI({ method, url, headers, body, token }: FetchAPIArgs) {
+    const sessionToken = Cookies.get("SESSION_TOKEN") || token;
     const res = await fetch(`${import.meta.env.PUBLIC_API_URL}${url}`, {
         method,
         headers: {
+            "Authorization": `Bearer ${sessionToken}`,
             "Content-Type": "application/json",
             ...headers
         },
         body: JSON.stringify(body),
-        credentials: 'include'
+        credentials: "include"
     });
 
     const isErrorStatus = res.status >= 400;
@@ -56,18 +61,18 @@ async function fetchAPI({ method, url, headers, body }: FetchAPIArgs) {
     return Promise.resolve({ status: res.status, message });
 }
 
-export function fetchAPIGET(args: Pick<FetchAPIArgs, 'url' | 'headers'>) {
+export function fetchAPIGET(args: Omit<FetchAPIArgs, "body" | "method">) {
     return fetchAPI({ method: 'GET', ...args });
 }
 
-export function fetchAPIDELETE(args: Pick<FetchAPIArgs, 'url' | 'headers' | 'body'>) {
+export function fetchAPIDELETE(args: Omit<FetchAPIArgs, "body" | "method">) {
     return fetchAPI({ method: 'DELETE', ...args });
 }
 
-export function fetchAPIPOST(args: Pick<FetchAPIArgs, 'url' | 'headers' | 'body'>) {
+export function fetchAPIPOST(args: Omit<FetchAPIArgs, "method">) {
     return fetchAPI({ method: 'POST', ...args });
 }
 
-export function fetchAPIPUT(args: Pick<FetchAPIArgs, 'url' | 'headers' | 'body'>) {
+export function fetchPUT(args: Omit<FetchAPIArgs, "method">) {
     return fetchAPI({ method: 'PUT', ...args });
 }

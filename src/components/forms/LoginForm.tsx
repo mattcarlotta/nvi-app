@@ -1,8 +1,9 @@
+import Cookies from "js-cookie";
 import { createStore } from "solid-js/store";
 import clsx from "../../utils/clsx";
 import { fetchAPIPOST } from "../../utils/fetchAPI";
 import { ErrorStatusCode, getMessageFromStatusCode } from "../../utils/errors";
-import { Show, createSignal } from "solid-js";
+import { Show, createSignal, onMount } from "solid-js";
 import HideIcon from "../icons/HideIcon";
 import ShowIcon from "../icons/ShowIcon";
 
@@ -27,8 +28,8 @@ export default function LoginForm() {
         setFields('formError', '');
         setFields('isSubmitting', true);
         try {
-            const email = (document.querySelector("#email") as HTMLInputElement).value;
-            const password = (document.querySelector("#password") as HTMLInputElement).value;
+            const email = (document.getElementById("email") as HTMLInputElement).value;
+            const password = (document.getElementById("password") as HTMLInputElement).value;
 
             const res = await fetchAPIPOST({
                 url: "/login",
@@ -40,13 +41,19 @@ export default function LoginForm() {
                 return
             }
 
-            window.location.pathname = "/";
+            window.location.replace("/app/dashboard/");
         } catch (error) {
             const message = getMessageFromStatusCode(String(error) as ErrorStatusCode)
             setFields('formError', message);
             setFields('isSubmitting', false);
         }
     };
+
+    onMount(() => {
+        if (Cookies.get("SESSION_TOKEN")) {
+            window.location.replace("/app/dashboard");
+        }
+    });
 
 
     return (
