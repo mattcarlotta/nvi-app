@@ -2,16 +2,17 @@ import { createStore } from "solid-js/store";
 import clsx from "../../utils/clsx";
 import { fetchAPIPOST } from "../../utils/fetchAPI";
 import { ErrorStatusCode, getMessageFromStatusCode } from "../../utils/errors";
-import { Show, createSignal } from "solid-js";
+import { Show, batch, createSignal } from "solid-js";
 import HideIcon from "../icons/HideIcon";
 import ShowIcon from "../icons/ShowIcon";
+import { dispatchToastEvent } from "../layout/Toast";
 
 type LoginFormStore = {
     isSubmitting: boolean;
     formError: string;
 };
 
-export default function LoginForm() {
+export default function RegisterForm() {
     const [fields, setFields] = createStore<LoginFormStore>({
         isSubmitting: false,
         formError: ''
@@ -27,20 +28,28 @@ export default function LoginForm() {
         setFields('formError', '');
         setFields('isSubmitting', true);
         try {
+            const name = (document.querySelector("#name") as HTMLInputElement).value;
             const email = (document.querySelector("#email") as HTMLInputElement).value;
             const password = (document.querySelector("#password") as HTMLInputElement).value;
 
             const res = await fetchAPIPOST({
-                url: "/login",
-                body: { email, password }
+                url: "/register",
+                body: { email, name, password }
             });
 
-            if (res.error === ErrorStatusCode.LoginUnregisteredEmail) {
-                window.location.pathname = "/register";
+            if (res.error === ErrorStatusCode.RegisterEmailTaken) {
+                window.location.pathname = "/login";
                 return
             }
 
-            window.location.pathname = "/";
+            (document.querySelector("form") as HTMLFormElement).reset();
+
+            dispatchToastEvent({ type: "success", message: res?.message, timeout: 5000 });
+
+            // TODO(carlotta): This should be called after the toast notification has expired or been closed
+            window.setTimeout(() => {
+                window.location.pathname = "/login";
+            }, 5000);
         } catch (error) {
             const message = getMessageFromStatusCode(String(error) as ErrorStatusCode)
             setFields('formError', message);
@@ -51,9 +60,24 @@ export default function LoginForm() {
 
     return (
         <div class="flex flex-col justify-center items-center space-y-4 rounded bg-primary-400 p-8 text-white">
-            <h1 class="text-3xl">Login</h1>
+            <h1 class="text-3xl">Register</h1>
             <div class="flex space-x-2 w-full">
                 <form class="w-full" onSubmit={handleSubmit}>
+                    <div class="flex h-24 full flex-col space-y-1">
+                        <label class="block" html-for="name">
+                            Name
+                        </label>
+                        <input
+                            class="w-full rounded px-1.5 py-2 text-black"
+                            id="name"
+                            name="name"
+                            type="text"
+                            placeholder="Enter your full name..."
+                            minlength="2"
+                            maxlength="255"
+                            required
+                        />
+                    </div>
                     <div class="flex h-24 full flex-col space-y-1">
                         <label class="block" html-for="email">
                             Email
@@ -104,7 +128,7 @@ export default function LoginForm() {
                             )}
                             type="submit"
                         >
-                            Login
+                            Register
                         </button>
                     </div>
                     {fields.formError && <p class="font-bold text-red-600">{fields.formError}</p>}
@@ -113,3 +137,4 @@ export default function LoginForm() {
         </div>
     );
 };
+

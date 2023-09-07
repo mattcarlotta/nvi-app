@@ -1,22 +1,23 @@
-import { Show, batch, onCleanup, onMount } from 'solid-js';
-import { createStore } from 'solid-js/store';
-import CloseIcon from '../icons/CloseIcon';
-import clsx from '../../utils/clsx';
+import { Show, batch, onCleanup, onMount } from "solid-js";
+import { createStore } from "solid-js/store";
+import CloseIcon from "../icons/CloseIcon";
+import clsx from "../../utils/clsx";
 
 export type ToastEvent = {
     message: string;
-    type: 'success' | 'error' | '';
+    type: "success" | "error" | "";
+    timeout?: number
 };
 
 type ToastNotifcationStore = {
     show: boolean;
-} & ToastEvent;
+} & Omit<ToastEvent, "timeout">;
 
 interface ReceivedToastEvent extends CustomEvent<ToastEvent> { }
 
 export function dispatchToastEvent(event: ToastEvent) {
     window.dispatchEvent(
-        new CustomEvent('toast', {
+        new CustomEvent("toast", {
             detail: event
         })
     );
@@ -26,12 +27,12 @@ export default function Toast() {
     let timerRef: NodeJS.Timeout | null = null;
     const [toast, setToast] = createStore<ToastNotifcationStore>({
         show: false,
-        message: '',
-        type: ''
+        message: "",
+        type: "",
     });
 
-    const setTimer = () => {
-        timerRef = setTimeout(() => resetToast(), 3000);
+    const setTimer = (timeOut: number) => {
+        timerRef = setTimeout(() => resetToast(), timeOut);
     };
 
     const clearTimer = () => {
@@ -45,9 +46,9 @@ export default function Toast() {
         if (toast.show) {
             clearTimer();
             batch(() => {
-                setToast('show', false);
-                setToast('message', '');
-                setToast('type', '');
+                setToast("show", false);
+                setToast("message", "");
+                setToast("type", "");
             });
         }
     };
@@ -60,7 +61,7 @@ export default function Toast() {
 
     const handleMouseLeave = () => {
         if (!timerRef && toast.show) {
-            setTimer();
+            setTimer(3000);
         }
     };
 
@@ -69,21 +70,21 @@ export default function Toast() {
 
         resetToast();
 
-        setTimer();
+        setTimer(detail.timeout || 3000);
 
         batch(() => {
-            setToast('type', detail.type);
-            setToast('message', detail.message);
-            setToast('show', true);
+            setToast("type", detail.type);
+            setToast("message", detail.message);
+            setToast("show", true);
         });
     };
 
     onMount(() => {
-        window.addEventListener('toast', handleToastNotification);
+        window.addEventListener("toast", handleToastNotification);
 
         onCleanup(() => {
             if (timerRef) clearInterval(timerRef);
-            window.removeEventListener('toast', handleToastNotification);
+            window.removeEventListener("toast", handleToastNotification);
         });
     });
 
@@ -93,15 +94,15 @@ export default function Toast() {
                 onMouseOver={handleMouseOver}
                 onMouseLeave={handleMouseLeave}
                 class={clsx(
-                    'fixed right-10 top-4 w-72 rounded',
-                    toast.type === 'success' && 'bg-green-500',
-                    toast.type === 'error' && 'bg-red-500'
+                    "fixed w-full max-w-[20rem] rounded top-0 right-0 md:top-4 md:right-10",
+                    toast.type === "success" && "bg-green-500",
+                    toast.type === "error" && "bg-red-500"
                 )}
             >
                 <div class="flex space-x-3 p-4 font-bold">
                     <h1
                         class="flex-1"
-                        style={{ 'overflow-wrap': 'break-word', 'word-break': 'break-word' }}
+                        style={{ "overflow-wrap": "break-word", "word-break": "break-word" }}
                     >
                         {toast.message}
                     </h1>
