@@ -1,8 +1,9 @@
 // import { batch } from "solid-js";
 import { createStore } from "solid-js/store";
-import { dispatchToastEvent } from "../layout/Toast";
+// import { dispatchToastEvent } from "../layout/Toast";
 import clsx from "../../utils/clsx";
 import { fetchPOST } from "../../utils/fetchAPI";
+import { ErrorStatusCode, getMessageFromStatusCode } from "../../utils/errors";
 
 type LoginFormStore = {
     email: {
@@ -55,15 +56,20 @@ export default function LoginForm() {
 
             })
             console.log({ res });
-            dispatchToastEvent({ type: 'success', message: "success" });
+            if (res.error === ErrorStatusCode.LoginUnregisteredEmail) {
+                window.location.pathname = "/register";
+                return
+            }
             // batch(() => {
             //     setFields('email', { value: '', error: '' });
             //     setFields('password', { value: '', error: '' });
             //     setFields('isSubmitting', false);
             // });
+            window.location.pathname = "/";
         } catch (error) {
-            dispatchToastEvent({ type: 'error', message: String(error) });
-            setFields('formError', String(error));
+            const message = getMessageFromStatusCode(String(error) as ErrorStatusCode)
+            // dispatchToastEvent({ type: 'error', message });
+            setFields('formError', message);
             setFields('isSubmitting', false);
         }
     };
@@ -85,6 +91,7 @@ export default function LoginForm() {
                             type="email"
                             placeholder="Email"
                             required
+                            value={fields.email.value}
                             onInput={handleInputChange}
                         />
                         {fields.email.error && <p>{fields.email.error}</p>}
@@ -101,6 +108,7 @@ export default function LoginForm() {
                             placeholder="Password"
                             required
                             minlength="5"
+                            value={fields.password.value}
                             onInput={handleInputChange}
                         />
                         {fields.email.error && <p>{fields.email.error}</p>}
@@ -116,6 +124,7 @@ export default function LoginForm() {
                         >
                             Login
                         </button>
+                        {fields.formError && <p class="bold text-red-500">{fields.formError}</p>}
                     </div>
                 </form>
             </div>

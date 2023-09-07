@@ -31,7 +31,7 @@ const documentType = type || "website";
         <!-- <link rel="dns-prefetch" href="https://images.ctfassets.net/" /> -->
         <!-- <link rel="preload" as="image" href="/bg.webp" /> -->
         <!-- <link rel="apple-touch-icon" sizes="192x192" href="/logo_192x192.png" /> -->
-        <link rel="manifest" href="/site.webmanifest" />
+        <!-- <link rel="manifest" href="/site.webmanifest" /> -->
         <!-- <link rel="mask-icon" href="/logo_192x192.png" color="#01406C" /> -->
         <meta name="theme-color" content="#000000" />
         <meta name="robots" content="all" />
@@ -132,7 +132,7 @@ const documentType = type || "website";
     </head>
     <body>
         <Toast client:load />
-        <nav class="flex justify-center">
+        <nav class="flex justify-center py-4">
             <ul class="flex space-x-4">
                 {
                     [
@@ -143,6 +143,10 @@ const documentType = type || "website";
                         {
                             title: "Login",
                             href: "/login/",
+                        },
+                        {
+                            title: "Register",
+                            href: "/register/",
                         },
                         {
                             title: "About",
@@ -159,10 +163,10 @@ const documentType = type || "website";
             </ul>
         </nav>
         <main id="main" class="mx-auto w-full max-w-main p-2.5 pt-12">
-            <div>
+            <div class="min-h-body">
                 <slot />
             </div>
-            <footer>
+            <footer class="flex items-center justify-center">
                 <p>
                     &#169;{new Date().getFullYear()} Matt Carlotta
                 </p>

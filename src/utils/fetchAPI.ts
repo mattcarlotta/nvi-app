@@ -27,11 +27,16 @@ async function fetchAPI({ method, url, headers, body }: FetchAPIArgs) {
         credentials: 'include'
     });
 
+    const isErrorStatus = res.status >= 400;
+
     if (!res.ok) {
         const json = await tryJSON(res);
-        console.error(
-            `Error: Unable to complete the request to API endpoint. Reason: ${json.error}`
-        );
+
+        if (isErrorStatus) {
+            console.error(
+                `Error: Unable to complete the request to API endpoint. Reason: ${json.error}`
+            );
+        }
 
         return Promise.reject(json.error);
     }
@@ -39,16 +44,16 @@ async function fetchAPI({ method, url, headers, body }: FetchAPIArgs) {
     if (res.headers.get("Content-Type") === "application/json") {
         const json = await tryJSON(res);
 
-        if (json.error) {
+        if (json.error && isErrorStatus) {
             console.error(`Error: Unable to complete the request to API endpoint. Reason: ${json.error}`);
-
-            // return Promise.reject(json.error);
         }
 
-        return { status: res.status, ...json };
+        return Promise.resolve({ status: res.status, ...json });
     }
 
-    return { status: res.status };
+    const message = await res.text();
+
+    return Promise.resolve({ status: res.status, message });
 }
 
 export function fetchGET(args: Pick<FetchAPIArgs, 'url' | 'headers'>) {
