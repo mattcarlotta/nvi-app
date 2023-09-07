@@ -1,74 +1,48 @@
-// import { batch } from "solid-js";
 import { createStore } from "solid-js/store";
-// import { dispatchToastEvent } from "../layout/Toast";
 import clsx from "../../utils/clsx";
-import { fetchPOST } from "../../utils/fetchAPI";
+import { fetchAPIPOST } from "../../utils/fetchAPI";
 import { ErrorStatusCode, getMessageFromStatusCode } from "../../utils/errors";
+import { Show, createSignal } from "solid-js";
+import HideIcon from "../icons/HideIcon";
+import ShowIcon from "../icons/ShowIcon";
 
 type LoginFormStore = {
-    email: {
-        value: string;
-        error: string;
-    };
-    password: {
-        value: string;
-        error: string;
-    };
     isSubmitting: boolean;
     formError: string;
 };
 
-type InputChangeEvent = InputEvent & {
-    currentTarget: HTMLInputElement | HTMLTextAreaElement;
-    target: HTMLInputElement | HTMLTextAreaElement;
-};
-
 export default function LoginForm() {
     const [fields, setFields] = createStore<LoginFormStore>({
-        email: {
-            value: "",
-            error: ""
-        },
-        password: {
-            value: "",
-            error: ""
-        },
         isSubmitting: false,
         formError: ''
     })
+    const [showPassword, setShowPassword] = createSignal(false)
 
-    const handleInputChange = (e: InputChangeEvent) => {
-        setFields(e.target.name as keyof LoginFormStore, { value: e.target.value, error: '' });
-        setFields('formError', '');
-    };
+    const toggleShowPassword = () => {
+        setShowPassword(p => !p);
+    }
 
     const handleSubmit = async (e: Event) => {
         e.preventDefault();
         setFields('formError', '');
         setFields('isSubmitting', true);
         try {
-            const res = await fetchPOST({
-                url: "/login",
-                body: {
-                    email: fields.email.value,
-                    password: fields.password.value
-                }
+            const email = (document.querySelector("#email") as HTMLInputElement).value;
+            const password = (document.querySelector("#password") as HTMLInputElement).value;
 
-            })
-            console.log({ res });
+            const res = await fetchAPIPOST({
+                url: "/login",
+                body: { email, password }
+            });
+
             if (res.error === ErrorStatusCode.LoginUnregisteredEmail) {
                 window.location.pathname = "/register";
                 return
             }
-            // batch(() => {
-            //     setFields('email', { value: '', error: '' });
-            //     setFields('password', { value: '', error: '' });
-            //     setFields('isSubmitting', false);
-            // });
+
             window.location.pathname = "/";
         } catch (error) {
             const message = getMessageFromStatusCode(String(error) as ErrorStatusCode)
-            // dispatchToastEvent({ type: 'error', message });
             setFields('formError', message);
             setFields('isSubmitting', false);
         }
@@ -90,30 +64,38 @@ export default function LoginForm() {
                             name="email"
                             type="email"
                             placeholder="Email"
+                            maxlength="255"
                             required
-                            value={fields.email.value}
-                            onInput={handleInputChange}
                         />
-                        {fields.email.error && <p>{fields.email.error}</p>}
                     </div>
                     <div class="flex h-24 flex-col space-y-1">
                         <label class="block" html-for="password">
-                            Password
+                            <span class="mr-1">Password</span>
+                            <Show
+                                when={showPassword()}
+                                fallback={
+                                    <button type="button" title="Show Password" onClick={toggleShowPassword}>
+                                        <ShowIcon class="w-5 h-5 fill-white" />
+                                    </button>
+                                }
+                            >
+                                <button type="button" title="Hide Password" onClick={toggleShowPassword}>
+                                    <HideIcon class="w-5 h-5 fill-white" />
+                                </button>
+                            </Show>
                         </label>
                         <input
                             class="w-full rounded px-1.5 py-2 text-black"
                             id="password"
-                            type="password"
+                            type={showPassword() ? "text" : "password"}
                             name="password"
+                            minlength="5"
+                            maxlength="36"
                             placeholder="Password"
                             required
-                            minlength="5"
-                            value={fields.password.value}
-                            onInput={handleInputChange}
                         />
-                        {fields.email.error && <p>{fields.email.error}</p>}
                     </div>
-                    <div>
+                    <div class="mb-2">
                         <button
                             disabled={fields.isSubmitting}
                             class={clsx(
@@ -124,8 +106,8 @@ export default function LoginForm() {
                         >
                             Login
                         </button>
-                        {fields.formError && <p class="bold text-red-500">{fields.formError}</p>}
                     </div>
+                    {fields.formError && <p class="font-bold text-red-600">{fields.formError}</p>}
                 </form>
             </div>
         </div>

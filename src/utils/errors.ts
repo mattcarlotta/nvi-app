@@ -57,11 +57,15 @@ export function getMessageFromStatusCode(errorCode: ErrorStatusCode): string {
         case ErrorStatusCode.RegisterInvalidBody:
         case ErrorStatusCode.RegisterEmailTaken:
         case ErrorStatusCode.LoginInvalidBody: {
-            return "The email must be a valid email address and the password must be at least 5 characters long."
+            return "The email must be a valid email address and the password must be at least 5 characters (max 36 characters)."
         }
         case ErrorStatusCode.LoginUnregisteredEmail:
-        case ErrorStatusCode.LoginInvalidPassword:
-        case ErrorStatusCode.LoginAccountNotVerified:
+        case ErrorStatusCode.LoginInvalidPassword: {
+            return "The email and/or password is not valid. Please try again."
+        }
+        case ErrorStatusCode.LoginAccountNotVerified: {
+            return "Before you can log in, you must verify this account. Please check your email inbox for an account verification link!"
+        }
         case ErrorStatusCode.VerifyAccountInvalidToken:
         case ErrorStatusCode.ResendAccountVerificationInvalidEmail:
         case ErrorStatusCode.SendResetPasswordInvalidEmail:

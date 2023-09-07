@@ -56,18 +56,18 @@ async function fetchAPI({ method, url, headers, body }: FetchAPIArgs) {
     return Promise.resolve({ status: res.status, message });
 }
 
-export function fetchGET(args: Pick<FetchAPIArgs, 'url' | 'headers'>) {
+export function fetchAPIGET(args: Pick<FetchAPIArgs, 'url' | 'headers'>) {
     return fetchAPI({ method: 'GET', ...args });
 }
 
-export function fetchDELETE(args: Pick<FetchAPIArgs, 'url' | 'headers' | 'body'>) {
+export function fetchAPIDELETE(args: Pick<FetchAPIArgs, 'url' | 'headers' | 'body'>) {
     return fetchAPI({ method: 'DELETE', ...args });
 }
 
-export function fetchPOST(args: Pick<FetchAPIArgs, 'url' | 'headers' | 'body'>) {
+export function fetchAPIPOST(args: Pick<FetchAPIArgs, 'url' | 'headers' | 'body'>) {
     return fetchAPI({ method: 'POST', ...args });
 }
 
-export function fetchPUT(args: Pick<FetchAPIArgs, 'url' | 'headers' | 'body'>) {
+export function fetchAPIPUT(args: Pick<FetchAPIArgs, 'url' | 'headers' | 'body'>) {
     return fetchAPI({ method: 'PUT', ...args });
 }
