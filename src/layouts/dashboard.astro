@@ -62,13 +62,43 @@ const documentType = type || "website";
         <!--   content="A fullstack developer who is passionate about open-source projects, helping the web development community, and building SEO optimized applications" -->
         <!-- /> -->
         <!-- <meta property="og:image:type" content="image/webp" /> -->
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-        <link
-            href="https://fonts.googleapis.com/css2?family=Inter:wght@100;300;500;700;900&display=swap"
-            rel="stylesheet"
-        />
         <style is:inline>
+            @font-face {
+                font-family: "Inter";
+                font-style: normal;
+                font-weight: 100;
+                font-display: swap;
+                src: url(/fonts/Inter-Thin.ttf) format("truetype");
+            }
+            @font-face {
+                font-family: "Inter";
+                font-style: normal;
+                font-weight: 300;
+                font-display: swap;
+                src: url(/fonts/Inter-Light.ttf) format("truetype");
+            }
+            @font-face {
+                font-family: "Inter";
+                font-style: normal;
+                font-weight: 500;
+                font-display: swap;
+                src: url(/fonts/Inter-Medium.ttf) format("truetype");
+            }
+            @font-face {
+                font-family: "Inter";
+                font-style: normal;
+                font-weight: 700;
+                font-display: swap;
+                src: url(/fonts/Inter-Bold.ttf) format("truetype");
+            }
+            @font-face {
+                font-family: "Inter";
+                font-style: normal;
+                font-weight: 900;
+                font-display: swap;
+                src: url(/fonts/Inter-Black.ttf) format("truetype");
+            }
+
             body,
             html {
                 height: 100%;
@@ -95,12 +125,6 @@ const documentType = type || "website";
                     sans-serif;
             }
 
-            .navbar {
-                display: flex;
-                flex-direction: row;
-                list-style: none;
-            }
-
             * {
                 box-sizing: border-box;
                 -ms-overflow-style: none;
@@ -122,18 +146,19 @@ const documentType = type || "website";
                 outline-offset: 2px;
                 outline-color: #008ef1 !important;
             }
-
-            img,
-            svg,
-            iframe {
-                vertical-align: middle;
-                display: initial !important;
-            }
         </style>
         <title>{documentTitle}</title>
     </head>
     <body>
         <Toast client:load />
+        <header class="overflow-hidden">
+            <a
+                class="absolute left-[-9999px] top-4 z-50 rounded bg-white p-2 text-center text-black no-underline shadow-ring focus:left-5"
+                href="#main"
+            >
+                Skip to content
+            </a>
+        </header>
         <nav class="flex justify-center py-4 bg-gray-800">
             <ul class="flex space-x-4">
                 {

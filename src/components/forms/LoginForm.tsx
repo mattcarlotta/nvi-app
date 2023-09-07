@@ -3,7 +3,7 @@ import { createStore } from "solid-js/store";
 import clsx from "../../utils/clsx";
 import { fetchAPIPOST } from "../../utils/fetchAPI";
 import { ErrorStatusCode, getMessageFromStatusCode } from "../../utils/errors";
-import { Show, createSignal, onMount } from "solid-js";
+import { Show, createSignal } from "solid-js";
 import HideIcon from "../icons/HideIcon";
 import ShowIcon from "../icons/ShowIcon";
 
@@ -48,12 +48,6 @@ export default function LoginForm() {
             setFields('isSubmitting', false);
         }
     };
-
-    onMount(() => {
-        if (Cookies.get("SESSION_TOKEN")) {
-            window.location.replace("/app/dashboard");
-        }
-    });
 
 
     return (

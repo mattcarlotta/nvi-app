@@ -7,19 +7,19 @@ if (!token) {
     return Astro.redirect("/login");
 }
 
-let loggedinUserName = "";
+let userName = "";
 try {
     const res = await fetchAPIGET({
         url: "/loggedin",
         token,
     });
 
-    loggedinUserName = res.name;
+    userName = res.name;
 } catch (e) {
     return Astro.redirect("/login");
 }
 ---
 
-<DashboardLayout user={loggedinUserName} description="Dashboard">
+<DashboardLayout user={userName} description="Dashboard">
     <h1 class="text-5xl">Dashboard</h1>
 </DashboardLayout>
