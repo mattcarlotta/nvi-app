@@ -1,4 +1,3 @@
-import Cookies from "js-cookie";
 import { createStore } from "solid-js/store";
 import clsx from "../../utils/clsx";
 import { fetchAPIPOST } from "../../utils/fetchAPI";
@@ -41,7 +40,7 @@ export default function LoginForm() {
                 return
             }
 
-            window.location.replace("/app/dashboard/");
+            window.location.replace("/dashboard/");
         } catch (error) {
             const message = getMessageFromStatusCode(String(error) as ErrorStatusCode)
             setFields('formError', message);

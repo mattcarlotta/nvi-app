@@ -1,4 +1,3 @@
-import Cookies from "js-cookie";
 import { createStore } from "solid-js/store";
 import clsx from "../../utils/clsx";
 import { fetchAPIPOST } from "../../utils/fetchAPI";

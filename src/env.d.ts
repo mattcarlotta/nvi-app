@@ -4,6 +4,7 @@ interface ImportMetaEnv {
     readonly PUBLIC_API_URL: string;
     readonly DOMAIN: string;
     readonly HOST: string;
+    readonly IN_PRODUCTION: string;
     readonly PORT: string;
 }
 

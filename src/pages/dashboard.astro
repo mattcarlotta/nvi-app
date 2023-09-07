@@ -1,0 +1,33 @@
+---
+import DashboardLayout from "../layouts/dashboard.astro";
+import { fetchAPIGET } from "../utils/fetchAPI";
+
+const sessionToken = Astro.cookies.get("SESSION_TOKEN");
+if (!sessionToken?.boolean()) {
+    return Astro.redirect("/login");
+}
+
+let userName = "";
+try {
+    const headers = new Headers();
+    headers.append("Cookie", `SESSION_TOKEN=${sessionToken.value}`);
+    const res = await fetchAPIGET({
+        url: "/loggedin",
+        headers,
+    });
+
+    userName = res.name;
+} catch {
+    Astro.cookies.set("SESSION_TOKEN", "", {
+        path: "/",
+        httpOnly: true,
+        maxAge: 0,
+        secure: import.meta.env.IN_PRODUCTION === "true",
+    });
+    return Astro.redirect("/login");
+}
+---
+
+<DashboardLayout user={userName} description="Dashboard">
+    <h1 class="text-5xl">Dashboard</h1>
+</DashboardLayout>

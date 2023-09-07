@@ -146,6 +146,13 @@ const documentType = type || "website";
                 outline-offset: 2px;
                 outline-color: #008ef1 !important;
             }
+
+            svg,
+            img,
+            iframe {
+                vertical-align: middle;
+                display: initial !important;
+            }
         </style>
         <title>{documentTitle}</title>
     </head>
@@ -159,34 +166,37 @@ const documentType = type || "website";
                 Skip to content
             </a>
         </header>
-        <nav class="flex justify-center py-4 bg-gray-800">
-            <ul class="flex space-x-4">
-                {
-                    [
-                        {
-                            title: "Dashboard",
-                            href: "/app/dashboard/",
-                        },
-                        {
-                            title: "Projects",
-                            href: "/app/projects/",
-                        },
-                        {
-                            title: "Settings",
-                            href: "/app/settings/",
-                        },
-                    ].map(({ href, title }) => (
-                        <li>
-                            <a class="header-link" href={href}>
-                                {title}
-                            </a>
-                        </li>
-                    ))
-                }
-                <li><LogoutButton /></li>
-                <li>{user}</li>
-            </ul>
-        </nav>
+        <div class="flex justify-center items-center bg-gray-800">
+            <nav class="w-full max-w-main flex py-4">
+                <div class="flex-1">
+                    <a href="/">Home</a>
+                </div>
+                <ul class="flex space-x-4">
+                    {
+                        [
+                            {
+                                title: "Dashboard",
+                                href: "/dashboard/",
+                            },
+                            {
+                                title: "Projects",
+                                href: "/projects/",
+                            },
+                            {
+                                title: "Settings",
+                                href: "/settings/",
+                            },
+                        ].map(({ href, title }) => (
+                            <li>
+                                <a href={href}>{title}</a>
+                            </li>
+                        ))
+                    }
+                    <li><LogoutButton /></li>
+                    <li>{user}</li>
+                </ul>
+            </nav>
+        </div>
         <main id="main" class="mx-auto w-full max-w-main p-2.5 pt-12">
             <div class="min-h-body">
                 <slot />

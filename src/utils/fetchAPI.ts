@@ -1,5 +1,3 @@
-import Cookies from "js-cookie";
-
 async function tryJSON(res: Response) {
     try {
         const data = await res.json();
@@ -14,20 +12,15 @@ type Method = 'GET' | 'POST' | 'PUT' | 'DELETE';
 export type FetchAPIArgs = {
     method: Method;
     url: string;
-    headers?: HeadersInit;
+    headers?: Headers;
     body?: Record<string, unknown>;
-    token?: string
 };
 
-async function fetchAPI({ method, url, headers, body, token }: FetchAPIArgs) {
-    const sessionToken = Cookies.get("SESSION_TOKEN") || token;
+async function fetchAPI({ method, url, headers = new Headers(), body }: FetchAPIArgs) {
+    headers.append("Content-Type", "application/json")
     const res = await fetch(`${import.meta.env.PUBLIC_API_URL}${url}`, {
         method,
-        headers: {
-            "Authorization": `Bearer ${sessionToken}`,
-            "Content-Type": "application/json",
-            ...headers
-        },
+        headers,
         body: JSON.stringify(body),
         credentials: "include"
     });
