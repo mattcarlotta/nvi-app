@@ -1,0 +1,41 @@
+---
+import LogoutButton from "./LogoutButton.astro";
+
+interface Props {
+    user?: string;
+}
+
+const { user } = Astro.props;
+---
+
+<div class="flex justify-center items-center bg-gray-800">
+    <nav class="w-full max-w-main flex py-4">
+        <div class="flex-1">
+            <a href="/">Home</a>
+        </div>
+        <ul class="flex space-x-4">
+            {
+                [
+                    {
+                        title: "Dashboard",
+                        href: "/dashboard/",
+                    },
+                    {
+                        title: "Projects",
+                        href: "/projects/",
+                    },
+                    {
+                        title: "Settings",
+                        href: "/settings/",
+                    },
+                ].map(({ href, title }) => (
+                    <li>
+                        <a href={href}>{title}</a>
+                    </li>
+                ))
+            }
+            <li><LogoutButton /></li>
+            <li>{user}</li>
+        </ul>
+    </nav>
+</div>

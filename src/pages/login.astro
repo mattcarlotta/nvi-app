@@ -1,6 +1,7 @@
 ---
 import MainLayout from "../layouts/main.astro";
 import LoginForm from "../components/forms/LoginForm";
+import NavHeader from "../components/layout/NavHeader.astro";
 
 if (Astro.cookies.get("SESSION_TOKEN")?.value) {
     return Astro.redirect("/dashboard");
@@ -8,5 +9,6 @@ if (Astro.cookies.get("SESSION_TOKEN")?.value) {
 ---
 
 <MainLayout description="Login">
+    <NavHeader slot="navbar" />
     <LoginForm client:load />
 </MainLayout>

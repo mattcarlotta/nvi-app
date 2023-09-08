@@ -1,5 +1,6 @@
 ---
-import DashboardLayout from "../layouts/dashboard.astro";
+import DashboardHeader from "../components/layout/DashboardHeader.astro";
+import MainLayout from "../layouts/main.astro";
 import { fetchAPIGET } from "../utils/fetchAPI";
 
 const sessionToken = Astro.cookies.get("SESSION_TOKEN");
@@ -28,6 +29,7 @@ try {
 }
 ---
 
-<DashboardLayout user={userName} description="Dashboard">
+<MainLayout description="Dashboard">
+    <DashboardHeader user={userName} slot="navbar" />
     <h1 class="text-5xl">Dashboard</h1>
-</DashboardLayout>
+</MainLayout>

@@ -1,0 +1,32 @@
+---
+const sessionToken = Astro.cookies.get("SESSION_TOKEN");
+const NAVLINKS = !sessionToken?.boolean()
+    ? [
+          { title: "About", href: "/about/" },
+          { title: "Login", href: "/login/" },
+          { title: "Register", href: "/register/" },
+      ]
+    : [
+          { title: "About", href: "/about/" },
+          { title: "Dashboard", href: "/dashboard/" },
+      ];
+---
+
+<div class="flex justify-center items-center">
+    <nav class="w-full max-w-main flex py-4">
+        <div class="flex-1">
+            <a href="/">Home</a>
+        </div>
+        <ul class="flex space-x-4">
+            {
+                NAVLINKS.map(({ href, title }) => (
+                    <li>
+                        <a class="header-link" href={href}>
+                            {title}
+                        </a>
+                    </li>
+                ))
+            }
+        </ul>
+    </nav>
+</div>

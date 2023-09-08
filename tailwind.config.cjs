@@ -7,7 +7,7 @@ module.exports = {
                 128: "32rem"
             },
             maxWidth: {
-                main: "1200px"
+                main: "75rem"
             },
             minHeight: {
                 body: "40rem"
