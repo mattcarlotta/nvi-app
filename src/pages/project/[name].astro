@@ -1,0 +1,58 @@
+---
+import type { Project } from "../../types/";
+import DashboardHeader from "../../components/layout/DashboardHeader.astro";
+import MainLayout from "../../layouts/main.astro";
+import { fetchAPIGET } from "../../utils/fetchAPI";
+
+const sessionToken = Astro.cookies.get("SESSION_TOKEN");
+if (!sessionToken?.boolean()) {
+    return Astro.redirect("/login");
+}
+
+let userName = "";
+let project: Project | null = null;
+const headers = new Headers();
+headers.append("Cookie", `SESSION_TOKEN=${sessionToken.value}`);
+try {
+    const userRes = await fetchAPIGET({
+        url: "/loggedin",
+        headers,
+    });
+
+    userName = userRes.data.name;
+} catch {
+    Astro.cookies.set("SESSION_TOKEN", "", {
+        path: "/",
+        httpOnly: true,
+        maxAge: 0,
+        secure: import.meta.env.IN_PRODUCTION === "true",
+    });
+    return Astro.redirect("/login");
+}
+
+try {
+    const { name } = Astro.params;
+    const projectRes = await fetchAPIGET({
+        url: `/project/name/${name}`,
+        headers,
+    });
+
+    project = projectRes.data;
+} catch {
+    // handle an invalid project name below
+}
+---
+
+<MainLayout description={project ? project.name : "Project Not Found"}>
+    <DashboardHeader user={userName} slot="navbar" />
+    {
+        project ? (
+            <>
+                <h1 class="text-4xl mb-2">{project.name}</h1>
+                {JSON.stringify(project, null, 2)}
+            </>
+        ) : (
+            <h1>Project Not Found</h1>
+        )
+    }
+</MainLayout>

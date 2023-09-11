@@ -1,14 +1,8 @@
+import type { Projects } from "../../types"
 import { Show, For, createSignal } from "solid-js"
 import SearchOrCreateProjectForm from "../forms/SearchOrCreateProjectForm"
 import relativeTimeFromDates from "../../utils/timeSinc"
 
-
-export type Projects = {
-    id: string,
-    name: string,
-    createdAt: string,
-    updatedAt: string
-}[]
 
 type ProjectListProps = {
     projects: Projects
@@ -33,10 +27,9 @@ export default function ProjectList(props: ProjectListProps) {
                 fallback={
                     <Show
                         when={!props.projects.length}
-                        fallback={
-                            <h1 class="text-xl">No Results Found</h1>
-                        }>
-                        <h1 class="text-xl">You don't have any projects</h1>
+                        fallback={<h1 class="text-xl">No Results Found</h1>}
+                    >
+                        <h1 class="text-xl">You don't have any projects! Use the input field above to create a new project.</h1>
                     </Show>
                 }
             >

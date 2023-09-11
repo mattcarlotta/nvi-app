@@ -99,7 +99,9 @@ export function getMessageFromStatusCode(errorCode: ErrorStatusCode): string {
         case ErrorStatusCode.UpdateSecretKeyAlreadyExists:
         case ErrorStatusCode.GetProjectInvalidID:
         case ErrorStatusCode.GetProjectNonExistentID:
-        case ErrorStatusCode.GetProjectInvalidName:
+        case ErrorStatusCode.GetProjectInvalidName: {
+            return "A project name must be an alphanumeric (a-z,A-Z,0-9) value with optional underscores. For example: \"my_project\" (max 255 characters)."
+        }
         case ErrorStatusCode.GetProjectNonExistentName:
         case ErrorStatusCode.CreateProjectInvalidName:
         case ErrorStatusCode.CreateProjectNameTaken:

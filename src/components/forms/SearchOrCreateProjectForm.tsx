@@ -1,3 +1,4 @@
+import type { Projects } from "../../types";
 import { Show, batch } from "solid-js";
 import { createStore } from "solid-js/store";
 import { fetchAPIGET, fetchAPIPOST } from "../../utils/fetchAPI";
@@ -7,7 +8,6 @@ import SubmitButton from "../layout/SubmitButton";
 import SearchIcon from "../icons/SearchIcon";
 import AddFolderIcon from "../icons/AddFolderIcon";
 import ClearIcon from "../icons/ClearIcon";
-import type { Projects } from "../layout/ProjectList";
 
 type CreateProjectFormStore = {
     name: string;
@@ -35,25 +35,28 @@ export default function SearchOrCreateProjectForm(props: SearchOrCreateProjectFo
         formError: ""
     });
 
-    const handleValidateNameInput = () => {
-        const error = !nameRegex.test(fields.name)
-            ? "The project name must be alphanumeric (a-z,A-Z,0-9) with optional underscores (ex: my_project)."
-            : "";
-        setFields("formError", error);
+    const nameInputInvalid = () => {
+        const fieldError = !nameRegex.test(fields.name) ? getMessageFromStatusCode(ErrorStatusCode.GetProjectInvalidName) : "";
+
+        setFields("formError", fieldError);
+
+        return fieldError.length
     }
 
     const handleInputChange = (e: InputChangeEvent) => {
-        // @ts-ignore-next
-        setFields(e.target.name, e.target.value);
+        setFields("name", e.target.value);
     }
 
-    const handleSearchProject = async (e: Event) => {
+    const handleSearchProjects = async (e: Event) => {
         e.preventDefault();
+        if (nameInputInvalid()) {
+            return;
+        }
         setFields("formError", "");
         setFields("isSubmitting", true);
         try {
             const res = await fetchAPIGET({
-                url: `/project/name/${fields.name}`,
+                url: `/projects/search/${fields.name}`,
             });
 
             props.onSearch(res.data)
@@ -71,6 +74,9 @@ export default function SearchOrCreateProjectForm(props: SearchOrCreateProjectFo
 
 
     const handleCreateProject = async () => {
+        if (nameInputInvalid()) {
+            return;
+        }
         setFields("formError", "");
         setFields("isSubmitting", true);
         try {
@@ -96,17 +102,16 @@ export default function SearchOrCreateProjectForm(props: SearchOrCreateProjectFo
             setFields("name", "");
             setFields("formError", "");
             setFields("isSubmitting", false);
+            props.onClear();
         });
-        props.onClear();
     }
-
 
     return (
         <div class="min-h-[5.5rem]">
-            <form class="flex space-x-2 w-full items-center" onSubmit={handleSearchProject}>
+            <form class="flex space-x-2 w-full items-center" onSubmit={handleSearchProjects}>
                 <div class="flex-1 relative items-center">
                     <input
-                        class="w-full rounded pl-1.5 pr-8 py-2 text-black"
+                        class="w-full rounded pl-2 pr-8 py-2 text-black"
                         id="name"
                         name="name"
                         type="text"
@@ -115,18 +120,15 @@ export default function SearchOrCreateProjectForm(props: SearchOrCreateProjectFo
                         required
                         value={fields.name}
                         onInput={handleInputChange}
-                        onBlur={handleValidateNameInput}
                     />
-                    <Show when={fields.name.length}>
-                        <button
-                            class="text-black absolute right-1 top-2"
-                            title="Clear"
-                            type="button"
-                            onClick={handleFormClear}
-                        >
-                            <ClearIcon class="h-[1.125rem] w-[1.125rem]" />
-                        </button>
-                    </Show>
+                    <button
+                        class="text-black absolute right-1 top-2"
+                        title="Clear"
+                        type="button"
+                        onClick={handleFormClear}
+                    >
+                        <ClearIcon class="h-[1.125rem] w-[1.125rem]" />
+                    </button>
                 </div>
                 <SubmitButton
                     title="Search for a project"
