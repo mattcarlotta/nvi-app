@@ -25,7 +25,8 @@ type SearchOrCreateProjectFormProps = {
     onSearch: (projects: Projects) => void
 }
 
-// const nameRegex = new RegExp(/^[a-zA-Z0-9_]+$/, "g")
+
+const nameRegex = new RegExp("^[a-zA-Z0-9_]+$");
 
 export default function SearchOrCreateProjectForm(props: SearchOrCreateProjectFormProps) {
     const [fields, setFields] = createStore<CreateProjectFormStore>({
@@ -33,6 +34,13 @@ export default function SearchOrCreateProjectForm(props: SearchOrCreateProjectFo
         isSubmitting: false,
         formError: ""
     });
+
+    const handleValidateNameInput = () => {
+        const error = !nameRegex.test(fields.name)
+            ? "The project name must be alphanumeric (a-z,A-Z,0-9) with optional underscores (ex: my_project)."
+            : "";
+        setFields("formError", error);
+    }
 
     const handleInputChange = (e: InputChangeEvent) => {
         // @ts-ignore-next
@@ -44,11 +52,6 @@ export default function SearchOrCreateProjectForm(props: SearchOrCreateProjectFo
         setFields("formError", "");
         setFields("isSubmitting", true);
         try {
-            // if (!nameRegex.test(name)) {
-            //     setFields("formError", "The project name is required and must be alpha numeric (aA-zAZ,0-9) with optional underscores. Ex: 'my_project'.");
-            //     return;
-            // }
-
             const res = await fetchAPIGET({
                 url: `/project/name/${fields.name}`,
             });
@@ -71,11 +74,6 @@ export default function SearchOrCreateProjectForm(props: SearchOrCreateProjectFo
         setFields("formError", "");
         setFields("isSubmitting", true);
         try {
-            // if (!nameRegex.test(name)) {
-            //     setFields("formError", "The project name is required and must be alpha numeric (aA-zAZ,0-9) with optional underscores. Ex: 'my_project'.");
-            //     return;
-            // }
-
             const res = await fetchAPIPOST({
                 url: `/create/project/${fields.name}`,
             });
@@ -104,29 +102,32 @@ export default function SearchOrCreateProjectForm(props: SearchOrCreateProjectFo
 
 
     return (
-        <>
+        <div class="min-h-[5.5rem]">
             <form class="flex space-x-2 w-full items-center" onSubmit={handleSearchProject}>
-                <input
-                    class="flex-1 rounded px-1.5 py-2 text-black"
-                    id="name"
-                    name="name"
-                    type="text"
-                    placeholder="Search or create a project name..."
-                    maxlength="255"
-                    required
-                    value={fields.name}
-                    onInput={handleInputChange}
-                />
-                <Show when={fields.name.length}>
-                    <SubmitButton
-                        title="Clear"
-                        type="button"
-                        onClick={handleFormClear}
-                        isSubmitting={fields.isSubmitting}
-                    >
-                        <ClearIcon class="h-6 w-6" />
-                    </SubmitButton>
-                </Show>
+                <div class="flex-1 relative items-center">
+                    <input
+                        class="w-full rounded pl-1.5 pr-8 py-2 text-black"
+                        id="name"
+                        name="name"
+                        type="text"
+                        placeholder="Search or create a new project..."
+                        maxlength="255"
+                        required
+                        value={fields.name}
+                        onInput={handleInputChange}
+                        onBlur={handleValidateNameInput}
+                    />
+                    <Show when={fields.name.length}>
+                        <button
+                            class="text-black absolute right-1 top-2"
+                            title="Clear"
+                            type="button"
+                            onClick={handleFormClear}
+                        >
+                            <ClearIcon class="h-[1.125rem] w-[1.125rem]" />
+                        </button>
+                    </Show>
+                </div>
                 <SubmitButton
                     title="Search for a project"
                     type="submit"
@@ -143,7 +144,9 @@ export default function SearchOrCreateProjectForm(props: SearchOrCreateProjectFo
                     <AddFolderIcon class="h-6 w-6 fill-white" />
                 </SubmitButton>
             </form>
-            {fields.formError && <p class="font-bold text-red-600">{fields.formError}</p>}
-        </>
+            <Show when={fields.formError}>
+                <p class="font-bold text-red-600">{fields.formError}</p>
+            </Show>
+        </div>
     );
 };

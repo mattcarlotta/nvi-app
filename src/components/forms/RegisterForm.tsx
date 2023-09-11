@@ -121,7 +121,9 @@ export default function RegisterForm() {
                         />
                     </div>
                     <SubmitButton isSubmitting={fields.isSubmitting}>Register</SubmitButton>
-                    {fields.formError && <p class="font-bold text-red-600">{fields.formError}</p>}
+                    <Show when={fields.formError}>
+                        <p class="font-bold text-red-600">{fields.formError}</p>
+                    </Show>
                 </form>
             </div>
         </div>

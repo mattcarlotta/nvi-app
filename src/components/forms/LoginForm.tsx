@@ -107,7 +107,9 @@ export default function LoginForm() {
                             Login
                         </button>
                     </div>
-                    {fields.formError && <p class="font-bold text-red-600">{fields.formError}</p>}
+                    <Show when={fields.formError}>
+                        <p class="font-bold text-red-600">{fields.formError}</p>
+                    </Show>
                 </form>
             </div>
         </div>

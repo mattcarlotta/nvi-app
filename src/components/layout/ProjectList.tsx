@@ -1,6 +1,6 @@
 import { Show, For, createSignal } from "solid-js"
 import SearchOrCreateProjectForm from "../forms/SearchOrCreateProjectForm"
-import relativeTimeFromDates, { relativeTimeFromElapsed } from "../../utils/timeSinc"
+import relativeTimeFromDates from "../../utils/timeSinc"
 
 
 export type Projects = {

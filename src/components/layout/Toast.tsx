@@ -4,7 +4,7 @@ import CloseIcon from "../icons/CloseIcon";
 import clsx from "../../utils/clsx";
 
 export type ToastEvent = {
-    message: string;
+    message: string | null;
     type: "success" | "error" | "";
     timeout?: number
 };
