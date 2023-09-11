@@ -52,7 +52,6 @@ export enum ErrorStatusCode {
 }
 
 export function getMessageFromStatusCode(errorCode: ErrorStatusCode): string {
-    console.log({ errorCode });
     switch (errorCode) {
         case ErrorStatusCode.RegisterInvalidBody:
         case ErrorStatusCode.RegisterEmailTaken:

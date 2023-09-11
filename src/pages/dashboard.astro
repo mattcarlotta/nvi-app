@@ -1,5 +1,6 @@
 ---
 import DashboardHeader from "../components/layout/DashboardHeader.astro";
+import ProjectList from "../components/layout/ProjectList";
 import MainLayout from "../layouts/main.astro";
 import { fetchAPIGET } from "../utils/fetchAPI";
 
@@ -9,15 +10,23 @@ if (!sessionToken?.boolean()) {
 }
 
 let userName = "";
+let projects = [];
 try {
     const headers = new Headers();
     headers.append("Cookie", `SESSION_TOKEN=${sessionToken.value}`);
-    const res = await fetchAPIGET({
+    const userRes = await fetchAPIGET({
         url: "/loggedin",
         headers,
     });
 
-    userName = res.name;
+    userName = userRes.data.name;
+
+    const projectRes = await fetchAPIGET({
+        url: "/projects",
+        headers,
+    });
+
+    projects = projectRes.data;
 } catch {
     Astro.cookies.set("SESSION_TOKEN", "", {
         path: "/",
@@ -32,4 +41,5 @@ try {
 <MainLayout description="Dashboard">
     <DashboardHeader user={userName} slot="navbar" />
     <h1 class="text-5xl">Dashboard</h1>
+    <ProjectList client:load projects={projects} />
 </MainLayout>

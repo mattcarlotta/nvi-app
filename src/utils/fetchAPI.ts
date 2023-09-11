@@ -46,12 +46,12 @@ async function fetchAPI({ method, url, headers = new Headers(), body }: FetchAPI
             console.error(`Error: Unable to complete the request to API endpoint. Reason: ${json.error}`);
         }
 
-        return Promise.resolve({ status: res.status, ...json });
+        return Promise.resolve({ status: res.status, data: json, err: null, message: null });
     }
 
     const message = await res.text();
 
-    return Promise.resolve({ status: res.status, message });
+    return Promise.resolve({ status: res.status, data: null, message, err: null });
 }
 
 export function fetchAPIGET(args: Omit<FetchAPIArgs, "body" | "method">) {

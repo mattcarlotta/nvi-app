@@ -15,7 +15,7 @@ export default function LoginForm() {
     const [fields, setFields] = createStore<LoginFormStore>({
         isSubmitting: false,
         formError: ''
-    })
+    });
     const [showPassword, setShowPassword] = createSignal(false)
 
     const toggleShowPassword = () => {
@@ -35,7 +35,7 @@ export default function LoginForm() {
                 body: { email, password }
             });
 
-            if (res.error === ErrorStatusCode.LoginUnregisteredEmail) {
+            if (res.err === ErrorStatusCode.LoginUnregisteredEmail) {
                 window.location.pathname = "/register";
                 return
             }

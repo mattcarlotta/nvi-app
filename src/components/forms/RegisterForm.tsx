@@ -1,11 +1,11 @@
 import { createStore } from "solid-js/store";
-import clsx from "../../utils/clsx";
 import { fetchAPIPOST } from "../../utils/fetchAPI";
 import { ErrorStatusCode, getMessageFromStatusCode } from "../../utils/errors";
 import { Show, createSignal } from "solid-js";
 import HideIcon from "../icons/HideIcon";
 import ShowIcon from "../icons/ShowIcon";
 import { dispatchToastEvent } from "../layout/Toast";
+import SubmitButton from "../layout/SubmitButton";
 
 type RegisterFormStore = {
     isSubmitting: boolean;
@@ -25,8 +25,8 @@ export default function RegisterForm() {
 
     const handleSubmit = async (e: Event) => {
         e.preventDefault();
-        setFields('formError', '');
-        setFields('isSubmitting', true);
+        setFields("formError", "");
+        setFields("isSubmitting", true);
         try {
             const form = (document.querySelector("form") as HTMLFormElement);
             const name = (form.querySelector("#name") as HTMLInputElement).value;
@@ -38,7 +38,7 @@ export default function RegisterForm() {
                 body: { email, name, password }
             });
 
-            if (res.error === ErrorStatusCode.RegisterEmailTaken) {
+            if (res.err === ErrorStatusCode.RegisterEmailTaken) {
                 window.location.pathname = "/login";
                 return
             }
@@ -54,8 +54,8 @@ export default function RegisterForm() {
             }, 5000);
         } catch (error) {
             const message = getMessageFromStatusCode(String(error) as ErrorStatusCode)
-            setFields('formError', message);
-            setFields('isSubmitting', false);
+            setFields("formError", message);
+            setFields("isSubmitting", false);
         }
     };
 
@@ -120,18 +120,7 @@ export default function RegisterForm() {
                             required
                         />
                     </div>
-                    <div class="my-2">
-                        <button
-                            disabled={fields.isSubmitting}
-                            class={clsx(
-                                fields.isSubmitting ? 'text-gray' : 'text-black',
-                                'w-full rounded bg-white p-2'
-                            )}
-                            type="submit"
-                        >
-                            Register
-                        </button>
-                    </div>
+                    <SubmitButton isSubmitting={fields.isSubmitting}>Register</SubmitButton>
                     {fields.formError && <p class="font-bold text-red-600">{fields.formError}</p>}
                 </form>
             </div>
