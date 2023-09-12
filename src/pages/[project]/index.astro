@@ -54,7 +54,13 @@ try {
             <LoginForm client:load reloadPage />
         ) : project ? (
             <>
-                <h1 class="text-5xl mb-2">{project.name}</h1>
+                <div class="flex space-x-2 text-3xl mb-2">
+                    <a class="block text-blue-500 hover:underline" href="/dashboard/">
+                        dashboard
+                    </a>
+                    <div>&#187;</div>
+                    <h1 class="font-bold">{project.name}</h1>
+                </div>
                 <EnvironmentList
                     client:load
                     projectName={project.name}

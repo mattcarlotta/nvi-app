@@ -14,24 +14,12 @@ const { user } = Astro.props;
             <a href="/">Home</a>
         </div>
         <ul class="flex space-x-4">
-            {
-                [
-                    {
-                        title: "Dashboard",
-                        href: "/dashboard/",
-                    },
-                    {
-                        title: "Settings",
-                        href: "/settings/",
-                    },
-                ].map(({ href, title }) => (
-                    <li>
-                        <a href={href}>{title}</a>
-                    </li>
-                ))
-            }
-            <li><LogoutButton /></li>
-            <li>{user}</li>
+            <li>
+                <LogoutButton />
+            </li>
+            <li>
+                <a href="/settings/">{user}</a>
+            </li>
         </ul>
     </nav>
 </div>
