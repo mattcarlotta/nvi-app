@@ -1,11 +1,11 @@
-import { createStore } from "solid-js/store";
-import { fetchAPIPOST } from "../../utils/fetchAPI";
-import { ErrorStatusCode, getMessageFromStatusCode } from "../../utils/errors";
 import { Show, createSignal } from "solid-js";
+import { createStore } from "solid-js/store";
 import HideIcon from "../icons/HideIcon";
 import ShowIcon from "../icons/ShowIcon";
-import { dispatchToastEvent } from "../layout/Toast";
 import SubmitButton from "../layout/SubmitButton";
+import { dispatchToastEvent } from "../layout/Toast";
+import { fetchAPIPOST } from "../../utils/fetchAPI";
+import { ErrorStatusCode, getMessageFromStatusCode } from "../../utils/errors";
 
 type RegisterFormStore = {
     isSubmitting: boolean;
@@ -34,12 +34,12 @@ export default function RegisterForm() {
             const password = (form.querySelector("#password") as HTMLInputElement).value;
 
             const res = await fetchAPIPOST({
-                url: "/register",
+                url: "/register/",
                 body: { email, name, password }
             });
 
             if (res.err === ErrorStatusCode.RegisterEmailTaken) {
-                window.location.pathname = "/login";
+                window.location.pathname = "/login/";
                 return
             }
 
@@ -50,7 +50,7 @@ export default function RegisterForm() {
 
             // TODO(carlotta): This should be called after the toast notification has expired or been closed
             window.setTimeout(() => {
-                window.location.pathname = "/login";
+                window.location.pathname = "/login/";
             }, 5000);
         } catch (error) {
             const message = getMessageFromStatusCode(String(error) as ErrorStatusCode)

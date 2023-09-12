@@ -1,62 +1,58 @@
 ---
 import type { Environments, Project } from "../../types/";
-import DashboardHeader from "../../components/layout/DashboardHeader.astro";
+import EnvironmentList from "../../components/layout/EnvironmentList";
+import LoginForm from "../../components/forms/LoginForm";
+import NavBar from "../../components/layout/NavBar.astro";
 import MainLayout from "../../layouts/main.astro";
 import { fetchAPIGET } from "../../utils/fetchAPI";
-import EnvironmentList from "../../components/layout/EnvironmentList";
 
 const sessionToken = Astro.cookies.get("SESSION_TOKEN");
-if (!sessionToken?.boolean()) {
-    return Astro.redirect("/login");
-}
+const headers = new Headers();
+headers.append("Cookie", `SESSION_TOKEN=${sessionToken?.value}`);
 
 let userName = "";
-const headers = new Headers();
-headers.append("Cookie", `SESSION_TOKEN=${sessionToken.value}`);
-try {
-    const userRes = await fetchAPIGET({
-        url: "/loggedin",
-        headers,
-    });
-
-    userName = userRes.data.name;
-} catch {
-    Astro.cookies.set("SESSION_TOKEN", "", {
-        path: "/",
-        httpOnly: true,
-        maxAge: 0,
-        secure: import.meta.env.IN_PRODUCTION === "true",
-    });
-    return Astro.redirect("/login");
-}
-
 let project: Project | null = null;
 let environments: Environments = [];
 try {
-    const projectRes = await fetchAPIGET({
-        url: `/project/name/${Astro.params.project}`,
+    const userRes = await fetchAPIGET({
+        url: "/loggedin/",
         headers,
     });
 
+    if (!userRes.data?.name) {
+        throw Error("Not logged in");
+    }
+
+    userName = userRes.data.name;
+
+    const projectRes = await fetchAPIGET({
+        url: `/project/name/${Astro.params.project}/`,
+        headers,
+    });
+
+    if (!projectRes.data?.id) {
+        throw Error("Not a valid project name");
+    }
+
     project = projectRes.data;
 
-    if (project?.name) {
-        const environmentsRes = await fetchAPIGET({
-            url: `/environments/project/${project.id}`,
-            headers,
-        });
+    const environmentsRes = await fetchAPIGET({
+        url: `/environments/project/${project?.id}/`,
+        headers,
+    });
 
-        environments = environmentsRes.data;
-    }
+    environments = environmentsRes.data;
 } catch {
-    // handle an invalid project name below
+    // handles errors below
 }
 ---
 
 <MainLayout description={project ? project.name : "Project Not Found"}>
-    <DashboardHeader user={userName} slot="navbar" />
+    <NavBar userName={userName} slot="navbar" />
     {
-        project ? (
+        !userName ? (
+            <LoginForm client:load reloadPage />
+        ) : project ? (
             <>
                 <h1 class="text-5xl mb-2">{project.name}</h1>
                 <EnvironmentList

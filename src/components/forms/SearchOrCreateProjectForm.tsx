@@ -1,13 +1,13 @@
-import type { Projects } from "../../types";
 import { Show, batch } from "solid-js";
 import { createStore } from "solid-js/store";
-import { fetchAPIGET, fetchAPIPOST } from "../../utils/fetchAPI";
-import { ErrorStatusCode, getMessageFromStatusCode } from "../../utils/errors";
-import { dispatchToastEvent } from "../layout/Toast";
-import SubmitButton from "../layout/SubmitButton";
-import SearchIcon from "../icons/SearchIcon";
+import type { Projects } from "../../types";
 import AddFolderIcon from "../icons/AddFolderIcon";
 import ClearIcon from "../icons/ClearIcon";
+import SearchIcon from "../icons/SearchIcon";
+import SubmitButton from "../layout/SubmitButton";
+import { dispatchToastEvent } from "../layout/Toast";
+import { ErrorStatusCode, getMessageFromStatusCode } from "../../utils/errors";
+import { fetchAPIGET, fetchAPIPOST } from "../../utils/fetchAPI";
 import { nameRegex } from "../../utils/regexValidations";
 
 type CreateProjectFormStore = {
@@ -58,7 +58,7 @@ export default function SearchOrCreateProjectForm(props: SearchOrCreateProjectFo
         setFields("isSubmitting", true);
         try {
             const res = await fetchAPIGET({
-                url: `/projects/search/${fields.name}`,
+                url: `/projects/search/${fields.name}/`,
             });
 
             props.onSearch(res.data)
@@ -83,7 +83,7 @@ export default function SearchOrCreateProjectForm(props: SearchOrCreateProjectFo
         setFields("isSubmitting", true);
         try {
             const res = await fetchAPIPOST({
-                url: `/create/project/${fields.name}`,
+                url: `/create/project/${fields.name}/`,
             });
 
             dispatchToastEvent({ type: "success", message: res?.message, timeout: 3000 });

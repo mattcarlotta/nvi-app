@@ -1,75 +1,74 @@
 ---
 import type { Environment, Project, Secrets } from "../../../types";
-import DashboardHeader from "../../../components/layout/DashboardHeader.astro";
+import LoginForm from "../../../components/forms/LoginForm";
+import NavBar from "../../../components/layout/NavBar.astro";
 import MainLayout from "../../../layouts/main.astro";
 import { fetchAPIGET } from "../../../utils/fetchAPI";
 
 const sessionToken = Astro.cookies.get("SESSION_TOKEN");
-if (!sessionToken?.boolean()) {
-    return Astro.redirect("/login");
-}
+const headers = new Headers();
+headers.append("Cookie", `SESSION_TOKEN=${sessionToken?.value}`);
 
 let userName = "";
-const headers = new Headers();
-headers.append("Cookie", `SESSION_TOKEN=${sessionToken.value}`);
-try {
-    const userRes = await fetchAPIGET({
-        url: "/loggedin",
-        headers,
-    });
-
-    userName = userRes.data.name;
-} catch {
-    Astro.cookies.set("SESSION_TOKEN", "", {
-        path: "/",
-        httpOnly: true,
-        maxAge: 0,
-        secure: import.meta.env.IN_PRODUCTION === "true",
-    });
-    return Astro.redirect("/login");
-}
-
 let project: Project | null = null;
 let environment: Environment | null = null;
 let secrets: Secrets = [];
 try {
-    const projectRes = await fetchAPIGET({
-        url: `/project/name/${Astro.params.project}`,
+    const userRes = await fetchAPIGET({
+        url: "/loggedin/",
         headers,
     });
 
+    if (!userRes.data?.name) {
+        throw Error("Not logged in!");
+    }
+
+    userName = userRes.data.name;
+
+    const projectRes = await fetchAPIGET({
+        url: `/project/name/${Astro.params.project}/`,
+        headers,
+    });
+
+    if (!projectRes.data?.id) {
+        throw Error("Not a valid project name");
+    }
+
     project = projectRes.data;
 
-    if (project?.name) {
-        const environmentRes = await fetchAPIGET({
-            url: `/environment/name/?name=${Astro.params.environment}&projectID=${project.id}`,
-            headers,
-        });
+    const environmentRes = await fetchAPIGET({
+        url: `/environment/name/?name=${Astro.params.environment}&projectID=${project?.id}`,
+        headers,
+    });
 
-        environment = environmentRes.data;
-
-        if (environment?.id) {
-            const secretsRes = await fetchAPIGET({
-                url: `/secret/${environment.id}`,
-                headers,
-            });
-
-            secrets = secretsRes.data;
-        }
+    if (!environmentRes.data?.id) {
+        throw Error("Not a valid environment name");
     }
+
+    environment = environmentRes.data;
+
+    const secretsRes = await fetchAPIGET({
+        url: `/secret/${environment?.id}`,
+        headers,
+    });
+
+    secrets = secretsRes.data;
 } catch {
-    // handle an invalid project and environment name below
+    // handle an invalid project and environment below
 }
+
+const description =
+    project?.name && environment?.name
+        ? `${project.name} - ${environment.name}`
+        : "Environment Not Found";
 ---
 
-<MainLayout
-    description={project
-        ? `${project.name} - ${environment.name}`
-        : "Environment Not Found"}
->
-    <DashboardHeader user={userName} slot="navbar" />
+<MainLayout description={description}>
+    <NavBar userName={userName} slot="navbar" />
     {
-        project && environment ? (
+        !userName ? (
+            <LoginForm client:load reloadPage />
+        ) : project && environment ? (
             <>
                 <div class="flex space-x-2 text-5xl mb-2">
                     <a
@@ -79,7 +78,7 @@ try {
                         {project.name}
                     </a>
                     <div>/</div>
-                    <p>{environment.name}</p>
+                    <h2>{environment.name}</h2>
                 </div>
                 <div>{JSON.stringify(secrets, null, 2)}</div>
             </>

@@ -21,9 +21,7 @@ const NAVLINKS = !sessionToken?.boolean()
             {
                 NAVLINKS.map(({ href, title }) => (
                     <li>
-                        <a class="header-link" href={href}>
-                            {title}
-                        </a>
+                        <a href={href}>{title}</a>
                     </li>
                 ))
             }

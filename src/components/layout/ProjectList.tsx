@@ -1,5 +1,5 @@
+import { For, createSignal, Switch, Match } from "solid-js"
 import type { Projects } from "../../types"
-import { Show, For, createSignal } from "solid-js"
 import SearchOrCreateProjectForm from "../forms/SearchOrCreateProjectForm"
 import relativeTimeFromNow from "../../utils/timeSince"
 
@@ -22,41 +22,33 @@ export default function ProjectList(props: ProjectListProps) {
     return (
         <>
             <SearchOrCreateProjectForm onClear={clearSearchResults} onSearch={handleSearchResults} />
-            <Show
-                when={projectList().length}
-                fallback={
-                    <Show
-                        when={!props.projects.length}
-                        fallback={<h1 class="text-xl">No Results Found</h1>}
-                    >
-                        <h1 class="text-xl">
-                            You don't have any projects! Use the input field above to create a new project.
-                        </h1>
-                    </Show>
-                }
-            >
-                <section class="flex flex-wrap items-center gap-y-4 gap-x-8">
-                    <For each={projectList()}>
-                        {({ name, createdAt, updatedAt }) => (
-                            <a href={`/${name}/`}>
-                                <h2 class="text-2xl">{name}</h2>
-                                <time
-                                    class="block"
-                                    datetime={createdAt}
-                                >
-                                    Created: {relativeTimeFromNow(createdAt)}
-                                </time>
-                                <time
-                                    class="block"
-                                    datetime={updatedAt}
-                                >
-                                    Updated: {relativeTimeFromNow(updatedAt)}
-                                </time>
-                            </a>
-                        )}
-                    </For>
-                </section>
-            </Show>
+            <Switch>
+                <Match when={!projectList().length && !props.projects.length}>
+                    <h2 class="text-xl">
+                        You don't have any projects! Use the input field above to create a new project.
+                    </h2>
+                </Match>
+                <Match when={!projectList().length && props.projects.length}>
+                    <h2 class="text-xl">No Results Found</h2>
+                </Match>
+                <Match when={projectList().length}>
+                    <section class="flex flex-wrap items-center gap-y-4 gap-x-8">
+                        <For each={projectList()}>
+                            {({ name, createdAt, updatedAt }) => (
+                                <a href={`/${name}/`}>
+                                    <h2 class="text-2xl">{name}</h2>
+                                    <time class="block" datetime={createdAt}>
+                                        Created: {relativeTimeFromNow(createdAt)}
+                                    </time>
+                                    <time class="block" datetime={updatedAt}>
+                                        Updated: {relativeTimeFromNow(updatedAt)}
+                                    </time>
+                                </a>
+                            )}
+                        </For>
+                    </section>
+                </Match>
+            </Switch>
         </>
     )
 }

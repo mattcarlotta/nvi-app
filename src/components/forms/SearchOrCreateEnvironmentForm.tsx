@@ -1,13 +1,13 @@
 import type { Environments } from "../../types";
 import { Show, batch } from "solid-js";
 import { createStore } from "solid-js/store";
-import { fetchAPIGET, fetchAPIPOST } from "../../utils/fetchAPI";
-import { ErrorStatusCode, getMessageFromStatusCode } from "../../utils/errors";
-import { dispatchToastEvent } from "../layout/Toast";
-import SubmitButton from "../layout/SubmitButton";
-import SearchIcon from "../icons/SearchIcon";
 import AddFolderIcon from "../icons/AddFolderIcon";
 import ClearIcon from "../icons/ClearIcon";
+import SearchIcon from "../icons/SearchIcon";
+import SubmitButton from "../layout/SubmitButton";
+import { dispatchToastEvent } from "../layout/Toast";
+import { ErrorStatusCode, getMessageFromStatusCode } from "../../utils/errors";
+import { fetchAPIGET, fetchAPIPOST } from "../../utils/fetchAPI";
 import { nameRegex } from "../../utils/regexValidations";
 
 type CreateEnvironmentFormStore = {
@@ -84,7 +84,7 @@ export default function SearchOrCreateEnvironmentForm(props: SearchOrCreateEnvir
         setFields("isSubmitting", true);
         try {
             const res = await fetchAPIPOST({
-                url: "/create/environment",
+                url: "/create/environment/",
                 body: { name: fields.name, projectID: props.projectID }
             });
 

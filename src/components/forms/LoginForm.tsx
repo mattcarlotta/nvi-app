@@ -1,17 +1,22 @@
-import { createStore } from "solid-js/store";
-import clsx from "../../utils/clsx";
-import { fetchAPIPOST } from "../../utils/fetchAPI";
-import { ErrorStatusCode, getMessageFromStatusCode } from "../../utils/errors";
 import { Show, createSignal } from "solid-js";
+import { createStore } from "solid-js/store";
 import HideIcon from "../icons/HideIcon";
 import ShowIcon from "../icons/ShowIcon";
+import clsx from "../../utils/clsx";
+import { ErrorStatusCode, getMessageFromStatusCode } from "../../utils/errors";
+import { fetchAPIPOST } from "../../utils/fetchAPI";
+
+type LoginFormProps = {
+    reloadPage?: boolean;
+}
 
 type LoginFormStore = {
     isSubmitting: boolean;
     formError: string;
 };
 
-export default function LoginForm() {
+
+export default function LoginForm(props: LoginFormProps) {
     const [fields, setFields] = createStore<LoginFormStore>({
         isSubmitting: false,
         formError: ''
@@ -31,16 +36,21 @@ export default function LoginForm() {
             const password = (document.getElementById("password") as HTMLInputElement).value;
 
             const res = await fetchAPIPOST({
-                url: "/login",
+                url: "/login/",
                 body: { email, password }
             });
 
             if (res.err === ErrorStatusCode.LoginUnregisteredEmail) {
-                window.location.pathname = "/register";
+                window.location.pathname = "/register/";
                 return
             }
 
-            window.location.replace("/dashboard/");
+            if (props.reloadPage) {
+                window.location.reload();
+            } else {
+                window.location.replace("/dashboard/");
+            }
+
         } catch (error) {
             const message = getMessageFromStatusCode(String(error) as ErrorStatusCode)
             setFields('formError', message);

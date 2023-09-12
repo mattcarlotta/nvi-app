@@ -1,11 +1,6 @@
 ---
-// import NavLink from "../components/navigation/NavLink.astro";
-// import BackgroundIcon from '../icons/BackgroundIcon.astro'
-// import ExplorationsIcon from '../icons/ExplorationsIcon.astro'
-// import HomeIcon from '../icons/HomeIcon.astro'
-// import ProjectsIcon from '../icons/ProjectsIcon.astro'
-// import clsx from "../utils/clsx";
-import Toast from "../components/layout/Toast.tsx";
+import NavHeader from "../components/layout/NavHeader.astro";
+import Toast from "../components/layout/Toast";
 import concatTitle from "../utils/concatTitle";
 
 interface Props {
@@ -156,7 +151,9 @@ const documentType = type || "website";
                 Skip to content
             </a>
         </header>
-        <slot name="navbar" />
+        <slot name="navbar">
+            <NavHeader />
+        </slot>
         <main id="main" class="mx-auto w-full max-w-main p-2.5 pt-12">
             <div class="min-h-body">
                 <slot />

@@ -1,45 +1,48 @@
 ---
-import DashboardHeader from "../components/layout/DashboardHeader.astro";
-import ProjectList from "../components/layout/ProjectList";
+import LoginForm from "../components/forms/LoginForm";
 import MainLayout from "../layouts/main.astro";
+import NavBar from "../components/layout/NavBar.astro";
+import ProjectList from "../components/layout/ProjectList";
 import { fetchAPIGET } from "../utils/fetchAPI";
 
 const sessionToken = Astro.cookies.get("SESSION_TOKEN");
-if (!sessionToken?.boolean()) {
-    return Astro.redirect("/login");
-}
-
 let userName = "";
 let projects = [];
 try {
     const headers = new Headers();
-    headers.append("Cookie", `SESSION_TOKEN=${sessionToken.value}`);
+    headers.append("Cookie", `SESSION_TOKEN=${sessionToken?.value}`);
     const userRes = await fetchAPIGET({
-        url: "/loggedin",
+        url: "/loggedin/",
         headers,
     });
+
+    if (!userRes.data?.name) {
+        throw new Error("Not logged in!");
+    }
 
     userName = userRes.data.name;
 
     const projectRes = await fetchAPIGET({
-        url: "/projects",
+        url: "/projects/",
         headers,
     });
 
     projects = projectRes.data;
 } catch {
-    Astro.cookies.set("SESSION_TOKEN", "", {
-        path: "/",
-        httpOnly: true,
-        maxAge: 0,
-        secure: import.meta.env.IN_PRODUCTION === "true",
-    });
-    return Astro.redirect("/login");
+    // handle errors below
 }
 ---
 
 <MainLayout description="Dashboard">
-    <DashboardHeader user={userName} slot="navbar" />
-    <h1 class="text-5xl mb-2">Dashboard</h1>
-    <ProjectList client:load projects={projects} />
+    <NavBar userName={userName} slot="navbar" />
+    {
+        !userName ? (
+            <LoginForm client:load reloadPage />
+        ) : (
+            <>
+                <h1 class="text-5xl mb-2">Dashboard</h1>
+                <ProjectList client:load projects={projects} />
+            </>
+        )
+    }
 </MainLayout>

@@ -1,0 +1,12 @@
+---
+import DashboardHeader from "./DashboardHeader.astro";
+import NavHeader from "./NavHeader.astro";
+
+interface Props {
+    userName?: string;
+}
+
+const { userName } = Astro.props;
+---
+
+{!userName ? <NavHeader /> : <DashboardHeader user={userName} />}
