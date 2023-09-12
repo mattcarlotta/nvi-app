@@ -109,20 +109,20 @@ export default function SearchOrCreateProjectForm(props: SearchOrCreateProjectFo
     return (
         <div class="min-h-[5.5rem]">
             <form class="flex space-x-2 w-full items-center" onSubmit={handleSearchProjects}>
-                <div class="flex-1 relative items-center">
+                <div class="flex flex-1 relative items-center">
                     <input
                         class="w-full rounded pl-2 pr-8 py-2 text-black"
                         id="name"
                         name="name"
                         type="text"
-                        placeholder="Search or create a new project..."
+                        placeholder="Search for or create a new project..."
                         maxlength="255"
                         required
                         value={fields.name}
                         onInput={handleInputChange}
                     />
                     <button
-                        class="text-black absolute right-1 top-2"
+                        class="text-black h-full absolute p-2 right-0"
                         title="Clear"
                         type="button"
                         onClick={handleFormClear}

@@ -1,7 +1,7 @@
 import type { Projects } from "../../types"
 import { Show, For, createSignal } from "solid-js"
 import SearchOrCreateProjectForm from "../forms/SearchOrCreateProjectForm"
-import relativeTimeFromDates from "../../utils/timeSinc"
+import relativeTimeFromNow from "../../utils/timeSince"
 
 
 type ProjectListProps = {
@@ -38,8 +38,18 @@ export default function ProjectList(props: ProjectListProps) {
                         {({ name, createdAt, updatedAt }) => (
                             <a href={`/project/${name}`}>
                                 <h2 class="text-2xl">{name}</h2>
-                                <time class="block" datetime={createdAt}>Created: {relativeTimeFromDates(createdAt)}</time>
-                                <time class="block" datetime={updatedAt}>Updated: {relativeTimeFromDates(updatedAt)}</time>
+                                <time
+                                    class="block"
+                                    datetime={createdAt}
+                                >
+                                    Created: {relativeTimeFromNow(createdAt)}
+                                </time>
+                                <time
+                                    class="block"
+                                    datetime={updatedAt}
+                                >
+                                    Updated: {relativeTimeFromNow(updatedAt)}
+                                </time>
                             </a>
                         )}
                     </For>
