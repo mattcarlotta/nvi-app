@@ -62,7 +62,11 @@ try {
 }
 ---
 
-<MainLayout description={project ? project.name : "Project Not Found"}>
+<MainLayout
+    description={project
+        ? `${project.name} - ${environment.name}`
+        : "Environment Not Found"}
+>
     <DashboardHeader user={userName} slot="navbar" />
     {
         project && environment ? (
