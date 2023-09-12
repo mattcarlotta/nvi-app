@@ -1,4 +1,4 @@
-import type { Projects } from "../../types";
+import type { Environments } from "../../types";
 import { Show, batch } from "solid-js";
 import { createStore } from "solid-js/store";
 import { fetchAPIGET, fetchAPIPOST } from "../../utils/fetchAPI";
@@ -10,7 +10,7 @@ import AddFolderIcon from "../icons/AddFolderIcon";
 import ClearIcon from "../icons/ClearIcon";
 import { nameRegex } from "../../utils/regexValidations";
 
-type CreateProjectFormStore = {
+type CreateEnvironmentFormStore = {
     name: string;
     isSubmitting: boolean;
     formError: string;
@@ -21,21 +21,22 @@ type InputChangeEvent = InputEvent & {
     target: HTMLInputElement;
 };
 
-type SearchOrCreateProjectFormProps = {
+type SearchOrCreateEnvironmentFormProps = {
+    projectID: string
     onClear: () => void
-    onSearch: (projects: Projects) => void
+    onSearch: (environments: Environments) => void
 }
 
 
-export default function SearchOrCreateProjectForm(props: SearchOrCreateProjectFormProps) {
-    const [fields, setFields] = createStore<CreateProjectFormStore>({
+export default function SearchOrCreateEnvironmentForm(props: SearchOrCreateEnvironmentFormProps) {
+    const [fields, setFields] = createStore<CreateEnvironmentFormStore>({
         name: "",
         isSubmitting: false,
         formError: ""
     });
 
     const nameInputInvalid = () => {
-        const fieldError = !nameRegex.test(fields.name) ? getMessageFromStatusCode(ErrorStatusCode.GetProjectInvalidName) : "";
+        const fieldError = !nameRegex.test(fields.name) ? getMessageFromStatusCode(ErrorStatusCode.GetEnvironmentInvalidName) : "";
 
         setFields("formError", fieldError);
 
@@ -49,7 +50,7 @@ export default function SearchOrCreateProjectForm(props: SearchOrCreateProjectFo
         setFields("name", value);
     }
 
-    const handleSearchProjects = async (e: Event) => {
+    const handleSearchEnvironments = async (e: Event) => {
         e.preventDefault();
         if (nameInputInvalid()) {
             return;
@@ -58,13 +59,13 @@ export default function SearchOrCreateProjectForm(props: SearchOrCreateProjectFo
         setFields("isSubmitting", true);
         try {
             const res = await fetchAPIGET({
-                url: `/projects/search/${fields.name}`,
+                url: `/environments/search/?name=${fields.name}&projectID=${props.projectID}`,
             });
 
             props.onSearch(res.data)
             setFields('isSubmitting', false);
         } catch (error) {
-            if (error as ErrorStatusCode === ErrorStatusCode.GetProjectNonExistentName) {
+            if (error as ErrorStatusCode === ErrorStatusCode.GetEnvironmentNonExistentName) {
                 props.onSearch([]);
             } else {
                 const message = getMessageFromStatusCode(String(error) as ErrorStatusCode)
@@ -75,7 +76,7 @@ export default function SearchOrCreateProjectForm(props: SearchOrCreateProjectFo
     }
 
 
-    const handleCreateProject = async () => {
+    const handleCreateEnvironment = async () => {
         if (nameInputInvalid()) {
             return;
         }
@@ -83,7 +84,8 @@ export default function SearchOrCreateProjectForm(props: SearchOrCreateProjectFo
         setFields("isSubmitting", true);
         try {
             const res = await fetchAPIPOST({
-                url: `/create/project/${fields.name}`,
+                url: "/create/environment",
+                body: { name: fields.name, projectID: props.projectID }
             });
 
             dispatchToastEvent({ type: "success", message: res?.message, timeout: 3000 });
@@ -110,14 +112,13 @@ export default function SearchOrCreateProjectForm(props: SearchOrCreateProjectFo
 
     return (
         <div class="min-h-[5.5rem]">
-            <form class="flex space-x-2 w-full items-center" onSubmit={handleSearchProjects}>
+            <form class="flex space-x-2 w-full items-center" onSubmit={handleSearchEnvironments}>
                 <div class="flex flex-1 relative items-center">
                     <input
                         class="w-full rounded pl-2 pr-8 py-2 text-black"
-                        id="name"
                         name="name"
                         type="text"
-                        placeholder="Search for or create a new project..."
+                        placeholder="Search for or create a new environment..."
                         maxlength="255"
                         required
                         value={fields.name}
@@ -133,16 +134,16 @@ export default function SearchOrCreateProjectForm(props: SearchOrCreateProjectFo
                     </button>
                 </div>
                 <SubmitButton
-                    title="Search for a project"
+                    title="Search for a environment"
                     type="submit"
                     isSubmitting={fields.isSubmitting}
                 >
                     <SearchIcon class="h-6 w-6" />
                 </SubmitButton>
                 <SubmitButton
-                    title="Create a project"
+                    title="Create an environment"
                     type="button"
-                    onClick={handleCreateProject}
+                    onClick={handleCreateEnvironment}
                     isSubmitting={fields.isSubmitting}
                 >
                     <AddFolderIcon class="h-6 w-6 fill-white" />

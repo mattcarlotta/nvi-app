@@ -1,0 +1,86 @@
+---
+import type { Environment, Project, Secrets } from "../../../types";
+import DashboardHeader from "../../../components/layout/DashboardHeader.astro";
+import MainLayout from "../../../layouts/main.astro";
+import { fetchAPIGET } from "../../../utils/fetchAPI";
+
+const sessionToken = Astro.cookies.get("SESSION_TOKEN");
+if (!sessionToken?.boolean()) {
+    return Astro.redirect("/login");
+}
+
+let userName = "";
+const headers = new Headers();
+headers.append("Cookie", `SESSION_TOKEN=${sessionToken.value}`);
+try {
+    const userRes = await fetchAPIGET({
+        url: "/loggedin",
+        headers,
+    });
+
+    userName = userRes.data.name;
+} catch {
+    Astro.cookies.set("SESSION_TOKEN", "", {
+        path: "/",
+        httpOnly: true,
+        maxAge: 0,
+        secure: import.meta.env.IN_PRODUCTION === "true",
+    });
+    return Astro.redirect("/login");
+}
+
+let project: Project | null = null;
+let environment: Environment | null = null;
+let secrets: Secrets = [];
+try {
+    const projectRes = await fetchAPIGET({
+        url: `/project/name/${Astro.params.project}`,
+        headers,
+    });
+
+    project = projectRes.data;
+
+    if (project?.name) {
+        const environmentRes = await fetchAPIGET({
+            url: `/environment/name/?name=${Astro.params.environment}&projectID=${project.id}`,
+            headers,
+        });
+
+        environment = environmentRes.data;
+
+        if (environment?.id) {
+            const secretsRes = await fetchAPIGET({
+                url: `/secret/${environment.id}`,
+                headers,
+            });
+
+            secrets = secretsRes.data;
+        }
+    }
+} catch {
+    // handle an invalid project and environment name below
+}
+---
+
+<MainLayout description={project ? project.name : "Project Not Found"}>
+    <DashboardHeader user={userName} slot="navbar" />
+    {
+        project && environment ? (
+            <>
+                <div class="flex space-x-2 text-5xl mb-2">
+                    <a
+                        class="block underline text-blue-500"
+                        href={`/${project.name}/`}
+                    >
+                        {project.name}
+                    </a>
+                    <div>/</div>
+                    <p>{environment.name}</p>
+                </div>
+                <div>{JSON.stringify(secrets, null, 2)}</div>
+            </>
+        ) : (
+            <h1>Environment Not Found</h1>
+        )
+    }
+</MainLayout>
