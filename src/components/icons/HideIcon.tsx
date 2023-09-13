@@ -9,4 +9,3 @@ export default function HideIcon(props: { class: string }) {
         </svg>
     );
 }
-

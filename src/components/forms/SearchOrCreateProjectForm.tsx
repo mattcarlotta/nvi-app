@@ -1,27 +1,25 @@
+import debounce from "lodash.debounce";
 import { Show, batch } from "solid-js";
 import { createStore } from "solid-js/store";
-import type { Projects } from "../../types";
-import AddFolderIcon from "../icons/AddFolderIcon";
+import type { InputChangeEvent, Projects } from "../../types";
 import ClearIcon from "../icons/ClearIcon";
-import SearchIcon from "../icons/SearchIcon";
+import SearchProjectIcon from "../icons/SearchProjectIcon";
 import SubmitButton from "../layout/SubmitButton";
 import { dispatchToastEvent } from "../layout/Toast";
 import { ErrorStatusCode, getMessageFromStatusCode } from "../../utils/errors";
 import { fetchAPIGET, fetchAPIPOST } from "../../utils/fetchAPI";
 import { nameRegex } from "../../utils/regexValidations";
+import SpinnerIcon from "../icons/SpinnerIcon";
+import AddProjectIcon from "../icons/AddProjectIcon";
 
 type CreateProjectFormStore = {
-    name: string;
+    isSearching: boolean;
     isSubmitting: boolean;
     formError: string;
 };
 
-type InputChangeEvent = InputEvent & {
-    currentTarget: HTMLInputElement;
-    target: HTMLInputElement;
-};
-
 type SearchOrCreateProjectFormProps = {
+    disableSearch: boolean;
     onClear: () => void
     onSearch: (projects: Projects) => void
 }
@@ -29,13 +27,15 @@ type SearchOrCreateProjectFormProps = {
 
 export default function SearchOrCreateProjectForm(props: SearchOrCreateProjectFormProps) {
     const [fields, setFields] = createStore<CreateProjectFormStore>({
-        name: "",
+        isSearching: false,
         isSubmitting: false,
         formError: ""
     });
 
-    const nameInputInvalid = () => {
-        const fieldError = !nameRegex.test(fields.name) ? getMessageFromStatusCode(ErrorStatusCode.GetProjectInvalidName) : "";
+    const nameInputInvalid = (name: string) => {
+        const fieldError = !nameRegex.test(name)
+            ? getMessageFromStatusCode(ErrorStatusCode.GetProjectInvalidName)
+            : "";
 
         setFields("formError", fieldError);
 
@@ -43,53 +43,61 @@ export default function SearchOrCreateProjectForm(props: SearchOrCreateProjectFo
     }
 
     const handleInputChange = ({ target: { value } }: InputChangeEvent) => {
+        setFields("formError", "");
         if (!value.length) {
             props.onClear();
+        } else {
+            handleSearchProjects();
         }
-        setFields("name", value);
     }
 
-    const handleSearchProjects = async (e: Event) => {
-        e.preventDefault();
-        if (nameInputInvalid()) {
+    const handleSearchProjects = debounce(async () => {
+        const name = (document.getElementById("name") as HTMLInputElement)?.value;
+        if (props.disableSearch || !name || nameInputInvalid(name)) {
             return;
         }
         setFields("formError", "");
-        setFields("isSubmitting", true);
+        setFields("isSearching", true);
+        setFields("isSubmitting", false);
         try {
             const res = await fetchAPIGET({
-                url: `/projects/search/${fields.name}/`,
+                url: `/projects/search/${name}/`,
             });
 
-            props.onSearch(res.data)
-            setFields('isSubmitting', false);
+            props.onSearch(res.data);
+
+            setFields("isSearching", false);
         } catch (error) {
             if (error as ErrorStatusCode === ErrorStatusCode.GetProjectNonExistentName) {
                 props.onSearch([]);
             } else {
                 const message = getMessageFromStatusCode(String(error) as ErrorStatusCode)
-                setFields('formError', message);
+                setFields("formError", message);
             }
-            setFields('isSubmitting', false);
+            setFields("isSearching", false);
         }
-    }
+    }, 300);
 
 
-    const handleCreateProject = async () => {
-        if (nameInputInvalid()) {
+    const handleCreateProject = async (e: Event) => {
+        e.preventDefault();
+        const name = (document.getElementById("name") as HTMLInputElement)?.value;
+        if (!name || nameInputInvalid(name)) {
             return;
         }
         setFields("formError", "");
+        setFields("isSearching", false);
         setFields("isSubmitting", true);
         try {
             const res = await fetchAPIPOST({
-                url: `/create/project/${fields.name}/`,
+                url: `/create/project/${name}/`,
             });
 
             dispatchToastEvent({ type: "success", message: res?.message, timeout: 3000 });
 
             // TODO(carlotta): This should be called after the toast notification has expired or been closed
             window.setTimeout(() => {
+                handleFormClear();
                 window.location.reload();
             }, 3000);
         } catch (error) {
@@ -101,30 +109,38 @@ export default function SearchOrCreateProjectForm(props: SearchOrCreateProjectFo
 
     const handleFormClear = () => {
         batch(() => {
-            setFields("name", "");
             setFields("formError", "");
+            setFields("isSearching", false);
             setFields("isSubmitting", false);
-            props.onClear();
         });
+        (document.querySelector("form") as HTMLFormElement)?.reset();
+        props.onClear();
     }
 
     return (
         <div class="min-h-[5.5rem]">
-            <form class="flex space-x-2 w-full items-center" onSubmit={handleSearchProjects}>
+            <form class="flex space-x-2 w-full items-center text-black" onSubmit={handleCreateProject}>
                 <div class="flex flex-1 relative items-center">
+                    <div class="h-full absolute p-2 left-0">
+                        <Show
+                            when={!fields.isSearching}
+                            fallback={<SpinnerIcon class="h-6 w-6" />}
+                        >
+                            <SearchProjectIcon class="h-6 w-6" />
+                        </Show>
+                    </div>
                     <input
-                        class="w-full rounded pl-2 pr-8 py-2 text-black"
+                        class="w-full rounded pl-10 pr-8 py-2"
                         id="name"
                         name="name"
                         type="text"
                         placeholder="Search for or create a new project..."
                         maxlength="255"
                         required
-                        value={fields.name}
                         onInput={handleInputChange}
                     />
                     <button
-                        class="text-black h-full absolute p-2 right-0"
+                        class="h-full absolute p-2 right-0"
                         title="Clear"
                         type="button"
                         onClick={handleFormClear}
@@ -133,19 +149,11 @@ export default function SearchOrCreateProjectForm(props: SearchOrCreateProjectFo
                     </button>
                 </div>
                 <SubmitButton
-                    title="Search for a project"
+                    title="Create a project"
                     type="submit"
                     isSubmitting={fields.isSubmitting}
                 >
-                    <SearchIcon class="h-6 w-6" />
-                </SubmitButton>
-                <SubmitButton
-                    title="Create a project"
-                    type="button"
-                    onClick={handleCreateProject}
-                    isSubmitting={fields.isSubmitting}
-                >
-                    <AddFolderIcon class="h-6 w-6 fill-white" />
+                    <AddProjectIcon class="h-6 w-6 fill-white" />
                 </SubmitButton>
             </form>
             <Show when={fields.formError}>

@@ -1,3 +1,8 @@
+type InputChangeEvent = InputEvent & {
+    currentTarget: HTMLInputElement;
+    target: HTMLInputElement;
+};
+
 export type Environment = {
     id: string
     projectID: string
