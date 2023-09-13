@@ -1,9 +1,15 @@
 ---
-import type { Environment, Project, Secrets } from "../../../types";
+import type {
+    Environment,
+    Environments,
+    Project,
+    Secrets,
+} from "../../../types";
 import LoginForm from "../../../components/forms/LoginForm";
 import NavBar from "../../../components/layout/NavBar.astro";
 import MainLayout from "../../../layouts/main.astro";
 import { fetchAPIGET } from "../../../utils/fetchAPI";
+import SecretsTable from "../../../components/layout/SecretsTable";
 
 const sessionToken = Astro.cookies.get("SESSION_TOKEN");
 const headers = new Headers();
@@ -12,6 +18,7 @@ headers.append("Cookie", `SESSION_TOKEN=${sessionToken?.value}`);
 let userName = "";
 let project: Project | null = null;
 let environment: Environment | null = null;
+let environments: Environments | null = null;
 let secrets: Secrets = [];
 try {
     const userRes = await fetchAPIGET({
@@ -36,6 +43,13 @@ try {
 
     project = projectRes.data;
 
+    const environmentsRes = await fetchAPIGET({
+        url: `/environments/project/${project?.id}/`,
+        headers,
+    });
+
+    environments = environmentsRes.data;
+
     const environmentRes = await fetchAPIGET({
         url: `/environment/name/?name=${Astro.params.environment}&projectID=${project?.id}`,
         headers,
@@ -48,7 +62,7 @@ try {
     environment = environmentRes.data;
 
     const secretsRes = await fetchAPIGET({
-        url: `/secret/${environment?.id}`,
+        url: `/secrets/${environment?.id}`,
         headers,
     });
 
@@ -68,7 +82,7 @@ const description =
     {
         !userName ? (
             <LoginForm client:load reloadPage />
-        ) : project && environment ? (
+        ) : project && environment && environments?.length ? (
             <>
                 <div class="flex items-center space-x-2 text-3xl mb-2">
                     <a
@@ -93,7 +107,13 @@ const description =
                         {environment.name}
                     </h1>
                 </div>
-                <div>{JSON.stringify(secrets, null, 2)}</div>
+                <SecretsTable
+                    client:load
+                    projectID={project.id}
+                    projectName={project.name}
+                    environments={environments}
+                    secrets={secrets}
+                />
             </>
         ) : (
             <h1>Environment Not Found</h1>

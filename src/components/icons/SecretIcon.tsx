@@ -1,4 +1,4 @@
-export default function LockIcon(props: { class: string }) {
+export default function SecretIcon(props: { class: string }) {
     return (
         <svg class={props.class} fill="none" viewBox="0 0 26 26">
             <path
