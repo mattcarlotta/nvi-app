@@ -60,7 +60,7 @@ try {
 const description =
     project?.name && environment?.name
         ? `${project.name} - ${environment.name}`
-        : "Environment Not Found";
+        : "environment not found";
 ---
 
 <MainLayout description={description}>
@@ -71,7 +71,10 @@ const description =
         ) : project && environment ? (
             <>
                 <div class="flex space-x-2 text-3xl mb-2">
-                    <a class="block text-blue-500 hover:underline" href="/dashboard/">
+                    <a
+                        class="block text-blue-500 hover:underline"
+                        href="/dashboard/"
+                    >
                         dashboard
                     </a>
                     <div>&#187;</div>

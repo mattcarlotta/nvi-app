@@ -3,7 +3,7 @@ export default function concatTitle(title = '', description = '') {
         .split(' ')
         .map((str) => str.charAt(0).toUpperCase().concat(str.slice(1)))
         .join(' ')
-        .concat(` ${title && '-'} ${description} | NVI App`)
+        .concat(` ${title && '-'} ${description} | nvi app`)
         .replace(/\./, '')
         .trim()
 }

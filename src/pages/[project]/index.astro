@@ -47,7 +47,7 @@ try {
 }
 ---
 
-<MainLayout description={project ? project.name : "Project Not Found"}>
+<MainLayout description={project ? project.name : "project not found"}>
     <NavBar userName={userName} slot="navbar" />
     {
         !userName ? (
@@ -55,7 +55,10 @@ try {
         ) : project ? (
             <>
                 <div class="flex space-x-2 text-3xl mb-2">
-                    <a class="block text-blue-500 hover:underline" href="/dashboard/">
+                    <a
+                        class="block text-blue-500 hover:underline"
+                        href="/dashboard/"
+                    >
                         dashboard
                     </a>
                     <div>&#187;</div>
