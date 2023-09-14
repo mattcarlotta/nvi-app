@@ -28,15 +28,15 @@ export default function CreateSecretForm(props: CreateSecretFormProps) {
 
     const handleCreateSecret = async (e: Event) => {
         e.preventDefault();
+        setFields("formError", "");
         const key = (document.getElementById("key") as HTMLInputElement)?.value;
         const value = (document.getElementById("value") as HTMLInputElement)?.value;
-        const environmentOptions = (document.getElementById("environmentIDs") as HTMLSelectElement)?.selectedOptions;
-        const environmentIDs = Array.from(environmentOptions).map(({ value }) => value);
+        const checkedEnvironments = document.querySelectorAll("input:checked")
+        const environmentIDs = Array.from(checkedEnvironments).map((e) => (e as HTMLInputElement).value);
         if (key.length < 2 || !value || !environmentIDs.length) {
-            console.log({ key, value, environmentIDs });
+            setFields("formError", "Please input a key (between 2-255 characters), a value (max 5000 characters), and choose at least one or more of the listed environments.");
             return;
         }
-        setFields("formError", "");
         setFields("isSubmitting", true);
         try {
             const res = await fetchAPIPOST({
@@ -75,53 +75,71 @@ export default function CreateSecretForm(props: CreateSecretFormProps) {
     }
 
     return (
-        <div class="bg-gray-800 p-4 rounded">
-            <form
-                id="create-secret"
-                class="grid grid-cols-2 gap-4 w-full items-center text-black"
-                onSubmit={handleCreateSecret}
-            >
-                <div>
-                    <label class="block text-white" html-for="key">
-                        Key
-                    </label>
-                    <input
-                        class="w-full rounded py-2 px-4"
-                        id="key"
-                        name="key"
-                        type="text"
-                        placeholder="e.g: API_KEY"
-                        minLength="2"
-                        maxlength="255"
-                        required
-                    />
+        <div class="bg-gray-900 p-4 rounded min-h-[17rem]">
+            <form id="create-secret-form" onSubmit={handleCreateSecret}>
+                <div class="flex flex-col space-y-2 text-black md:grid md:grid-cols-2 md:gap-4 md:space-y-0">
+                    <div class="block md:flex md:flex-col md:space-y-1">
+                        <label class="block text-white" html-for="key">
+                            Key
+                        </label>
+                        <input
+                            class="w-full rounded py-2 px-4"
+                            id="key"
+                            name="key"
+                            type="text"
+                            placeholder="e.g: API_KEY"
+                            minLength="2"
+                            maxlength="255"
+                            required
+                        />
+                    </div>
+                    <div class="block md:flex md:flex-col md:space-y-1">
+                        <label class="block text-white" html-for="value">
+                            Value
+                        </label>
+                        <input
+                            class="w-full rounded py-2 px-4"
+                            id="value"
+                            name="value"
+                            type="text"
+                            placeholder="secret value"
+                            maxlength="5000"
+                            required
+                        />
+                    </div>
+                    <div class="col-span-2">
+                        <label class="block text-white" html-for="environmentIDs">
+                            Environments
+                        </label>
+                        <div class="max-h-32 overflow-y-scroll text-white">
+                            <p class="text-xs text-gray-500 border-b border-gray-500 pt-1 pb-2">Please select one or many environments...</p>
+                            <For each={props.environments}>
+                                {({ id, name }) => (
+                                    <div class="flex space-x-2 border-b p-1">
+                                        <input type="checkbox" id={name} name="environment" value={id}>{name}</input>
+                                        <label class="block" html-for={name}>{name}</label>
+                                    </div>
+                                )}
+                            </For>
+                        </div>
+                    </div>
                 </div>
-                <div>
-                    <label class="block text-white" html-for="value">
-                        Value
-                    </label>
-                    <input
-                        class="w-full rounded py-2 px-4"
-                        id="value"
-                        name="value"
-                        type="text"
-                        placeholder="secret value"
-                        maxlength="5000"
-                        required
-                    />
+                <div class="flex justify-end space-x-2">
+                    <SubmitButton
+                        type="button"
+                        class="max-w-max"
+                        onClick={handleFormClear}
+                        isSubmitting={fields.isSubmitting}
+                    >
+                        Clear
+                    </SubmitButton>
+                    <SubmitButton
+                        class="max-w-max"
+                        isSubmitting={fields.isSubmitting}
+                    >
+                        Save
+                    </SubmitButton>
                 </div>
-                <div>
-                    <label class="block text-white" html-for="environmentIDs">
-                        Environments
-                    </label>
-                    <select class="w-full" id="environmentIDs" required multiple>
-                        <option disabled value="">Please select one or more environments...</option>
-                        <For each={props.environments}>
-                            {({ id, name }) => <option value={id}>{name}</option>}
-                        </For>
-                    </select>
-                </div>
-                <SubmitButton isSubmitting={fields.isSubmitting}>Create</SubmitButton>
             </form>
             <Show when={fields.formError}>
                 <p class="font-bold text-red-600">{fields.formError}</p>

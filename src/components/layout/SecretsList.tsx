@@ -5,6 +5,7 @@ import CreateSecretForm from "../forms/CreateSecretForm"
 import LockedSecretIcon from "../icons/UnlockSecretIcon"
 import relativeTimeFromNow from "../../utils/timeSince"
 import clsx from "../../utils/clsx"
+import ShowIcon from "../icons/ShowIcon"
 
 type SecretsListProps = {
     environment: Environment;
@@ -49,33 +50,38 @@ export default function SecretList(props: SecretsListProps) {
                 </Match>
                 <Match when={secretList().length}>
                     <section>
-                        <ul class="border-2 rounded border-gray-500">
+                        <ul class="border-2 rounded border-gray-700">
                             <For each={secretList()}>
                                 {({ key, createdAt, environments, updatedAt }, idx) => (
                                     <li
                                         class={
                                             clsx(
-                                                "items-center p-4 space-x-2 md:grid md:grid-cols-3",
-                                                idx() + 1 !== secretList().length && "border-b"
+                                                "items-center p-4 md:space-x-2 md:grid md:grid-cols-12",
+                                                idx() + 1 !== secretList().length && "border-b border-gray-700"
                                             )
                                         }
                                     >
-                                        <div class="py-2 border-b flex flex-col space-y-2 md:py-0 md:border-b-0">
+                                        <div class="py-2 border-b border-gray-700 flex flex-col space-y-2 md:col-span-4 md:py-0 md:border-b-0 md:space-y-0">
                                             <div class="flex items-center space-x-2">
-                                                <LockedSecretIcon class="flex-none w-5 h-5 fill-white" />
-                                                <h2
-                                                    title={key}
-                                                    class="text-2xl text-ellipsis overflow-hidden"
-                                                >
-                                                    {key}
-                                                </h2>
+                                                <div class="flex flex-1 items-center space-x-2 md:flex-none">
+                                                    <LockedSecretIcon class="flex-none w-5 h-5 fill-white" />
+                                                    <h2
+                                                        title={key}
+                                                        class="text-2xl text-ellipsis overflow-hidden"
+                                                    >
+                                                        {key}
+                                                    </h2>
+                                                </div>
+                                                <div class="justify-end">
+                                                    <button class="block md:hidden">...</button>
+                                                </div>
                                             </div>
-                                            <div class="flex-none md:flex md:space-x-2">
+                                            <div class="flex-none md:flex md:space-x-1">
                                                 <For each={environments}>
                                                     {({ name }) => (
                                                         <a
                                                             title={name}
-                                                            class="text-ellipsis overflow-hidden border border-black bg-gray-600 py-0.5 px-1 rounded hover:bg-gray-700"
+                                                            class="text-gray-500 text-ellipsis overflow-hidden border border-black py-0.5 px-1 rounded hover:underline hover:text-blue-500"
                                                             href={`/${props.projectName}/${name}`}
                                                         >
                                                             {name}
@@ -84,16 +90,24 @@ export default function SecretList(props: SecretsListProps) {
                                                 </For>
                                             </div>
                                         </div>
-                                        <p class="py-2 border-b md:border-b-0 md:py-0 md:text-center">
-                                            •••••••••••••••
-                                        </p>
-                                        <div class="py-2 md:py-0 md:text-right">
-                                            <time class="block" datetime={createdAt}>
-                                                Created: {relativeTimeFromNow(createdAt)}
-                                            </time>
-                                            <time class="block" datetime={updatedAt}>
-                                                Updated: {relativeTimeFromNow(updatedAt)}
-                                            </time>
+                                        <div class="flex space-x-2 items-center py-4 border-b border-gray-700 md:col-span-4 md:justify-center md:border-b-0 md:py-0 md:text-center">
+                                            <button type="button" title="Show Secret" onClick={() => null}>
+                                                <ShowIcon class="w-5 h-5 fill-white" />
+                                            </button>
+                                            <p>•••••••••••••••</p>
+                                        </div>
+                                        <div class="py-2 md:py-0 md:col-span-4">
+                                            <div class="justify-end md:grid md:grid-cols-12">
+                                                <div class="col-span-11 flex flex-col md:text-right">
+                                                    <time class="block" datetime={createdAt}>
+                                                        Created: {relativeTimeFromNow(createdAt)}
+                                                    </time>
+                                                    <time class="block" datetime={updatedAt}>
+                                                        Updated: {relativeTimeFromNow(updatedAt)}
+                                                    </time>
+                                                </div>
+                                                <button class="hidden md:flex md:justify-end md:items-center">:</button>
+                                            </div>
                                         </div>
                                     </li>
                                 )}
