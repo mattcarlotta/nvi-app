@@ -8,6 +8,7 @@ import ClearIcon from "../icons/ClearIcon";
 import { fetchAPIGET } from "../../utils/fetchAPI";
 import SpinnerIcon from "../icons/SpinnerIcon";
 import clsx from "../../utils/clsx";
+import SearchSecretIcon from "../icons/SearchSearchIcon";
 // import AddSecretIcon from "../icons/AddSecretIcon";
 
 type CreateSecretFormStore = {
@@ -16,6 +17,7 @@ type CreateSecretFormStore = {
 };
 
 type SearchSecretFormProps = {
+    environmentID: string;
     disableSearch: boolean;
     projectID: string;
     onClear: () => void
@@ -39,21 +41,22 @@ export default function SearchSecretForm(props: SearchSecretFormProps) {
     }
 
     const handleSearchSecrets = debounce(async () => {
-        const key = (document.getElementById("key") as HTMLInputElement)?.value;
-        if (props.disableSearch || !key) {
+        const key = (document.getElementById("search-key") as HTMLInputElement)?.value;
+        if (props.disableSearch || key.length < 2) {
             return;
         }
         setFields("formError", "");
         setFields("isSearching", true);
         try {
             const res = await fetchAPIGET({
-                url: `/secrets/search/${key}/`,
+                url: `/secrets/search/?key=${key}&environmentID=${props.environmentID}`,
             });
 
-            props.onSearch(res.data);
+            props.onSearch(res.data || []);
 
             setFields("isSearching", false);
         } catch (error) {
+            console.log(error)
             // if (error as ErrorStatusCode === ErrorStatusCode.GetSecretNonExistentName) {
             //     props.onSearch([]);
             // } else {
@@ -70,21 +73,20 @@ export default function SearchSecretForm(props: SearchSecretFormProps) {
             setFields("formError", "");
             setFields("isSearching", false);
         });
-        (document.querySelector("form") as HTMLFormElement)?.reset();
+        (document.getElementById("search-secret-form") as HTMLFormElement)?.reset();
         props.onClear();
     }
 
     return (
         <>
-            <form class="flex space-x-2 w-full items-center text-black" onSubmit={e => e.preventDefault()}>
+            <form id="search-secret-form" class="flex space-x-2 w-full items-center text-black" onSubmit={e => e.preventDefault()}>
                 <div class="flex flex-1 relative items-center">
                     <div class="h-full absolute p-2 left-0">
                         <Show
                             when={!fields.isSearching}
                             fallback={<SpinnerIcon class="h-6 w-6" />}
                         >
-                            {/* <SearcProjectIcon class="h-6 w-6" /> */}
-                            S
+                            <SearchSecretIcon class="h-5 w-5" />
                         </Show>
                     </div>
                     <input
@@ -93,15 +95,16 @@ export default function SearchSecretForm(props: SearchSecretFormProps) {
                             props.disableSearch && "bg-gray-900 placeholder:text-gray-600",
                             "w-full rounded pl-10 pr-8 py-2")
                         }
-                        id="key"
+                        id="search-key"
                         name="key"
                         type="text"
-                        placeholder="Search for a secret by key name..."
+                        placeholder={`Search for a secret key within this environment...`}
                         maxlength="255"
                         required
                         onInput={handleInputChange}
                     />
                     <button
+                        disabled={props.disableSearch}
                         class="h-full absolute p-2 right-0"
                         title="Clear"
                         type="button"

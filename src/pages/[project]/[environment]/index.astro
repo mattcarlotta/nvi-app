@@ -9,7 +9,7 @@ import LoginForm from "../../../components/forms/LoginForm";
 import NavBar from "../../../components/layout/NavBar.astro";
 import MainLayout from "../../../layouts/main.astro";
 import { fetchAPIGET } from "../../../utils/fetchAPI";
-import SecretsTable from "../../../components/layout/SecretsTable";
+import SecretsList from "../../../components/layout/SecretsList";
 
 const sessionToken = Astro.cookies.get("SESSION_TOKEN");
 const headers = new Headers();
@@ -62,7 +62,7 @@ try {
     environment = environmentRes.data;
 
     const secretsRes = await fetchAPIGET({
-        url: `/secrets/${environment?.id}`,
+        url: `/secrets/id/${environment?.id}`,
         headers,
     });
 
@@ -107,11 +107,12 @@ const description =
                         {environment.name}
                     </h1>
                 </div>
-                <SecretsTable
+                <SecretsList
                     client:load
+                    environment={environment}
+                    environments={environments}
                     projectID={project.id}
                     projectName={project.name}
-                    environments={environments}
                     secrets={secrets}
                 />
             </>

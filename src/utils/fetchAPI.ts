@@ -30,7 +30,7 @@ async function fetchAPI({ method, url, headers = new Headers(), body }: FetchAPI
     if (!res.ok) {
         const json = await tryJSON(res);
 
-        if (isErrorStatus) {
+        if (json?.error && isErrorStatus) {
             console.error(
                 `Error: Unable to complete the request to API endpoint. Reason: ${json.error}`
             );
@@ -42,7 +42,7 @@ async function fetchAPI({ method, url, headers = new Headers(), body }: FetchAPI
     if (res.headers.get("Content-Type") === "application/json") {
         const json = await tryJSON(res);
 
-        if (json.error && isErrorStatus) {
+        if (json?.error && isErrorStatus) {
             console.error(`Error: Unable to complete the request to API endpoint. Reason: ${json.error}`);
         }
 

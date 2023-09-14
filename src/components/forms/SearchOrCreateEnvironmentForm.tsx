@@ -65,7 +65,7 @@ export default function SearchOrCreateEnvironmentForm(props: SearchOrCreateEnvir
                 url: `/environments/search/?name=${name}&projectID=${props.projectID}`,
             });
 
-            props.onSearch(res.data);
+            props.onSearch(res.data || []);
 
             setFields("isSearching", false);
         } catch (error) {

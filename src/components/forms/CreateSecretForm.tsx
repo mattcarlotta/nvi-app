@@ -1,12 +1,12 @@
-import { Show, batch } from "solid-js";
+import { For, Show, batch } from "solid-js";
 import { createStore } from "solid-js/store";
-import type { Environments, Secrets } from "../../types";
+import type { Environments } from "../../types";
 // import ClearIcon from "../icons/ClearIcon";
 // import SearchSecretIcon from "../icons/SearchSecretIcon";
 // import { ErrorStatusCode, getMessageFromStatusCode } from "../../utils/errors";
-import { fetchAPIPOST } from "../../utils/fetchAPI";
 import SubmitButton from "../layout/SubmitButton";
 import { dispatchToastEvent } from "../layout/Toast";
+import { fetchAPIPOST } from "../../utils/fetchAPI";
 // import SpinnerIcon from "../icons/SpinnerIcon";
 // import AddSecretIcon from "../icons/AddSecretIcon";
 
@@ -16,7 +16,7 @@ type CreateSecretFormStore = {
 };
 
 type CreateSecretFormProps = {
-    environments: Environments
+    environments: Environments;
     projectID: string;
 }
 
@@ -26,14 +26,13 @@ export default function CreateSecretForm(props: CreateSecretFormProps) {
         formError: ""
     });
 
-
     const handleCreateSecret = async (e: Event) => {
         e.preventDefault();
         const key = (document.getElementById("key") as HTMLInputElement)?.value;
         const value = (document.getElementById("value") as HTMLInputElement)?.value;
         const environmentOptions = (document.getElementById("environmentIDs") as HTMLSelectElement)?.selectedOptions;
         const environmentIDs = Array.from(environmentOptions).map(({ value }) => value);
-        if (!key || !value || !environmentIDs.length) {
+        if (key.length < 2 || !value || !environmentIDs.length) {
             console.log({ key, value, environmentIDs });
             return;
         }
@@ -45,7 +44,6 @@ export default function CreateSecretForm(props: CreateSecretFormProps) {
                 body: { key, value, projectID: props.projectID, environmentIDs }
             });
 
-            console.log(res);
             dispatchToastEvent({ type: "success", message: res?.message, timeout: 3000 });
 
             // props.onSearch(res.data);
@@ -73,12 +71,16 @@ export default function CreateSecretForm(props: CreateSecretFormProps) {
             setFields("formError", "");
             setFields("isSubmitting", false);
         });
-        (document.querySelector("form") as HTMLFormElement)?.reset();
+        (document.getElementById("create-secret-form") as HTMLFormElement)?.reset();
     }
 
     return (
         <div class="bg-gray-800 p-4 rounded">
-            <form class="grid grid-cols-2 gap-4 w-full items-center text-black" onSubmit={handleCreateSecret}>
+            <form
+                id="create-secret"
+                class="grid grid-cols-2 gap-4 w-full items-center text-black"
+                onSubmit={handleCreateSecret}
+            >
                 <div>
                     <label class="block text-white" html-for="key">
                         Key
@@ -113,10 +115,10 @@ export default function CreateSecretForm(props: CreateSecretFormProps) {
                         Environments
                     </label>
                     <select class="w-full" id="environmentIDs" required multiple>
-                        <option value="">Please select one or many environments...</option>
-                        {props.environments.map(({ id, name }) =>
-                            <option value={id}>{name}</option>
-                        )}
+                        <option disabled value="">Please select one or more environments...</option>
+                        <For each={props.environments}>
+                            {({ id, name }) => <option value={id}>{name}</option>}
+                        </For>
                     </select>
                 </div>
                 <SubmitButton isSubmitting={fields.isSubmitting}>Create</SubmitButton>

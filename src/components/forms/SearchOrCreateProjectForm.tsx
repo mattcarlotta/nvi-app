@@ -64,7 +64,7 @@ export default function SearchOrCreateProjectForm(props: SearchOrCreateProjectFo
                 url: `/projects/search/${name}/`,
             });
 
-            props.onSearch(res.data);
+            props.onSearch(res.data || []);
 
             setFields("isSearching", false);
         } catch (error) {
