@@ -54,7 +54,6 @@ export default function SearchSecretForm(props: SearchSecretFormProps) {
 
             props.onSearch(res.data || []);
 
-            setFields("isSearching", false);
         } catch (error) {
             console.log(error)
             // if (error as ErrorStatusCode === ErrorStatusCode.GetSecretNonExistentName) {
@@ -63,7 +62,9 @@ export default function SearchSecretForm(props: SearchSecretFormProps) {
             //     const message = getMessageFromStatusCode(String(error) as ErrorStatusCode)
             //     setFields("formError", message);
             // }
+        } finally {
             setFields("isSearching", false);
+
         }
     }, 300);
 

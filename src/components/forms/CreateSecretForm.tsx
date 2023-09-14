@@ -7,8 +7,6 @@ import type { Environments } from "../../types";
 import SubmitButton from "../layout/SubmitButton";
 import { dispatchToastEvent } from "../layout/Toast";
 import { fetchAPIPOST } from "../../utils/fetchAPI";
-// import SpinnerIcon from "../icons/SpinnerIcon";
-// import AddSecretIcon from "../icons/AddSecretIcon";
 
 type CreateSecretFormStore = {
     isSubmitting: boolean;
@@ -77,73 +75,85 @@ export default function CreateSecretForm(props: CreateSecretFormProps) {
     return (
         <div class="bg-gray-900 p-4 rounded min-h-[17rem]">
             <form id="create-secret-form" onSubmit={handleCreateSecret}>
-                <div class="flex flex-col space-y-2 text-black md:grid md:grid-cols-2 md:gap-4 md:space-y-0">
-                    <div class="block md:flex md:flex-col md:space-y-1">
-                        <label class="block text-white" html-for="key">
-                            Key
-                        </label>
-                        <input
-                            class="w-full rounded py-2 px-4"
-                            id="key"
-                            name="key"
-                            type="text"
-                            placeholder="e.g: API_KEY"
-                            minLength="2"
-                            maxlength="255"
-                            required
-                        />
+                <div class="flex flex-col space-y-2 text-black border-b pt-2 pb-4 md:grid md:grid-cols-12 md:gap-4 md:space-y-0">
+                    <div class="md:col-span-6 md:flex md:flex-col md:space-y-4">
+                        <div class="space-y-1">
+                            <label class="block text-white" html-for="key">
+                                Key
+                            </label>
+                            <input
+                                class="w-full rounded py-2 px-4"
+                                id="key"
+                                name="key"
+                                type="text"
+                                placeholder="e.g: API_KEY"
+                                minLength="2"
+                                maxlength="255"
+                                required
+                            />
+                        </div>
+                        <div class="space-y-1">
+                            <label class="block text-white" html-for="value">
+                                Value
+                            </label>
+                            <textarea
+                                class="w-full rounded py-2 px-4"
+                                id="value"
+                                name="value"
+                                rows="4"
+                                placeholder="secret value"
+                                maxlength="5000"
+                                required
+                            />
+                        </div>
                     </div>
-                    <div class="block md:flex md:flex-col md:space-y-1">
-                        <label class="block text-white" html-for="value">
-                            Value
-                        </label>
-                        <input
-                            class="w-full rounded py-2 px-4"
-                            id="value"
-                            name="value"
-                            type="text"
-                            placeholder="secret value"
-                            maxlength="5000"
-                            required
-                        />
-                    </div>
-                    <div class="col-span-2">
-                        <label class="block text-white" html-for="environmentIDs">
+                    <fieldset class="md:col-span-6">
+                        <legend class="block text-white">
                             Environments
-                        </label>
-                        <div class="max-h-32 overflow-y-scroll text-white">
-                            <p class="text-xs text-gray-500 border-b border-gray-500 pt-1 pb-2">Please select one or many environments ({props.environments.length} available)</p>
+                        </legend>
+                        <div class="max-h-56 overflow-y-scroll text-white">
+                            <p class="text-xs text-gray-500 border-b border-gray-500 pt-1 pb-2">
+                                Please select one or many environments ({props.environments.length} available)
+                            </p>
                             <For each={props.environments}>
                                 {({ id, name }) => (
-                                    <div class="flex space-x-2 border-b p-1">
-                                        <input type="checkbox" id={name} name="environment" value={id}>{name}</input>
-                                        <label class="block text-ellipsis overflow-hidden" html-for={name}>{name}</label>
+                                    <div class="flex space-x-2 border-b border-gray-500 p-1">
+                                        <input type="checkbox" id={name} name="environment" value={id}>
+                                            {name}
+                                        </input>
+                                        <label class="block text-ellipsis overflow-hidden" html-for={name}>
+                                            {name}
+                                        </label>
                                     </div>
                                 )}
                             </For>
                         </div>
+                    </fieldset>
+                </div>
+                <div class="flex mt-2">
+                    <div class="flex-1">
+                        <Show when={fields.formError}>
+                            <p class="font-bold text-red-600">{fields.formError}</p>
+                        </Show>
+                    </div>
+                    <div class="flex space-x-2">
+                        <SubmitButton
+                            type="button"
+                            class="max-w-max"
+                            onClick={handleFormClear}
+                            isSubmitting={fields.isSubmitting}
+                        >
+                            Clear
+                        </SubmitButton>
+                        <SubmitButton
+                            class="max-w-max"
+                            isSubmitting={fields.isSubmitting}
+                        >
+                            Save
+                        </SubmitButton>
                     </div>
                 </div>
-                <div class="flex justify-end space-x-2">
-                    <SubmitButton
-                        type="button"
-                        class="max-w-max"
-                        onClick={handleFormClear}
-                        isSubmitting={fields.isSubmitting}
-                    >
-                        Clear
-                    </SubmitButton>
-                    <SubmitButton
-                        class="max-w-max"
-                        isSubmitting={fields.isSubmitting}
-                    >
-                        Save
-                    </SubmitButton>
-                </div>
             </form>
-            <Show when={fields.formError}>
-                <p class="font-bold text-red-600">{fields.formError}</p>
-            </Show>
         </div>
     );
 };

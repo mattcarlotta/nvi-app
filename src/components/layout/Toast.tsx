@@ -94,7 +94,7 @@ export default function Toast() {
                 onMouseOver={handleMouseOver}
                 onMouseLeave={handleMouseLeave}
                 class={clsx(
-                    "fixed w-full max-w-[20rem] rounded top-0 right-0 md:top-4 md:right-10",
+                    "fixed z-50 w-full max-w-[20rem] rounded top-0 right-0 md:top-4 md:right-10",
                     toast.type === "success" && "bg-green-500",
                     toast.type === "error" && "bg-red-500"
                 )}
