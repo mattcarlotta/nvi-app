@@ -112,12 +112,12 @@ export default function CreateSecretForm(props: CreateSecretFormProps) {
                             Environments
                         </label>
                         <div class="max-h-32 overflow-y-scroll text-white">
-                            <p class="text-xs text-gray-500 border-b border-gray-500 pt-1 pb-2">Please select one or many environments...</p>
+                            <p class="text-xs text-gray-500 border-b border-gray-500 pt-1 pb-2">Please select one or many environments ({props.environments.length} available)</p>
                             <For each={props.environments}>
                                 {({ id, name }) => (
                                     <div class="flex space-x-2 border-b p-1">
                                         <input type="checkbox" id={name} name="environment" value={id}>{name}</input>
-                                        <label class="block" html-for={name}>{name}</label>
+                                        <label class="block text-ellipsis overflow-hidden" html-for={name}>{name}</label>
                                     </div>
                                 )}
                             </For>

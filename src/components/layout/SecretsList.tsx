@@ -76,12 +76,12 @@ export default function SecretList(props: SecretsListProps) {
                                                     <button class="block md:hidden">...</button>
                                                 </div>
                                             </div>
-                                            <div class="flex-none md:flex md:space-x-1">
+                                            <div class="flex-none md:flex md:space-x-2">
                                                 <For each={environments}>
                                                     {({ name }) => (
                                                         <a
                                                             title={name}
-                                                            class="text-gray-500 text-ellipsis overflow-hidden border border-black py-0.5 px-1 rounded hover:underline hover:text-blue-500"
+                                                            class="text-gray-500 text-ellipsis overflow-hidden py-0.5 hover:underline hover:text-blue-500"
                                                             href={`/${props.projectName}/${name}`}
                                                         >
                                                             {name}

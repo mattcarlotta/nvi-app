@@ -98,7 +98,7 @@ export default function SearchSecretForm(props: SearchSecretFormProps) {
                         id="search-key"
                         name="key"
                         type="text"
-                        placeholder={`Search for a secret key within this environment...`}
+                        placeholder="Search for secret keys within this environment..."
                         maxlength="255"
                         required
                         onInput={handleInputChange}
