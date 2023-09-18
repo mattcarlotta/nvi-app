@@ -29,8 +29,8 @@ export default function LoginForm(props: LoginFormProps) {
 
     const handleSubmit = async (e: Event) => {
         e.preventDefault();
-        setFields('formError', '');
-        setFields('isSubmitting', true);
+        setFields("formError", "");
+        setFields("isSubmitting", true);
         try {
             const email = (document.getElementById("email") as HTMLInputElement).value;
             const password = (document.getElementById("password") as HTMLInputElement).value;
@@ -53,8 +53,8 @@ export default function LoginForm(props: LoginFormProps) {
 
         } catch (error) {
             const message = getMessageFromStatusCode(String(error) as ErrorStatusCode)
-            setFields('formError', message);
-            setFields('isSubmitting', false);
+            setFields("formError", message);
+            setFields("isSubmitting", false);
         }
     };
 

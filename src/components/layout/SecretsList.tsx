@@ -49,16 +49,16 @@ export default function SecretList(props: SecretsListProps) {
                     <section>
                         <ul class="border-2 rounded border-gray-700">
                             <For each={secretList()}>
-                                {({ id, key, createdAt, environments, updatedAt }, idx) => (
+                                {(secret, idx) => (
                                     <SecretKey
-                                        id={id}
-                                        createdAt={createdAt}
-                                        environments={environments}
+                                        id={secret.id}
+                                        createdAt={secret.createdAt}
+                                        environments={secret.environments}
                                         idx={idx()}
-                                        key={key}
+                                        key={secret.key}
                                         projectName={props.projectName}
                                         secretListLength={secretList().length}
-                                        updatedAt={updatedAt}
+                                        updatedAt={secret.updatedAt}
                                     />
                                 )}
                             </For>

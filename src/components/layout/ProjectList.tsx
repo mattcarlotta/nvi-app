@@ -39,17 +39,17 @@ export default function ProjectList(props: ProjectListProps) {
                 <Match when={projectList().length}>
                     <section class="grid grid-cols-3 gap-y-4 gap-x-8">
                         <For each={projectList()}>
-                            {({ name, createdAt, updatedAt }) => (
-                                <a class="block bg-gray-800 p-4 rounded hover:bg-gray-700" href={`/${name}/`}>
+                            {(project) => (
+                                <a class="block bg-gray-800 p-4 rounded hover:bg-gray-700" href={`/${project.name}/`}>
                                     <div class="flex items-center space-x-2">
                                         <ProjectIcon class="flex-none w-6 h-6 fill-white" />
-                                        <h2 title={name} class="text-2xl text-ellipsis overflow-hidden">{name}</h2>
+                                        <h2 title={project.name} class="text-2xl text-ellipsis overflow-hidden">{project.name}</h2>
                                     </div>
-                                    <time class="block" datetime={createdAt}>
-                                        Created: {relativeTimeFromNow(createdAt)}
+                                    <time class="block" datetime={project.createdAt}>
+                                        Created: {relativeTimeFromNow(project.createdAt)}
                                     </time>
-                                    <time class="block" datetime={updatedAt}>
-                                        Updated: {relativeTimeFromNow(updatedAt)}
+                                    <time class="block" datetime={project.updatedAt}>
+                                        Updated: {relativeTimeFromNow(project.updatedAt)}
                                     </time>
                                 </a>
                             )}

@@ -20,8 +20,8 @@ type SearchSecretFormProps = {
     environmentID: string;
     disableSearch: boolean;
     projectID: string;
-    onClear: () => void
-    onSearch: (secrets: Secrets) => void
+    onClear: () => void;
+    onSearch: (secrets: Secrets) => void;
 }
 
 export default function SearchSecretForm(props: SearchSecretFormProps) {
@@ -59,7 +59,7 @@ export default function SearchSecretForm(props: SearchSecretFormProps) {
             // if (error as ErrorStatusCode === ErrorStatusCode.GetSecretNonExistentName) {
             //     props.onSearch([]);
             // } else {
-            //     const message = getMessageFromStatusCode(String(error) as ErrorStatusCode)
+            //     const message = getMessageFromStatusCode(String(error) as ErrorStatusCode);
             //     setFields("formError", message);
             // }
         } finally {

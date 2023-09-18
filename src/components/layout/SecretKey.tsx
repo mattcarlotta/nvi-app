@@ -44,8 +44,8 @@ export default function SecretKey(props: SecretKeyProps) {
 
             setSecretData("value", res.data?.value || "");
         } catch (error) {
-            const message = getMessageFromStatusCode(String(error) as ErrorStatusCode)
-            dispatchToastEvent({ type: "error", message })
+            const message = getMessageFromStatusCode(String(error) as ErrorStatusCode);
+            dispatchToastEvent({ type: "error", message });
         } finally {
             setSecretData("isLoading", false);
         }
@@ -112,13 +112,13 @@ export default function SecretKey(props: SecretKeyProps) {
                             </h2>
                             <div class="flex-none md:flex md:space-x-2">
                                 <For each={props.environments}>
-                                    {({ name }) => (
+                                    {(environment) => (
                                         <a
-                                            title={name}
+                                            title={environment.name}
                                             class="text-gray-500 text-ellipsis overflow-hidden py-0.5 hover:underline hover:text-blue-500"
-                                            href={`/${props.projectName}/${name}`}
+                                            href={`/${props.projectName}/${environment.name}`}
                                         >
-                                            {name}
+                                            {environment.name}
                                         </a>
                                     )}
                                 </For>

@@ -71,7 +71,7 @@ export default function SearchOrCreateProjectForm(props: SearchOrCreateProjectFo
             if (error as ErrorStatusCode === ErrorStatusCode.GetProjectNonExistentName) {
                 props.onSearch([]);
             } else {
-                const message = getMessageFromStatusCode(String(error) as ErrorStatusCode)
+                const message = getMessageFromStatusCode(String(error) as ErrorStatusCode);
                 setFields("formError", message);
             }
             setFields("isSearching", false);
@@ -101,7 +101,7 @@ export default function SearchOrCreateProjectForm(props: SearchOrCreateProjectFo
                 window.location.reload();
             }, 3000);
         } catch (error) {
-            const message = getMessageFromStatusCode(String(error) as ErrorStatusCode)
+            const message = getMessageFromStatusCode(String(error) as ErrorStatusCode);
             setFields("formError", message);
             setFields("isSubmitting", false);
         }
