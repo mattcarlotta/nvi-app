@@ -109,7 +109,7 @@ export default function SecretKey(props: SecretKeyProps) {
                         <Switch>
                             <Match when={secretData.showKey && secretData.isLoading}>
                                 <div title="Loading..." class="p-2">
-                                    <SpinnerIcon class="w-6 h-6 border-white" />
+                                    <SpinnerIcon class="w-5 h-5 border-white" />
                                 </div>
                             </Match>
                             <Match when={secretData.showKey && !secretData.isLoading}>
@@ -119,7 +119,7 @@ export default function SecretKey(props: SecretKeyProps) {
                                     class="p-2 rounded hover:bg-gray-800"
                                     onClick={hideKey}
                                 >
-                                    <UnlockedSecretIcon class="w-6 h-6 fill-white" />
+                                    <UnlockedSecretIcon class="w-5 h-5 fill-white" />
                                 </button>
                             </Match>
                             <Match when={!secretData.showKey && !secretData.isLoading}>
@@ -129,14 +129,14 @@ export default function SecretKey(props: SecretKeyProps) {
                                     class="p-2 rounded hover:bg-gray-800"
                                     onClick={showKey}
                                 >
-                                    <LockedSecretIcon class="w-6 h-6 fill-white" />
+                                    <LockedSecretIcon class="w-5 h-5 fill-white" />
                                 </button>
                             </Match>
                         </Switch>
                         <div class="flex flex-col">
                             <h2
                                 title={props.key}
-                                class="text-2xl text-ellipsis overflow-hidden"
+                                class="text-xl text-ellipsis overflow-hidden"
                             >
                                 {props.key}
                             </h2>
@@ -145,7 +145,7 @@ export default function SecretKey(props: SecretKeyProps) {
                                     {(environment) => (
                                         <a
                                             title={environment.name}
-                                            class="text-gray-500 text-ellipsis overflow-hidden py-0.5 hover:underline hover:text-blue-500"
+                                            class="text-sm text-gray-500 text-ellipsis overflow-hidden py-0.5 hover:underline hover:text-blue-500"
                                             href={`/${props.projectName}/${environment.name}`}
                                         >
                                             {environment.name}
