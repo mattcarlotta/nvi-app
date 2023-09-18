@@ -101,6 +101,7 @@ export default function SearchSecretForm(props: SearchSecretFormProps) {
                         type="text"
                         placeholder="Search for secret keys within this environment..."
                         maxlength="255"
+                        autocomplete="off"
                         required
                         onInput={handleInputChange}
                     />

@@ -138,6 +138,7 @@ export default function SearchOrCreateEnvironmentForm(props: SearchOrCreateEnvir
                         type="text"
                         placeholder="Search for or create a new environment..."
                         maxlength="255"
+                        autocomplete="off"
                         required
                         onInput={handleInputChange}
                     />
