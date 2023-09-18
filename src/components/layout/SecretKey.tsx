@@ -1,14 +1,15 @@
 import { For, Match, Show, Switch, batch } from "solid-js"
+import { createStore } from "solid-js/store"
 import type { Environments } from "../../types"
 import LockedSecretIcon from "../icons/LockSecretIcon"
-import relativeTimeFromNow from "../../utils/timeSince"
-import clsx from "../../utils/clsx"
 import UnlockedSecretIcon from "../icons/UnlockedSecretIcon"
-import { createStore } from "solid-js/store"
 import SpinnerIcon from "../icons/SpinnerIcon"
-import { fetchAPIGET } from "../../utils/fetchAPI"
+import clsx from "../../utils/clsx"
 import { ErrorStatusCode, getMessageFromStatusCode } from "../../utils/errors"
+import { fetchAPIDELETE, fetchAPIGET } from "../../utils/fetchAPI"
+import relativeTimeFromNow from "../../utils/timeSince"
 import { dispatchToastEvent } from "./Toast"
+import SecretActionButton from "./SecretActionButton"
 
 type SecretKeyProps = {
     id: string;
@@ -24,6 +25,7 @@ type SecretKeyProps = {
 type SecretData = {
     showKey: boolean;
     isLoading: boolean;
+    isEditing: boolean;
     value: string;
 }
 
@@ -31,6 +33,7 @@ export default function SecretKey(props: SecretKeyProps) {
     const [secretData, setSecretData] = createStore<SecretData>({
         showKey: false,
         isLoading: false,
+        isEditing: false,
         value: "",
     });
 
@@ -56,9 +59,36 @@ export default function SecretKey(props: SecretKeyProps) {
         dispatchToastEvent({ type: "success", message: "Copied the secret to your clipboard!" });
     }
 
+    const handleDeleteKey = async () => {
+        try {
+            const res = await fetchAPIDELETE({
+                url: `/delete/secret/${props.id}`
+            });
+
+            dispatchToastEvent({ type: "success", message: res.message });
+
+            // TODO(carlotta): This should be called after the toast notification has expired or been closed
+            window.setTimeout(() => {
+                window.location.reload();
+            }, 3000)
+        } catch (error) {
+            const message = getMessageFromStatusCode(String(error) as ErrorStatusCode);
+            dispatchToastEvent({ type: "error", message });
+        }
+    }
+
+    const handleEditKey = () => {
+        setSecretData("isEditing", true);
+    }
+
+    const handleCancelEditKey = () => {
+        setSecretData("isEditing", false);
+    }
+
     const hideKey = () => {
         batch(() => {
             setSecretData("showKey", false);
+            setSecretData("isEditing", false);
             setSecretData("isLoading", false);
             setSecretData("value", "");
         });
@@ -125,6 +155,9 @@ export default function SecretKey(props: SecretKeyProps) {
                             </div>
                         </div>
                     </div>
+                    <div class="block md:hidden">
+                        <SecretActionButton onEditClick={handleEditKey} onDeleteClick={handleDeleteKey} />
+                    </div>
                 </div>
             </div>
             <div class="py-4 border-b border-gray-700 md:col-span-4 md:justify-center md:border-b-0 md:py-0">
@@ -144,7 +177,7 @@ export default function SecretKey(props: SecretKeyProps) {
             </div>
             <div class="py-2 md:py-0 md:col-span-4">
                 <div class="justify-end md:grid md:grid-cols-12">
-                    <div class="col-span-11 flex flex-col md:text-right">
+                    <div class="col-span-12 flex flex-col md:col-span-10 md:text-right">
                         <time class="block" datetime={props.createdAt}>
                             Created: {relativeTimeFromNow(props.createdAt)}
                         </time>
@@ -152,9 +185,19 @@ export default function SecretKey(props: SecretKeyProps) {
                             Updated: {relativeTimeFromNow(props.updatedAt)}
                         </time>
                     </div>
-                    <button class="hidden md:flex md:justify-end md:items-center">:</button>
+                    <div class="hidden md:col-span-2 md:flex md:justify-center md:items-center">
+                        <SecretActionButton onEditClick={handleEditKey} onDeleteClick={handleDeleteKey} />
+                    </div>
                 </div>
             </div>
+            <Show when={secretData.isEditing}>
+                <div class="col-span-12">
+                    <h1>Editing</h1>
+                    <button type="button" onClick={handleCancelEditKey}>
+                        Cancel
+                    </button>
+                </div>
+            </Show>
         </li>
     )
 }
