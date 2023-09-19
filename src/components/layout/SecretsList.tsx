@@ -1,7 +1,7 @@
 import { For, createSignal, Match, Switch } from "solid-js"
 import type { Environment, Environments, Secrets } from "../../types"
 import SearchSecretForm from "../forms/SearchSecretForm"
-import CreateSecretForm from "../forms/CreateSecretForm"
+import CreateOrUpdateSecretForm from "../forms/CreateOrUpdateSecretForm"
 import SecretKey from "./SecretKey"
 
 type SecretsListProps = {
@@ -14,6 +14,7 @@ type SecretsListProps = {
 
 export default function SecretList(props: SecretsListProps) {
     const [secretList, setSecretList] = createSignal(props.secrets);
+    const [editingID, setEditingID] = createSignal("");
 
     const handleSearchResults = (secrets: Secrets) => {
         setSecretList(secrets);
@@ -23,9 +24,14 @@ export default function SecretList(props: SecretsListProps) {
         setSecretList(props.secrets);
     }
 
+    const handleEditID = (id: string) => {
+        setEditingID(id);
+    }
+
     return (
         <div class="flex flex-col space-y-4 mb-10">
-            <CreateSecretForm
+            <CreateOrUpdateSecretForm
+                availableEnvironments={props.environments}
                 environments={props.environments}
                 projectID={props.projectID}
             />
@@ -51,11 +57,15 @@ export default function SecretList(props: SecretsListProps) {
                             <For each={secretList()}>
                                 {(secret, idx) => (
                                     <SecretKey
+                                        availableEnvironments={props.environments}
                                         id={secret.id}
                                         createdAt={secret.createdAt}
+                                        editingID={editingID()}
+                                        handleEditID={handleEditID}
                                         environments={secret.environments}
                                         idx={idx()}
                                         key={secret.key}
+                                        projectID={props.projectID}
                                         projectName={props.projectName}
                                         secretListLength={secretList().length}
                                         updatedAt={secret.updatedAt}

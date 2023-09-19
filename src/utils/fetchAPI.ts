@@ -16,7 +16,19 @@ export type FetchAPIArgs = {
     body?: Record<string, unknown>;
 };
 
-async function fetchAPI({ method, url, headers = new Headers(), body }: FetchAPIArgs) {
+export type FetchAPIResponse = Promise<{
+    status: number;
+    data: any;
+    err: null;
+    message: null;
+} | {
+    status: number;
+    data: null;
+    message: any;
+    err: null;
+}>;
+
+async function fetchAPI({ method, url, headers = new Headers(), body }: FetchAPIArgs): FetchAPIResponse {
     headers.append("Content-Type", "application/json")
     const res = await fetch(`${import.meta.env.PUBLIC_API_URL}${url}`, {
         method,
@@ -66,6 +78,6 @@ export function fetchAPIPOST(args: Omit<FetchAPIArgs, "method">) {
     return fetchAPI({ method: 'POST', ...args });
 }
 
-export function fetchPUT(args: Omit<FetchAPIArgs, "method">) {
+export function fetchAPIPUT(args: Omit<FetchAPIArgs, "method">) {
     return fetchAPI({ method: 'PUT', ...args });
 }

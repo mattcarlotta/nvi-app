@@ -9,6 +9,7 @@ import { fetchAPIGET } from "../../utils/fetchAPI";
 import SpinnerIcon from "../icons/SpinnerIcon";
 import clsx from "../../utils/clsx";
 import SearchSecretIcon from "../icons/SearchSearchIcon";
+import { getMessageFromStatusCode, type ErrorStatusCode } from "../../utils/errors";
 // import AddSecretIcon from "../icons/AddSecretIcon";
 
 type CreateSecretFormStore = {
@@ -53,15 +54,9 @@ export default function SearchSecretForm(props: SearchSecretFormProps) {
             });
 
             props.onSearch(res.data || []);
-
         } catch (error) {
-            console.log(error)
-            // if (error as ErrorStatusCode === ErrorStatusCode.GetSecretNonExistentName) {
-            //     props.onSearch([]);
-            // } else {
-            //     const message = getMessageFromStatusCode(String(error) as ErrorStatusCode);
-            //     setFields("formError", message);
-            // }
+            const message = getMessageFromStatusCode(String(error) as ErrorStatusCode);
+            setFields("formError", message);
         } finally {
             setFields("isSearching", false);
 
@@ -87,13 +82,13 @@ export default function SearchSecretForm(props: SearchSecretFormProps) {
                             when={!fields.isSearching}
                             fallback={<SpinnerIcon class="h-6 w-6" />}
                         >
-                            <SearchSecretIcon class="h-5 w-5" />
+                            <SearchSecretIcon class={clsx("h-5 w-5", props.disableSearch && "fill-gray-600")} />
                         </Show>
                     </div>
                     <input
                         disabled={props.disableSearch}
                         class={clsx(
-                            props.disableSearch && "bg-gray-900 placeholder:text-gray-600",
+                            props.disableSearch && "bg-gray-900 cursor-not-allowed placeholder:text-gray-600",
                             "w-full rounded pl-10 pr-8 py-2")
                         }
                         id="search-key"
@@ -107,7 +102,7 @@ export default function SearchSecretForm(props: SearchSecretFormProps) {
                     />
                     <button
                         disabled={props.disableSearch}
-                        class="h-full absolute p-2 right-0"
+                        class={clsx("h-full absolute p-2 right-0", props.disableSearch && "fill-gray-600")}
                         title="Clear"
                         type="button"
                         onClick={handleFormClear}

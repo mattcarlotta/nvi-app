@@ -10,30 +10,33 @@ import { fetchAPIDELETE, fetchAPIGET } from "../../utils/fetchAPI"
 import relativeTimeFromNow from "../../utils/timeSince"
 import { dispatchToastEvent } from "./Toast"
 import SecretActionButton from "./SecretActionButton"
+import CreateOrUpdateSecretForm from "../forms/CreateOrUpdateSecretForm"
 
 type SecretKeyProps = {
     id: string;
     idx: number;
+    availableEnvironments: Environments;
     secretListLength: number;
     key: string;
     environments: Environments;
+    editingID: string;
+    handleEditID: (id: string) => void;
     projectName: string;
+    projectID: string;
     createdAt: string;
     updatedAt: string;
 }
 
-type SecretData = {
+type SecretDataStore = {
     showKey: boolean;
     isLoading: boolean;
-    isEditing: boolean;
     value: string;
 }
 
 export default function SecretKey(props: SecretKeyProps) {
-    const [secretData, setSecretData] = createStore<SecretData>({
+    const [secretData, setSecretData] = createStore<SecretDataStore>({
         showKey: false,
         isLoading: false,
-        isEditing: false,
         value: "",
     });
 
@@ -78,17 +81,16 @@ export default function SecretKey(props: SecretKeyProps) {
     }
 
     const handleEditKey = () => {
-        setSecretData("isEditing", true);
+        props.handleEditID(props.id);
     }
 
     const handleCancelEditKey = () => {
-        setSecretData("isEditing", false);
+        props.handleEditID("");
     }
 
     const hideKey = () => {
         batch(() => {
             setSecretData("showKey", false);
-            setSecretData("isEditing", false);
             setSecretData("isLoading", false);
             setSecretData("value", "");
         });
@@ -99,7 +101,8 @@ export default function SecretKey(props: SecretKeyProps) {
             class={
                 clsx(
                     "items-center p-4 md:space-x-2 md:grid md:grid-cols-12",
-                    props.idx + 1 !== props.secretListLength && "border-b border-gray-700"
+                    props.idx + 1 !== props.secretListLength && "border-b border-gray-700",
+                    props.id === props.editingID && "bg-gray-900"
                 )
             }
         >
@@ -190,12 +193,14 @@ export default function SecretKey(props: SecretKeyProps) {
                     </div>
                 </div>
             </div>
-            <Show when={secretData.isEditing}>
-                <div class="col-span-12">
-                    <h1>Editing</h1>
-                    <button type="button" onClick={handleCancelEditKey}>
-                        Cancel
-                    </button>
+            <Show when={props.id === props.editingID}>
+                <div class="col-span-12 border-t border-t-gray-600 mt-4">
+                    <CreateOrUpdateSecretForm
+                        secretID={props.id}
+                        environments={props.availableEnvironments}
+                        projectID={props.projectID}
+                        onCancel={handleCancelEditKey}
+                    />
                 </div>
             </Show>
         </li>
