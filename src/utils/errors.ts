@@ -183,7 +183,8 @@ export function getMessageFromStatusCode(errorCode: ErrorStatusCode): string {
         case ErrorStatusCode.CreateProjectInvalidName: {
             return errorCode;
         }
-        case ErrorStatusCode.CreateProjectNameTaken: {
+        case ErrorStatusCode.CreateProjectNameTaken:
+        case ErrorStatusCode.UpdateProjectNameTaken: {
             return "A project with that name already exists. Please choose a different name, for example: \"my_project_2\"."
         }
         case ErrorStatusCode.DeleteProjectInvalidID: {
@@ -196,9 +197,6 @@ export function getMessageFromStatusCode(errorCode: ErrorStatusCode): string {
             return errorCode;
         }
         case ErrorStatusCode.UpdateProjectNonExistentID: {
-            return errorCode;
-        }
-        case ErrorStatusCode.UpdateProjectNameTaken: {
             return errorCode;
         }
         case ErrorStatusCode.Unknown:

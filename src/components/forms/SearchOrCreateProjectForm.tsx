@@ -52,7 +52,8 @@ export default function SearchOrCreateProjectForm(props: SearchOrCreateProjectFo
     }
 
     const handleSearchProjects = debounce(async () => {
-        const name = (document.getElementById("name") as HTMLInputElement)?.value;
+        const form = (document.getElementById("search-create-project-form")) as HTMLFormElement;
+        const name = (form.querySelector("#name") as HTMLInputElement)?.value;
         if (props.disableSearch || !name || nameInputInvalid(name)) {
             return;
         }
@@ -81,7 +82,8 @@ export default function SearchOrCreateProjectForm(props: SearchOrCreateProjectFo
 
     const handleCreateProject = async (e: Event) => {
         e.preventDefault();
-        const name = (document.getElementById("name") as HTMLInputElement)?.value;
+        const form = (document.getElementById("search-create-project-form")) as HTMLFormElement;
+        const name = (form.querySelector("#name") as HTMLInputElement)?.value;
         if (!name || nameInputInvalid(name)) {
             return;
         }
@@ -108,18 +110,22 @@ export default function SearchOrCreateProjectForm(props: SearchOrCreateProjectFo
     };
 
     const handleFormClear = () => {
+        (document.getElementById("search-create-project-form") as HTMLFormElement)?.reset();
+        props.onClear();
         batch(() => {
             setFields("formError", "");
             setFields("isSearching", false);
             setFields("isSubmitting", false);
         });
-        (document.querySelector("form") as HTMLFormElement)?.reset();
-        props.onClear();
     }
 
     return (
         <div class="min-h-[5.5rem]">
-            <form class="flex space-x-2 w-full items-center text-black" onSubmit={handleCreateProject}>
+            <form
+                id="search-create-project-form"
+                class="flex space-x-2 w-full items-center text-black"
+                onSubmit={handleCreateProject}
+            >
                 <div class="flex flex-1 relative items-center">
                     <div class="h-full absolute p-2 left-0">
                         <Show

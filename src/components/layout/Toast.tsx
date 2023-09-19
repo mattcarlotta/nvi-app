@@ -2,6 +2,7 @@ import { Show, batch, onCleanup, onMount } from "solid-js";
 import { createStore } from "solid-js/store";
 import CloseIcon from "../icons/CloseIcon";
 import clsx from "../../utils/clsx";
+import { ErrorStatusCode, getMessageFromStatusCode } from "../../utils/errors";
 
 export type ToastEvent = {
     message: string | null;
@@ -14,6 +15,11 @@ type ToastNotifcationStore = {
 } & Omit<ToastEvent, "timeout">;
 
 interface ReceivedToastEvent extends CustomEvent<ToastEvent> { }
+
+export function dispatchToastError(error: any) {
+    const message = getMessageFromStatusCode(String(error) as ErrorStatusCode);
+    dispatchToastEvent({ type: "error", message });
+}
 
 export function dispatchToastEvent(event: ToastEvent) {
     window.dispatchEvent(

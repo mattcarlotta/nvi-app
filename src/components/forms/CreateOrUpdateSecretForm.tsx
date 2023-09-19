@@ -2,7 +2,7 @@ import { For, Show, batch, onMount } from "solid-js";
 import { createStore } from "solid-js/store";
 import type { Environments } from "../../types";
 import SubmitButton from "../layout/SubmitButton";
-import { dispatchToastEvent } from "../layout/Toast";
+import { dispatchToastError, dispatchToastEvent } from "../layout/Toast";
 import { ErrorStatusCode, getMessageFromStatusCode } from "../../utils/errors";
 import { fetchAPIGET, fetchAPIPOST, fetchAPIPUT } from "../../utils/fetchAPI";
 import clsx from "../../utils/clsx";
@@ -108,8 +108,7 @@ export default function CreateOrUpdateSecretForm(props: CreateOrUpdateSecretForm
                 });
                 setFields("isLoading", false);
             } catch (error) {
-                const message = getMessageFromStatusCode(String(error) as ErrorStatusCode)
-                dispatchToastEvent({ type: "error", message });
+                dispatchToastError(error);
                 handleFormClear();
                 props.onCancel?.();
             }

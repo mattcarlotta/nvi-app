@@ -5,11 +5,10 @@ import LockedSecretIcon from "../icons/LockSecretIcon"
 import UnlockedSecretIcon from "../icons/UnlockedSecretIcon"
 import SpinnerIcon from "../icons/SpinnerIcon"
 import clsx from "../../utils/clsx"
-import { ErrorStatusCode, getMessageFromStatusCode } from "../../utils/errors"
 import { fetchAPIDELETE, fetchAPIGET } from "../../utils/fetchAPI"
 import relativeTimeFromNow from "../../utils/timeSince"
-import { dispatchToastEvent } from "./Toast"
-import SecretActionButton from "./SecretActionButton"
+import { dispatchToastError, dispatchToastEvent } from "./Toast"
+import ActionButton from "./ActionButton"
 import CreateOrUpdateSecretForm from "../forms/CreateOrUpdateSecretForm"
 
 type SecretKeyProps = {
@@ -50,8 +49,7 @@ export default function SecretKey(props: SecretKeyProps) {
 
             setSecretData("value", res.data?.value || "");
         } catch (error) {
-            const message = getMessageFromStatusCode(String(error) as ErrorStatusCode);
-            dispatchToastEvent({ type: "error", message });
+            dispatchToastError(error);
         } finally {
             setSecretData("isLoading", false);
         }
@@ -75,8 +73,7 @@ export default function SecretKey(props: SecretKeyProps) {
                 window.location.reload();
             }, 3000)
         } catch (error) {
-            const message = getMessageFromStatusCode(String(error) as ErrorStatusCode);
-            dispatchToastEvent({ type: "error", message });
+            dispatchToastError(error);
         }
     }
 
@@ -159,7 +156,7 @@ export default function SecretKey(props: SecretKeyProps) {
                         </div>
                     </div>
                     <div class="block md:hidden">
-                        <SecretActionButton onEditClick={handleEditKey} onDeleteClick={handleDeleteKey} />
+                        <ActionButton onEditClick={handleEditKey} onDeleteClick={handleDeleteKey} />
                     </div>
                 </div>
             </div>
@@ -189,7 +186,7 @@ export default function SecretKey(props: SecretKeyProps) {
                         </time>
                     </div>
                     <div class="hidden md:col-span-2 md:flex md:justify-center md:items-center">
-                        <SecretActionButton onEditClick={handleEditKey} onDeleteClick={handleDeleteKey} />
+                        <ActionButton onEditClick={handleEditKey} onDeleteClick={handleDeleteKey} />
                     </div>
                 </div>
             </div>

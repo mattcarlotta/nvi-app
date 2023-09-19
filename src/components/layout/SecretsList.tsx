@@ -31,7 +31,6 @@ export default function SecretList(props: SecretsListProps) {
     return (
         <div class="flex flex-col space-y-4 mb-10">
             <CreateOrUpdateSecretForm
-                availableEnvironments={props.environments}
                 environments={props.environments}
                 projectID={props.projectID}
             />

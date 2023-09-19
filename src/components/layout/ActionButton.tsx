@@ -3,7 +3,7 @@ import { createStore } from "solid-js/store";
 import ActionVerticalDots from "../icons/ActionVerticalDots";
 import ActionHorizontalDots from "../icons/ActionHorizontalDots";
 
-type SecretActionButtonProps = {
+type ActionButtonProps = {
     onEditClick: () => void;
     onDeleteClick: () => void;
 }
@@ -15,7 +15,7 @@ type OptionsState = {
 }
 
 
-export default function SecretActionButton(props: SecretActionButtonProps) {
+export default function ActionButton(props: ActionButtonProps) {
     let wrapperRef: HTMLDivElement | undefined;
     const [options, setOptions] = createStore<OptionsState>({
         isVisible: false,
