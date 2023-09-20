@@ -3,6 +3,7 @@ import type { Environment, Environments, Secrets } from "../../types"
 import SearchSecretForm from "../forms/SearchSecretForm"
 import CreateOrUpdateSecretForm from "../forms/CreateOrUpdateSecretForm"
 import SecretKey from "./SecretKey"
+import LockSecretIcon from "../icons/LockSecretIcon"
 
 type SecretsListProps = {
     environment: Environment;
@@ -51,28 +52,34 @@ export default function SecretList(props: SecretsListProps) {
                     <h2 class="text-xl my-2">No Results Found</h2>
                 </Match>
                 <Match when={secretList().length}>
-                    <section>
-                        <ul class="border-2 rounded border-gray-700">
-                            <For each={secretList()}>
-                                {(secret, idx) => (
-                                    <SecretKey
-                                        availableEnvironments={props.environments}
-                                        id={secret.id}
-                                        createdAt={secret.createdAt}
-                                        editingID={editingID()}
-                                        handleEditID={handleEditID}
-                                        environments={secret.environments}
-                                        idx={idx()}
-                                        key={secret.key}
-                                        projectID={props.projectID}
-                                        projectName={props.projectName}
-                                        secretListLength={secretList().length}
-                                        updatedAt={secret.updatedAt}
-                                    />
-                                )}
-                            </For>
-                        </ul>
-                    </section>
+                    <div class="space-y-0">
+                        <h3 class="flex space-x-1 items-center">
+                            <LockSecretIcon class="w-4 h-4 fill-white" />
+                            <span>Secrets</span>
+                        </h3>
+                        <section>
+                            <ul class="border-2 rounded border-gray-700">
+                                <For each={secretList()}>
+                                    {(secret, idx) => (
+                                        <SecretKey
+                                            availableEnvironments={props.environments}
+                                            id={secret.id}
+                                            createdAt={secret.createdAt}
+                                            editingID={editingID()}
+                                            handleEditID={handleEditID}
+                                            environments={secret.environments}
+                                            idx={idx()}
+                                            key={secret.key}
+                                            projectID={props.projectID}
+                                            projectName={props.projectName}
+                                            secretListLength={secretList().length}
+                                            updatedAt={secret.updatedAt}
+                                        />
+                                    )}
+                                </For>
+                            </ul>
+                        </section>
+                    </div>
                 </Match>
             </Switch>
         </div>

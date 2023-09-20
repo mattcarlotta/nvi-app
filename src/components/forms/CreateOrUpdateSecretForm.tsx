@@ -6,6 +6,9 @@ import { dispatchToastError, dispatchToastEvent } from "../layout/Toast";
 import { ErrorStatusCode, getMessageFromStatusCode } from "../../utils/errors";
 import { fetchAPIGET, fetchAPIPOST, fetchAPIPUT } from "../../utils/fetchAPI";
 import clsx from "../../utils/clsx";
+import SaveIcon from "../icons/SaveIcon";
+import CloseFormIcon from "../icons/CloseFormIcon";
+import ClearFormIcon from "../icons/ClearFormIcon";
 
 
 type CreateOrUpdateSecretFormProps = {
@@ -184,16 +187,18 @@ export default function CreateOrUpdateSecretForm(props: CreateOrUpdateSecretForm
                         <SubmitButton
                             type="button"
                             class="max-w-max"
+                            title={!fields.isEditing ? "Clear Form" : "Cancel"}
                             onClick={!fields.isEditing ? handleFormClear : handleCancelEditing}
                             isSubmitting={fields.isSubmitting}
                         >
-                            {!fields.isEditing ? "Clear" : "Cancel"}
+                            {!fields.isEditing ? <ClearFormIcon class="w-6 h-6 text-black" /> : <CloseFormIcon class="w-6 h-6 text-black" />}
                         </SubmitButton>
                         <SubmitButton
+                            title="Save Secret"
                             class="max-w-max"
                             isSubmitting={fields.isSubmitting || fields.isLoading}
                         >
-                            Save
+                            <SaveIcon class="w-6 h-6 text-black" />
                         </SubmitButton>
                     </div>
                 </div>

@@ -1,5 +1,7 @@
 import { Show, batch, onMount } from "solid-js";
 import { createStore } from "solid-js/store";
+import CloseFormIcon from "../icons/CloseFormIcon";
+import SaveIcon from "../icons/SaveIcon";
 import SubmitButton from "../layout/SubmitButton";
 import { dispatchToastEvent } from "../layout/Toast";
 import { ErrorStatusCode, getMessageFromStatusCode } from "../../utils/errors";
@@ -96,19 +98,21 @@ export default function EditProjectForm(props: SearchOrCreateProjectFormProps) {
                     maxlength="255"
                     required
                 />
-                <div class="flex space-x-2">
+                <div class="flex space-x-2 justify-end">
                     <SubmitButton
+                        title="Cancel"
                         type="button"
                         isSubmitting={fields.isSubmitting}
                         onClick={handleCancelClick}
                     >
-                        Cancel
+                        <CloseFormIcon class="w-6 h-6 text-black" />
                     </SubmitButton>
                     <SubmitButton
+                        title="Save Project"
                         type="submit"
                         isSubmitting={fields.isSubmitting}
                     >
-                        Save
+                        <SaveIcon class="w-6 h-6 text-black" />
                     </SubmitButton>
                 </div>
             </form>

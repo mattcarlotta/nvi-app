@@ -2,6 +2,7 @@ import { For, createSignal, Switch, Match } from "solid-js"
 import type { Projects } from "../../types"
 import SearchOrCreateProjectForm from "../forms/SearchOrCreateProjectForm"
 import Project from "./Project"
+import ProjectIcon from "../icons/ProjectIcon"
 
 
 type ProjectListProps = {
@@ -41,6 +42,10 @@ export default function ProjectList(props: ProjectListProps) {
                     <h2 class="text-xl">No Results Found</h2>
                 </Match>
                 <Match when={projectList().length}>
+                    <h3 class="flex space-x-1 items-center">
+                        <ProjectIcon class="w-4 h-4 fill-white" />
+                        <span>Projects</span>
+                    </h3>
                     <section class="grid grid-cols-1 gap-y-4 gap-x-8 md:grid-cols-3">
                         <For each={projectList()}>
                             {(project) => (
