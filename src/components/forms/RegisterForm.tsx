@@ -94,8 +94,8 @@ export default function RegisterForm() {
                         />
                     </div>
                     <div class="flex h-24 flex-col space-y-1">
-                        <label class="block" html-for="password">
-                            <span class="mr-1">Password</span>
+                        <label class="w-full flex space-x-1" html-for="password">
+                            <span>Password</span>
                             <Show
                                 when={showPassword()}
                                 fallback={
@@ -120,7 +120,7 @@ export default function RegisterForm() {
                             required
                         />
                     </div>
-                    <SubmitButton isSubmitting={fields.isSubmitting}>Register</SubmitButton>
+                    <SubmitButton primary isSubmitting={fields.isSubmitting}>Register</SubmitButton>
                     <Show when={fields.formError}>
                         <p class="font-bold text-red-600">{fields.formError}</p>
                     </Show>

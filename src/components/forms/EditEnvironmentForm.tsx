@@ -8,26 +8,27 @@ import { ErrorStatusCode, getMessageFromStatusCode } from "../../utils/errors";
 import { fetchAPIPUT } from "../../utils/fetchAPI";
 import { nameRegex } from "../../utils/regexValidations";
 
-type CreateProjectFormStore = {
+type CreateEnvironmentFormStore = {
     isSubmitting: boolean;
     formError: string;
 };
 
-type SearchOrCreateProjectFormProps = {
-    projectID: string;
-    projectName: string;
+type SearchOrCreateEnvironmentFormProps = {
+    environmentID: string;
+    environmentName: string;
     onCancel: () => void;
+    projectID: string;
 }
 
-export default function EditProjectForm(props: SearchOrCreateProjectFormProps) {
-    const [fields, setFields] = createStore<CreateProjectFormStore>({
+export default function EditEnvironmentForm(props: SearchOrCreateEnvironmentFormProps) {
+    const [fields, setFields] = createStore<CreateEnvironmentFormStore>({
         isSubmitting: false,
         formError: ""
     });
 
     const nameInputInvalid = (name: string) => {
         const fieldError = !nameRegex.test(name)
-            ? getMessageFromStatusCode(ErrorStatusCode.GetProjectInvalidName)
+            ? getMessageFromStatusCode(ErrorStatusCode.GetEnvironmentInvalidName)
             : "";
 
         setFields("formError", fieldError);
@@ -35,9 +36,9 @@ export default function EditProjectForm(props: SearchOrCreateProjectFormProps) {
         return fieldError.length;
     }
 
-    const handleEditProject = async (e: Event) => {
+    const handleEditEnvironment = async (e: Event) => {
         e.preventDefault();
-        const form = (document.getElementById("edit-project-form")) as HTMLFormElement;
+        const form = (document.getElementById("edit-environment-form")) as HTMLFormElement;
         const name = (form.querySelector("#name") as HTMLInputElement)?.value;
         if (!name || nameInputInvalid(name)) {
             return;
@@ -46,8 +47,8 @@ export default function EditProjectForm(props: SearchOrCreateProjectFormProps) {
         setFields("isSubmitting", true);
         try {
             const res = await fetchAPIPUT({
-                url: "/update/project/",
-                body: { id: props.projectID, updatedName: name }
+                url: "/update/environment/",
+                body: { id: props.environmentID, projectID: props.projectID, updatedName: name }
             });
 
             dispatchToastEvent({ type: "success", message: res?.message, timeout: 3000 });
@@ -69,7 +70,7 @@ export default function EditProjectForm(props: SearchOrCreateProjectFormProps) {
             setFields("formError", "");
             setFields("isSubmitting", false);
         });
-        (document.getElementById("edit-project-form") as HTMLFormElement)?.reset();
+        (document.getElementById("edit-environment-form") as HTMLFormElement)?.reset();
     }
 
     const handleCancelClick = () => {
@@ -78,23 +79,23 @@ export default function EditProjectForm(props: SearchOrCreateProjectFormProps) {
     }
 
     onMount(() => {
-        const form = (document.getElementById("edit-project-form") as HTMLFormElement);
+        const form = (document.getElementById("edit-environment-form") as HTMLFormElement);
         const name = (form.querySelector("#name") as HTMLInputElement);
-        name.value = props.projectName;
+        name.value = props.environmentName;
     });
 
     return (
         <div class="col-span-12">
             <form
-                id="edit-project-form"
-                onSubmit={handleEditProject}
+                id="edit-environment-form"
+                onSubmit={handleEditEnvironment}
             >
                 <input
                     class="w-full rounded px-2 py-3 text-black"
                     id="name"
                     name="name"
                     type="text"
-                    placeholder="Enter a project name..."
+                    placeholder="Enter an environment name..."
                     maxlength="255"
                     autocomplete="off"
                     autocorrect="off"
@@ -112,7 +113,7 @@ export default function EditProjectForm(props: SearchOrCreateProjectFormProps) {
                     </SubmitButton>
                     <SubmitButton
                         primary
-                        title="Save Project"
+                        title="Save Environment"
                         isSubmitting={fields.isSubmitting}
                     >
                         <SaveIcon class="w-6 h-6 text-black" />
@@ -125,4 +126,5 @@ export default function EditProjectForm(props: SearchOrCreateProjectFormProps) {
         </div>
     );
 };
+
 

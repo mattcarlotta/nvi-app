@@ -1,8 +1,8 @@
 import { For, createSignal, Match, Switch } from "solid-js"
 import type { Environments } from "../../types"
 import SearchOrCreateEnvironmentForm from "../forms/SearchOrCreateEnvironmentForm"
-import relativeTimeFromNow from "../../utils/timeSince"
 import EnvironmentIcon from "../icons/EnvironmentIcon"
+import Environment from "./Environment"
 
 
 type EnvironmentListProps = {
@@ -13,6 +13,7 @@ type EnvironmentListProps = {
 
 export default function EnvironmentList(props: EnvironmentListProps) {
     const [environmentList, setEnvironmentList] = createSignal(props.environments);
+    const [editingEnvironmentID, setEditingEnvironmentID] = createSignal("");
 
     const handleSearchResults = (environments: Environments) => {
         setEnvironmentList(environments);
@@ -20,6 +21,10 @@ export default function EnvironmentList(props: EnvironmentListProps) {
 
     const clearSearchResults = () => {
         setEnvironmentList(props.environments);
+    }
+
+    const handleEditEnvironmentID = (projectID: string) => {
+        setEditingEnvironmentID(projectID);
     }
 
     return (
@@ -44,23 +49,19 @@ export default function EnvironmentList(props: EnvironmentListProps) {
                         <EnvironmentIcon class="w-4 h-4 fill-white" />
                         <span>Environments</span>
                     </h3>
-                    <section class="grid grid-cols-3 gap-y-4 gap-x-8">
+                    <section class="grid grid-cols-1 gap-y-4 gap-x-8 md:grid-cols-3">
                         <For each={environmentList()}>
                             {(environment) => (
-                                <a class="block bg-gray-800 p-4 rounded hover:bg-gray-700" href={`/${props.projectName}/${environment.name}/`}>
-                                    <div class="flex items-center space-x-2">
-                                        <EnvironmentIcon class="flex-none w-6 h-6 fill-white" />
-                                        <h2 title={environment.name} class="text-2xl text-ellipsis overflow-hidden">
-                                            {environment.name}
-                                        </h2>
-                                    </div>
-                                    <time class="block" datetime={environment.createdAt}>
-                                        Created: {relativeTimeFromNow(environment.createdAt)}
-                                    </time>
-                                    <time class="block" datetime={environment.updatedAt}>
-                                        Updated: {relativeTimeFromNow(environment.updatedAt)}
-                                    </time>
-                                </a>
+                                <Environment
+                                    id={environment.id}
+                                    createdAt={environment.createdAt}
+                                    editingEnvironmentID={editingEnvironmentID()}
+                                    handleEditEnvironmentID={handleEditEnvironmentID}
+                                    name={environment.name}
+                                    updatedAt={environment.updatedAt}
+                                    projectID={props.projectID}
+                                    projectName={props.projectName}
+                                />
                             )}
                         </For>
                     </section>

@@ -13,8 +13,9 @@ import { getMessageFromStatusCode, type ErrorStatusCode } from "../../utils/erro
 // import AddSecretIcon from "../icons/AddSecretIcon";
 
 type CreateSecretFormStore = {
-    isSearching: boolean;
     formError: string;
+    isSearching: boolean;
+    hasValue: boolean;
 };
 
 type SearchSecretFormProps = {
@@ -27,13 +28,15 @@ type SearchSecretFormProps = {
 
 export default function SearchSecretForm(props: SearchSecretFormProps) {
     const [fields, setFields] = createStore<CreateSecretFormStore>({
+        formError: "",
         isSearching: false,
-        formError: ""
+        hasValue: false
     });
 
 
     const handleInputChange = ({ target: { value } }: InputChangeEvent) => {
         setFields("formError", "");
+        setFields("hasValue", Boolean(value.length));
         if (!value.length) {
             props.onClear();
         } else {
@@ -67,6 +70,7 @@ export default function SearchSecretForm(props: SearchSecretFormProps) {
     const handleFormClear = () => {
         batch(() => {
             setFields("formError", "");
+            setFields("hasValue", false);
             setFields("isSearching", false);
         });
         (document.getElementById("search-secret-form") as HTMLFormElement)?.reset();
@@ -77,10 +81,10 @@ export default function SearchSecretForm(props: SearchSecretFormProps) {
         <>
             <form id="search-secret-form" class="flex space-x-2 w-full items-center text-black" onSubmit={e => e.preventDefault()}>
                 <div class="flex flex-1 relative items-center">
-                    <div class="h-full absolute p-2 left-0">
+                    <div class="h-full absolute p-2 left-0 mt-1">
                         <Show
                             when={!fields.isSearching}
-                            fallback={<SpinnerIcon class="h-6 w-6" />}
+                            fallback={<SpinnerIcon class="h-5 w-5" />}
                         >
                             <SearchSecretIcon class={clsx("h-5 w-5", props.disableSearch && "fill-gray-600")} />
                         </Show>
@@ -88,6 +92,7 @@ export default function SearchSecretForm(props: SearchSecretFormProps) {
                     <input
                         disabled={props.disableSearch}
                         class={clsx(
+                            !props.disableSearch && "bg-gray-100",
                             props.disableSearch && "bg-gray-900 cursor-not-allowed placeholder:text-gray-600",
                             "w-full rounded pl-10 pr-8 py-2")
                         }
@@ -97,18 +102,21 @@ export default function SearchSecretForm(props: SearchSecretFormProps) {
                         placeholder="Search for secret keys within this environment..."
                         maxlength="255"
                         autocomplete="off"
+                        autocorrect="off"
                         required
                         onInput={handleInputChange}
                     />
-                    <button
-                        disabled={props.disableSearch}
-                        class={clsx("h-full absolute p-2 right-0", props.disableSearch && "fill-gray-600")}
-                        title="Clear"
-                        type="button"
-                        onClick={handleFormClear}
-                    >
-                        <ClearIcon class="h-[1.125rem] w-[1.125rem]" />
-                    </button>
+                    <Show when={fields.hasValue}>
+                        <button
+                            disabled={props.disableSearch}
+                            class={clsx("h-full absolute p-2 right-0", props.disableSearch && "fill-gray-600")}
+                            title="Clear"
+                            type="button"
+                            onClick={handleFormClear}
+                        >
+                            <ClearIcon class="h-[1.125rem] w-[1.125rem]" />
+                        </button>
+                    </Show>
                 </div>
             </form>
             <Show when={fields.formError}>

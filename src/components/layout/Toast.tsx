@@ -117,7 +117,7 @@ export default function Toast() {
                         type="button"
                         onClick={resetToast}
                     >
-                        <CloseIcon class="h-6 text-red-500" />
+                        <CloseIcon class="h-6 text:white" />
                     </button>
                 </div>
             </div>

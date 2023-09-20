@@ -107,8 +107,9 @@ export function getMessageFromStatusCode(errorCode: ErrorStatusCode): string {
         case ErrorStatusCode.CreateEnvironmentInvalidProjectID: {
             return errorCode;
         }
-        case ErrorStatusCode.CreateEnvironmentNameTaken: {
-            return errorCode;
+        case ErrorStatusCode.CreateEnvironmentNameTaken:
+        case ErrorStatusCode.UpdateEnvironmentNameTaken: {
+            return "The provided environment already exists within the current project. Please use a different name or update the pre-existing environment."
         }
         case ErrorStatusCode.DeleteEnvironmentInvalidID: {
             return errorCode;
@@ -120,9 +121,6 @@ export function getMessageFromStatusCode(errorCode: ErrorStatusCode): string {
             return errorCode;
         }
         case ErrorStatusCode.UpdateEnvironmentInvalidProjectID: {
-            return errorCode;
-        }
-        case ErrorStatusCode.UpdateEnvironmentNameTaken: {
             return errorCode;
         }
         case ErrorStatusCode.UpdateEnvironmentNonExistentID: {
@@ -151,7 +149,7 @@ export function getMessageFromStatusCode(errorCode: ErrorStatusCode): string {
         }
         case ErrorStatusCode.CreateSecretKeyAlreadyExists:
         case ErrorStatusCode.UpdateSecretKeyAlreadyExists: {
-            return "The provided key's value matches a pre-existing key's value within one or more of the selected environments. Please use a different key value or update the pre-existing key."
+            return "The provided key's value already exists within one or more of the selected environments. Please use a different key value or update the pre-existing key."
         }
         case ErrorStatusCode.DeleteSecretInvalidID: {
             return errorCode;

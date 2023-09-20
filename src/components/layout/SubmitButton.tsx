@@ -8,6 +8,8 @@ type SubmitButtonProps = {
     disabled?: boolean;
     isSubmitting: boolean;
     onClick?: (e: Event) => void;
+    primary?: boolean;
+    secondary?: boolean;
     title?: string
     type?: "submit" | "reset" | "button"
 }
@@ -18,9 +20,12 @@ export default function SubmitButton(props: SubmitButtonProps) {
             <button
                 class={clsx(
                     props.class,
-                    props.isSubmitting ? 'text-gray' : 'text-black',
-                    props.disabled && "bg-gray-900 placeholder:text-gray-600",
-                    'w-full rounded bg-white p-2'
+                    props.primary && !props.isSubmitting && "bg-gray-100 border border-gray-100 text-black fill-black hover:bg-gray-300",
+                    props.primary && (props.isSubmitting || props.disabled) && "bg-gray-400 border text-black border-gray-400",
+                    props.secondary && !props.isSubmitting && "bg-gray-900 border border-gray-600 text-gray-200 fill-gray-200 hover:bg-gray-800",
+                    props.secondary && (props.isSubmitting || props.disabled) && "bg-gray-700 text-gray-200 border border-gray-600",
+                    props.isSubmitting && "cursor-not-allowed",
+                    'w-full rounded p-2'
                 )}
                 disabled={props.disabled || props.isSubmitting}
                 onClick={props.onClick}

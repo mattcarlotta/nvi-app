@@ -104,8 +104,8 @@ export default function SecretKey(props: SecretKeyProps) {
             }
         >
             <div class="py-2 border-b border-gray-700 flex flex-col space-y-2 md:col-span-4 md:py-0 md:border-b-0 md:space-y-0">
-                <div class="flex items-center space-x-2">
-                    <div class="flex flex-1 items-center space-x-4 md:flex-none">
+                <div class="grid grid-cols-12">
+                    <div class="flex items-center space-x-2 col-span-11 md:col-span-12">
                         <Switch>
                             <Match when={secretData.showKey && secretData.isLoading}>
                                 <div title="Loading..." class="p-2">
@@ -133,14 +133,14 @@ export default function SecretKey(props: SecretKeyProps) {
                                 </button>
                             </Match>
                         </Switch>
-                        <div class="flex flex-col">
+                        <div class="flex flex-col overflow-hidden">
                             <h2
                                 title={props.key}
                                 class="text-xl text-ellipsis overflow-hidden"
                             >
                                 {props.key}
                             </h2>
-                            <div class="flex-none md:flex md:space-x-2">
+                            <div class="flex-wrap flex space-x-2">
                                 <For each={props.environments}>
                                     {(environment) => (
                                         <a
@@ -155,7 +155,7 @@ export default function SecretKey(props: SecretKeyProps) {
                             </div>
                         </div>
                     </div>
-                    <div class="block md:hidden">
+                    <div class="col-span-1 md:hidden">
                         <ActionButton onEditClick={handleEditKey} onDeleteClick={handleDeleteKey} />
                     </div>
                 </div>

@@ -2,9 +2,9 @@ import { Show, createSignal } from "solid-js";
 import { createStore } from "solid-js/store";
 import HideIcon from "../icons/HideIcon";
 import ShowIcon from "../icons/ShowIcon";
-import clsx from "../../utils/clsx";
 import { ErrorStatusCode, getMessageFromStatusCode } from "../../utils/errors";
 import { fetchAPIPOST } from "../../utils/fetchAPI";
+import SubmitButton from "../layout/SubmitButton";
 
 type LoginFormProps = {
     reloadPage?: boolean;
@@ -79,8 +79,8 @@ export default function LoginForm(props: LoginFormProps) {
                         />
                     </div>
                     <div class="flex h-24 flex-col space-y-1">
-                        <label class="block" html-for="password">
-                            <span class="mr-1">Password</span>
+                        <label class="w-full flex space-x-1" html-for="password">
+                            <span>Password</span>
                             <Show
                                 when={showPassword()}
                                 fallback={
@@ -106,16 +106,12 @@ export default function LoginForm(props: LoginFormProps) {
                         />
                     </div>
                     <div class="my-2">
-                        <button
-                            disabled={fields.isSubmitting}
-                            class={clsx(
-                                fields.isSubmitting ? 'text-gray' : 'text-black',
-                                'w-full rounded bg-white p-2'
-                            )}
-                            type="submit"
+                        <SubmitButton
+                            primary
+                            isSubmitting={fields.isSubmitting}
                         >
                             Login
-                        </button>
+                        </SubmitButton>
                     </div>
                     <Show when={fields.formError}>
                         <p class="font-bold text-red-600">{fields.formError}</p>

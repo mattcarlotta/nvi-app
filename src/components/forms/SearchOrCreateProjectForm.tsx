@@ -13,6 +13,7 @@ import SpinnerIcon from "../icons/SpinnerIcon";
 import AddProjectIcon from "../icons/AddProjectIcon";
 
 type CreateProjectFormStore = {
+    hasValue: boolean;
     isSearching: boolean;
     isSubmitting: boolean;
     formError: string;
@@ -27,9 +28,10 @@ type SearchOrCreateProjectFormProps = {
 
 export default function SearchOrCreateProjectForm(props: SearchOrCreateProjectFormProps) {
     const [fields, setFields] = createStore<CreateProjectFormStore>({
+        formError: "",
+        hasValue: false,
         isSearching: false,
         isSubmitting: false,
-        formError: ""
     });
 
     const nameInputInvalid = (name: string) => {
@@ -44,6 +46,7 @@ export default function SearchOrCreateProjectForm(props: SearchOrCreateProjectFo
 
     const handleInputChange = ({ target: { value } }: InputChangeEvent) => {
         setFields("formError", "");
+        setFields("hasValue", Boolean(value.length));
         if (!value.length) {
             props.onClear();
         } else {
@@ -114,6 +117,7 @@ export default function SearchOrCreateProjectForm(props: SearchOrCreateProjectFo
         props.onClear();
         batch(() => {
             setFields("formError", "");
+            setFields("hasValue", false);
             setFields("isSearching", false);
             setFields("isSubmitting", false);
         });
@@ -127,39 +131,43 @@ export default function SearchOrCreateProjectForm(props: SearchOrCreateProjectFo
                 onSubmit={handleCreateProject}
             >
                 <div class="flex flex-1 relative items-center">
-                    <div class="h-full absolute p-2 left-0">
+                    <div class="h-full absolute p-2 left-0 mt-1">
                         <Show
                             when={!fields.isSearching}
                             fallback={<SpinnerIcon class="h-6 w-6" />}
                         >
-                            <SearchProjectIcon class="h-6 w-6" />
+                            <SearchProjectIcon class="w-6 h-6" />
                         </Show>
                     </div>
                     <input
-                        class="w-full rounded pl-10 pr-8 py-2"
+                        class="w-full rounded pl-10 pr-8 py-2.5 bg-gray-100"
                         id="name"
                         name="name"
                         type="text"
                         placeholder="Search for or create a new project..."
                         maxlength="255"
+                        autocomplete="off"
+                        autocorrect="off"
                         required
                         onInput={handleInputChange}
                     />
-                    <button
-                        class="h-full absolute p-2 right-0"
-                        title="Clear"
-                        type="button"
-                        onClick={handleFormClear}
-                    >
-                        <ClearIcon class="h-[1.125rem] w-[1.125rem]" />
-                    </button>
+                    <Show when={fields.hasValue}>
+                        <button
+                            class="h-full absolute p-2 right-0"
+                            title="Clear"
+                            type="button"
+                            onClick={handleFormClear}
+                        >
+                            <ClearIcon class="h-[1.125rem] w-[1.125rem]" />
+                        </button>
+                    </Show>
                 </div>
                 <SubmitButton
+                    primary
                     title="Create a project"
-                    type="submit"
                     isSubmitting={fields.isSubmitting}
                 >
-                    <AddProjectIcon class="h-6 w-6 fill-white" />
+                    <AddProjectIcon class="h-6 w-6" />
                 </SubmitButton>
             </form>
             <Show when={fields.formError}>

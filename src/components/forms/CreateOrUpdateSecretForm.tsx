@@ -7,7 +7,7 @@ import { ErrorStatusCode, getMessageFromStatusCode } from "../../utils/errors";
 import { fetchAPIGET, fetchAPIPOST, fetchAPIPUT } from "../../utils/fetchAPI";
 import clsx from "../../utils/clsx";
 import SaveIcon from "../icons/SaveIcon";
-import CloseFormIcon from "../icons/CloseFormIcon";
+import CloseIcon from "../icons/CloseIcon";
 import ClearFormIcon from "../icons/ClearFormIcon";
 
 
@@ -186,14 +186,19 @@ export default function CreateOrUpdateSecretForm(props: CreateOrUpdateSecretForm
                     <div class="col-span-12 flex space-x-2 md:col-span-2 md:justify-end">
                         <SubmitButton
                             type="button"
-                            class="max-w-max"
+                            secondary
+                            class="max-w-max bg-black"
                             title={!fields.isEditing ? "Clear Form" : "Cancel"}
                             onClick={!fields.isEditing ? handleFormClear : handleCancelEditing}
                             isSubmitting={fields.isSubmitting}
                         >
-                            {!fields.isEditing ? <ClearFormIcon class="w-6 h-6 text-black" /> : <CloseFormIcon class="w-6 h-6 text-black" />}
+                            {!fields.isEditing
+                                ? <ClearFormIcon class="w-6 h-6 text-black" />
+                                : <CloseIcon class="w-6 h-6 text-gray-300" />
+                            }
                         </SubmitButton>
                         <SubmitButton
+                            primary
                             title="Save Secret"
                             class="max-w-max"
                             isSubmitting={fields.isSubmitting || fields.isLoading}
