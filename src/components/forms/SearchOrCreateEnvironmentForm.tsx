@@ -75,7 +75,7 @@ export default function SearchOrCreateEnvironmentForm(props: SearchOrCreateEnvir
             if (error as ErrorStatusCode === ErrorStatusCode.GetEnvironmentNonExistentName) {
                 props.onSearch([]);
             } else {
-                const message = getMessageFromStatusCode(String(error) as ErrorStatusCode);
+                const message = getMessageFromStatusCode(error);
                 setFields("formError", message);
             }
             setFields("isSearching", false);
@@ -106,7 +106,7 @@ export default function SearchOrCreateEnvironmentForm(props: SearchOrCreateEnvir
                 window.location.reload();
             }, 3000);
         } catch (error) {
-            const message = getMessageFromStatusCode(String(error) as ErrorStatusCode);
+            const message = getMessageFromStatusCode(error);
             setFields("formError", message);
             setFields("isSubmitting", false);
         }

@@ -3,14 +3,11 @@ import { Show, batch } from "solid-js";
 import { createStore } from "solid-js/store";
 import type { InputChangeEvent, Secrets } from "../../types";
 import ClearIcon from "../icons/ClearIcon";
-// import SearchSecretIcon from "../icons/SearchSecretIcon";
-// import { ErrorStatusCode, getMessageFromStatusCode } from "../../utils/errors";
-import { fetchAPIGET } from "../../utils/fetchAPI";
 import SpinnerIcon from "../icons/SpinnerIcon";
-import clsx from "../../utils/clsx";
 import SearchSecretIcon from "../icons/SearchSearchIcon";
+import clsx from "../../utils/clsx";
+import { fetchAPIGET } from "../../utils/fetchAPI";
 import { getMessageFromStatusCode, type ErrorStatusCode } from "../../utils/errors";
-// import AddSecretIcon from "../icons/AddSecretIcon";
 
 type CreateSecretFormStore = {
     formError: string;
@@ -58,7 +55,7 @@ export default function SearchSecretForm(props: SearchSecretFormProps) {
 
             props.onSearch(res.data || []);
         } catch (error) {
-            const message = getMessageFromStatusCode(String(error) as ErrorStatusCode);
+            const message = getMessageFromStatusCode(error);
             setFields("formError", message);
         } finally {
             setFields("isSearching", false);

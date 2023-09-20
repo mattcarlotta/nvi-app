@@ -54,40 +54,37 @@ export enum ErrorStatusCode {
     UpdateProjectNameTaken = "E050",
 }
 
-export function getMessageFromStatusCode(errorCode: ErrorStatusCode): string {
+export function getMessageFromStatusCode(error: ErrorStatusCode | unknown): string {
+    const errorCode = String(error);
     switch (errorCode) {
         case ErrorStatusCode.RegisterInvalidBody: {
-            return errorCode;
+            return "A name (between 2-255 characters), a valid email address and a password (between 5-36 characters) must be provided."
         }
         case ErrorStatusCode.RegisterEmailTaken: {
             return errorCode;
         }
-        case ErrorStatusCode.LoginInvalidBody: {
-            return "The email must be a valid email address and the password must be at least 5 characters (max 36 characters)."
+        case ErrorStatusCode.LoginInvalidBody:
+        case ErrorStatusCode.UpdatePasswordInvalidBody: {
+            return "A valid email address and a password (between 5-36 characters) must be provided."
         }
         case ErrorStatusCode.LoginUnregisteredEmail: {
             return errorCode;
         }
         case ErrorStatusCode.LoginInvalidPassword: {
-            return "The email and/or password is not valid. Please try again."
+            return "The provided email and/or password is not valid. Please try again."
         }
         case ErrorStatusCode.LoginAccountNotVerified: {
             return "Before you can log in, you must verify this account. Please check your email inbox for an account verification link!"
         }
         case ErrorStatusCode.VerifyAccountInvalidToken: {
-            return errorCode;
+            return "The account verification token is invalid or has expired. Please request another verification token.";
         }
-        case ErrorStatusCode.ResendAccountVerificationInvalidEmail: {
-            return errorCode;
-        }
+        case ErrorStatusCode.ResendAccountVerificationInvalidEmail:
         case ErrorStatusCode.SendResetPasswordInvalidEmail: {
-            return errorCode;
-        }
-        case ErrorStatusCode.UpdatePasswordInvalidBody: {
-            return errorCode;
+            return "The provided email is not valid. Please try again."
         }
         case ErrorStatusCode.UpdatePasswordInvalidToken: {
-            return errorCode;
+            return "The reset password token is invalid or has expired. Please request another verification token.";
         }
         case ErrorStatusCode.GetEnvironmentInvalidID: {
             return errorCode;
@@ -102,7 +99,7 @@ export function getMessageFromStatusCode(errorCode: ErrorStatusCode): string {
             return errorCode;
         }
         case ErrorStatusCode.CreateEnvironmentInvalidBody: {
-            return errorCode;
+            return "A valid environment name and a project ID must be provided."
         }
         case ErrorStatusCode.CreateEnvironmentInvalidProjectID: {
             return errorCode;

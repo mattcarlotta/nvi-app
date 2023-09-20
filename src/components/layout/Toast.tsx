@@ -16,8 +16,8 @@ type ToastNotifcationStore = {
 
 interface ReceivedToastEvent extends CustomEvent<ToastEvent> { }
 
-export function dispatchToastError(error: any) {
-    const message = getMessageFromStatusCode(String(error) as ErrorStatusCode);
+export function dispatchToastError(error: unknown) {
+    const message = getMessageFromStatusCode(error);
     dispatchToastEvent({ type: "error", message });
 }
 

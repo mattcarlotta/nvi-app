@@ -59,7 +59,7 @@ export default function EditEnvironmentForm(props: SearchOrCreateEnvironmentForm
                 window.location.reload();
             }, 3000);
         } catch (error) {
-            const message = getMessageFromStatusCode(String(error) as ErrorStatusCode);
+            const message = getMessageFromStatusCode(error);
             setFields("formError", message);
             setFields("isSubmitting", false);
         }

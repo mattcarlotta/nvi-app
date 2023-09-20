@@ -53,7 +53,7 @@ export default function RegisterForm() {
                 window.location.pathname = "/login/";
             }, 5000);
         } catch (error) {
-            const message = getMessageFromStatusCode(String(error) as ErrorStatusCode)
+            const message = getMessageFromStatusCode(error);
             setFields("formError", message);
             setFields("isSubmitting", false);
         }

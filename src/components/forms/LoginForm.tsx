@@ -52,7 +52,7 @@ export default function LoginForm(props: LoginFormProps) {
             }
 
         } catch (error) {
-            const message = getMessageFromStatusCode(String(error) as ErrorStatusCode)
+            const message = getMessageFromStatusCode(error);
             setFields("formError", message);
             setFields("isSubmitting", false);
         }
