@@ -56,7 +56,8 @@ export default function SearchOrCreateEnvironmentForm(props: SearchOrCreateEnvir
     }
 
     const handleSearchEnvironments = debounce(async () => {
-        const name = (document.getElementById("name") as HTMLInputElement)?.value;
+        const form = (document.getElementById("search-or-create-environment-form") as HTMLFormElement);
+        const name = (form.querySelector("#name") as HTMLInputElement)?.value;
         if (props.disableSearch || !name || nameInputInvalid(name)) {
             return;
         }
@@ -85,7 +86,8 @@ export default function SearchOrCreateEnvironmentForm(props: SearchOrCreateEnvir
 
     const handleCreateEnvironment = async (e: Event) => {
         e.preventDefault();
-        const name = (document.getElementById("name") as HTMLInputElement)?.value;
+        const form = (document.getElementById("search-or-create-environment-form") as HTMLFormElement);
+        const name = (form.querySelector("#name") as HTMLInputElement)?.value;
         if (!name || nameInputInvalid(name)) {
             return;
         }
@@ -113,19 +115,23 @@ export default function SearchOrCreateEnvironmentForm(props: SearchOrCreateEnvir
     };
 
     const handleFormClear = () => {
+        (document.getElementById("search-or-create-environment-form") as HTMLFormElement)?.reset();
+        props.onClear();
         batch(() => {
             setFields("formError", "");
             setFields("hasValue", false);
             setFields("isSearching", false);
             setFields("isSubmitting", false);
         });
-        (document.querySelector("form") as HTMLFormElement)?.reset();
-        props.onClear();
     }
 
     return (
         <div class="min-h-[5.5rem]">
-            <form class="flex space-x-2 w-full items-center text-black" onSubmit={handleCreateEnvironment}>
+            <form
+                id="search-or-create-environment-form"
+                class="flex space-x-2 w-full items-center text-black"
+                onSubmit={handleCreateEnvironment}
+            >
                 <div class="flex flex-1 relative items-center">
                     <div class="h-full absolute p-2 left-0 mt-2">
                         <Show

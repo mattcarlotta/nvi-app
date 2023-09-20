@@ -32,8 +32,9 @@ export default function LoginForm(props: LoginFormProps) {
         setFields("formError", "");
         setFields("isSubmitting", true);
         try {
-            const email = (document.getElementById("email") as HTMLInputElement).value;
-            const password = (document.getElementById("password") as HTMLInputElement).value;
+            const form = (document.getElementById("login-form")) as HTMLFormElement;
+            const email = (form.querySelector("#email") as HTMLInputElement).value;
+            const password = (form.querySelector("#password") as HTMLInputElement).value;
 
             const res = await fetchAPIPOST({
                 url: "/login/",
@@ -63,7 +64,7 @@ export default function LoginForm(props: LoginFormProps) {
         <div class="flex flex-col justify-center items-center space-y-4 rounded bg-primary-400 p-8 text-white">
             <h1 class="text-3xl">Login</h1>
             <div class="flex space-x-2 w-full">
-                <form class="w-full" onSubmit={handleSubmit}>
+                <form id="login-form" class="w-full" onSubmit={handleSubmit}>
                     <div class="flex h-24 full flex-col space-y-1">
                         <label class="block" html-for="email">
                             Email

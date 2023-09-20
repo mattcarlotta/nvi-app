@@ -55,7 +55,7 @@ export default function SearchOrCreateProjectForm(props: SearchOrCreateProjectFo
     }
 
     const handleSearchProjects = debounce(async () => {
-        const form = (document.getElementById("search-create-project-form")) as HTMLFormElement;
+        const form = (document.getElementById("search-or-create-project-form")) as HTMLFormElement;
         const name = (form.querySelector("#name") as HTMLInputElement)?.value;
         if (props.disableSearch || !name || nameInputInvalid(name)) {
             return;
@@ -85,7 +85,7 @@ export default function SearchOrCreateProjectForm(props: SearchOrCreateProjectFo
 
     const handleCreateProject = async (e: Event) => {
         e.preventDefault();
-        const form = (document.getElementById("search-create-project-form")) as HTMLFormElement;
+        const form = (document.getElementById("search-or-create-project-form")) as HTMLFormElement;
         const name = (form.querySelector("#name") as HTMLInputElement)?.value;
         if (!name || nameInputInvalid(name)) {
             return;
@@ -113,7 +113,7 @@ export default function SearchOrCreateProjectForm(props: SearchOrCreateProjectFo
     };
 
     const handleFormClear = () => {
-        (document.getElementById("search-create-project-form") as HTMLFormElement)?.reset();
+        (document.getElementById("search-or-create-project-form") as HTMLFormElement)?.reset();
         props.onClear();
         batch(() => {
             setFields("formError", "");
@@ -126,7 +126,7 @@ export default function SearchOrCreateProjectForm(props: SearchOrCreateProjectFo
     return (
         <div class="min-h-[5.5rem]">
             <form
-                id="search-create-project-form"
+                id="search-or-create-project-form"
                 class="flex space-x-2 w-full items-center text-black"
                 onSubmit={handleCreateProject}
             >

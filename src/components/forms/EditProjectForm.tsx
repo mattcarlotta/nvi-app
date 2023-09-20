@@ -65,11 +65,11 @@ export default function EditProjectForm(props: SearchOrCreateProjectFormProps) {
     };
 
     const handleFormClear = () => {
+        (document.getElementById("edit-project-form") as HTMLFormElement)?.reset();
         batch(() => {
             setFields("formError", "");
             setFields("isSubmitting", false);
         });
-        (document.getElementById("edit-project-form") as HTMLFormElement)?.reset();
     }
 
     const handleCancelClick = () => {

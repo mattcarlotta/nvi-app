@@ -28,7 +28,7 @@ export default function RegisterForm() {
         setFields("formError", "");
         setFields("isSubmitting", true);
         try {
-            const form = (document.querySelector("form") as HTMLFormElement);
+            const form = (document.querySelector("register-form") as HTMLFormElement);
             const name = (form.querySelector("#name") as HTMLInputElement).value;
             const email = (form.querySelector("#email") as HTMLInputElement).value;
             const password = (form.querySelector("#password") as HTMLInputElement).value;
@@ -63,7 +63,7 @@ export default function RegisterForm() {
         <div class="flex flex-col justify-center items-center space-y-4 rounded bg-primary-400 p-8 text-white">
             <h1 class="text-3xl">Register</h1>
             <div class="flex space-x-2 w-full">
-                <form class="w-full" onSubmit={handleSubmit}>
+                <form id="register-form" class="w-full" onSubmit={handleSubmit}>
                     <div class="flex h-24 full flex-col space-y-1">
                         <label class="block" html-for="name">
                             Name

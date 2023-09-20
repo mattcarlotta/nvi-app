@@ -42,7 +42,8 @@ export default function SearchSecretForm(props: SearchSecretFormProps) {
     }
 
     const handleSearchSecrets = debounce(async () => {
-        const key = (document.getElementById("search-key") as HTMLInputElement)?.value;
+        const form = (document.getElementById("search-secret-form") as HTMLFormElement);
+        const key = (form.querySelector("#search-key") as HTMLInputElement)?.value;
         if (props.disableSearch || key.length < 2) {
             return;
         }
@@ -65,13 +66,13 @@ export default function SearchSecretForm(props: SearchSecretFormProps) {
 
 
     const handleFormClear = () => {
+        (document.getElementById("search-secret-form") as HTMLFormElement)?.reset();
+        props.onClear();
         batch(() => {
             setFields("formError", "");
             setFields("hasValue", false);
             setFields("isSearching", false);
         });
-        (document.getElementById("search-secret-form") as HTMLFormElement)?.reset();
-        props.onClear();
     }
 
     return (
