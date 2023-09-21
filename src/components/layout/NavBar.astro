@@ -9,4 +9,4 @@ interface Props {
 const { userName } = Astro.props;
 ---
 
-{!userName ? <NavHeader /> : <DashboardHeader user={userName} />}
+{!userName ? <NavHeader /> : <DashboardHeader userName={userName} />}
