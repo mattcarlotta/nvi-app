@@ -1,0 +1,20 @@
+---
+import ExternalLinkIcon from "../icons/ExternalLinkIcon";
+
+interface Props {
+    href: string;
+    title: string;
+}
+
+const { href, title } = Astro.props;
+---
+
+<a
+    class="inline-flex flex-wrap space-x-1 text-blue-500 hover:underline"
+    href={href}
+    rel="noopener noreferrer"
+    target="_blank"
+>
+    <span>{title}</span>
+    <ExternalLinkIcon class="w-3 h-3 text-blue-500" />
+</a>

@@ -1,8 +1,12 @@
 ---
+interface Props {
+    className: string;
+}
 
+const { className } = Astro.props;
 ---
 
-<button id="logout" type="button"> Log Out</button>
+<button class={className} id="logout" type="button"><slot /></button>
 <script>
     import { fetchAPIPOST } from "../../utils/fetchAPI";
 

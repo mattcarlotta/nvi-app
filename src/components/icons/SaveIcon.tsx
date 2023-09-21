@@ -7,4 +7,3 @@ export default function SaveIcon(props: { class: string }) {
         </svg>
     );
 }
-

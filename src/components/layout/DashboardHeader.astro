@@ -1,6 +1,4 @@
 ---
-import LogoutButton from "./LogoutButton.astro";
-
 interface Props {
     user?: string;
 }
@@ -13,13 +11,8 @@ const { user } = Astro.props;
         <div class="flex-1">
             <a href="/">Home</a>
         </div>
-        <ul class="flex space-x-4">
-            <li>
-                <LogoutButton />
-            </li>
-            <li>
-                <a href="/settings/">{user}</a>
-            </li>
-        </ul>
+        <div>
+            <a href="/settings/">{user}</a>
+        </div>
     </nav>
 </div>

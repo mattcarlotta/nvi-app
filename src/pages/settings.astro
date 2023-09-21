@@ -1,0 +1,94 @@
+---
+import type { User } from "../types";
+import CopyAPIKeyButton from "../components/layout/CopyAPIKeyButton";
+import LoginForm from "../components/forms/LoginForm";
+import NavBar from "../components/layout/NavBar.astro";
+import MainLayout from "../layouts/main.astro";
+import { fetchAPIGET } from "../utils/fetchAPI";
+import relativeTimeFromNow from "../utils/timeSince";
+import ExternalLink from "../components/layout/ExternalLink.astro";
+import LogoutButton from "../components/layout/LogoutButton.astro";
+
+const sessionToken = Astro.cookies.get("SESSION_TOKEN");
+let user: User | null = null;
+try {
+    const headers = new Headers();
+    headers.append("Cookie", `SESSION_TOKEN=${sessionToken?.value}`);
+    const res = await fetchAPIGET({
+        url: "/loggedin/",
+        headers,
+    });
+
+    if (!res.data) {
+        throw new Error("Not logged in!");
+    }
+
+    user = res.data;
+} catch {
+    // handle errors below
+}
+---
+
+<MainLayout description="settings">
+    <NavBar userName={user?.name} slot="navbar" />
+    {
+        !user?.name ? (
+            <LoginForm client:load reloadPage />
+        ) : (
+            <>
+                <h1 class="text-3xl mb-2">
+                    settings
+                    <LogoutButton className="text-sm text-blue-500 hover:underline">
+                        (logout)
+                    </LogoutButton>
+                </h1>
+                <div class="flex flex-col space-y-4">
+                    <div class="space-y-4 bg-gray-900 border border-gray-800 rounded p-4">
+                        <header>
+                            <h3 class="text-2xl">account</h3>
+                        </header>
+                        <p>Display Name: {user.name}</p>
+                        <p>Email: {user.email}</p>
+                        <time
+                            title={user.createdAt}
+                            class="block max-w-max"
+                            datetime={user.createdAt}
+                        >
+                            Registered: {relativeTimeFromNow(user.createdAt)}
+                        </time>
+                    </div>
+                    <div class="space-y-4 bg-gray-900 border border-gray-800 rounded p-4">
+                        <header>
+                            <h3 class="text-2xl">API key</h3>
+                        </header>
+                        <p>
+                            Use this unique key to retrieve environment secrets
+                            from the nvi API using the
+                            <ExternalLink
+                                href="https://github.com/mattcarlotta/nvi"
+                                title="nvi CLI tool"
+                            />
+                            .
+                        </p>
+                        <div class="bg-gray-800 p-2 border border-gray-700 rounded max-w-max">
+                            <CopyAPIKeyButton
+                                client:load
+                                apiKey={user.apiKey}
+                            />
+                        </div>
+                        <div class="border-t border-t-gray-700 p-1">
+                            <p class="mt-2">
+                                Please refer to the
+                                <ExternalLink
+                                    href="https://github.com/mattcarlotta/nvi/blob/main/README.md#usage"
+                                    title="nvi CLI documentation"
+                                />
+                                for more information.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </>
+        )
+    }
+</MainLayout>
