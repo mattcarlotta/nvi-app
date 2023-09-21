@@ -1,4 +1,4 @@
-import { Show, createSignal } from "solid-js";
+import { Show } from "solid-js";
 import { createStore } from "solid-js/store";
 import HideIcon from "../icons/HideIcon";
 import ShowIcon from "../icons/ShowIcon";
@@ -13,18 +13,19 @@ type LoginFormProps = {
 type LoginFormStore = {
     isSubmitting: boolean;
     formError: string;
+    showPassword: boolean;
 };
 
 
 export default function LoginForm(props: LoginFormProps) {
     const [fields, setFields] = createStore<LoginFormStore>({
         isSubmitting: false,
-        formError: ''
+        formError: '',
+        showPassword: false
     });
-    const [showPassword, setShowPassword] = createSignal(false)
 
     const toggleShowPassword = () => {
-        setShowPassword(p => !p);
+        setFields("showPassword", p => !p);
     }
 
     const handleSubmit = async (e: Event) => {
@@ -83,7 +84,7 @@ export default function LoginForm(props: LoginFormProps) {
                         <label class="w-full flex space-x-1" html-for="password">
                             <span>Password</span>
                             <Show
-                                when={showPassword()}
+                                when={fields.showPassword}
                                 fallback={
                                     <button type="button" title="Show Password" onClick={toggleShowPassword}>
                                         <ShowIcon class="w-5 h-5 fill-white" />
@@ -98,7 +99,7 @@ export default function LoginForm(props: LoginFormProps) {
                         <input
                             class="w-full rounded px-1.5 py-2 text-black"
                             id="password"
-                            type={showPassword() ? "text" : "password"}
+                            type={fields.showPassword ? "text" : "password"}
                             name="password"
                             minlength="5"
                             maxlength="36"

@@ -1,4 +1,4 @@
-import { Show, createSignal } from "solid-js";
+import { Show } from "solid-js";
 import { createStore } from "solid-js/store";
 import HideIcon from "../icons/HideIcon";
 import ShowIcon from "../icons/ShowIcon";
@@ -10,17 +10,18 @@ import { ErrorStatusCode, getMessageFromStatusCode } from "../../utils/errors";
 type RegisterFormStore = {
     isSubmitting: boolean;
     formError: string;
+    showPassword: boolean;
 };
 
 export default function RegisterForm() {
     const [fields, setFields] = createStore<RegisterFormStore>({
         isSubmitting: false,
-        formError: ''
-    })
-    const [showPassword, setShowPassword] = createSignal(false)
+        formError: '',
+        showPassword: false
+    });
 
     const toggleShowPassword = () => {
-        setShowPassword(p => !p);
+        setFields("showPassword", p => !p);
     }
 
     const handleSubmit = async (e: Event) => {
@@ -28,7 +29,7 @@ export default function RegisterForm() {
         setFields("formError", "");
         setFields("isSubmitting", true);
         try {
-            const form = (document.querySelector("register-form") as HTMLFormElement);
+            const form = (document.getElementById("register-form") as HTMLFormElement);
             const name = (form.querySelector("#name") as HTMLInputElement).value;
             const email = (form.querySelector("#email") as HTMLInputElement).value;
             const password = (form.querySelector("#password") as HTMLInputElement).value;
@@ -97,7 +98,7 @@ export default function RegisterForm() {
                         <label class="w-full flex space-x-1" html-for="password">
                             <span>Password</span>
                             <Show
-                                when={showPassword()}
+                                when={fields.showPassword}
                                 fallback={
                                     <button type="button" title="Show Password" onClick={toggleShowPassword}>
                                         <ShowIcon class="w-5 h-5 fill-white" />
@@ -112,7 +113,7 @@ export default function RegisterForm() {
                         <input
                             class="w-full rounded px-1.5 py-2 text-black"
                             id="password"
-                            type={showPassword() ? "text" : "password"}
+                            type={fields.showPassword ? "text" : "password"}
                             name="password"
                             minlength="5"
                             maxlength="36"

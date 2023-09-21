@@ -35,3 +35,12 @@ export type Secret = {
 
 export type Secrets = Secret[]
 
+export type User = {
+    id: string;
+    name: string;
+    email: string;
+    apiKey: string;
+    createdAt: string;
+    updatedAt: string;
+}
+
