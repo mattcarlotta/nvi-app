@@ -7,7 +7,7 @@ async function tryJSON(res: Response) {
     }
 }
 
-type Method = 'GET' | 'POST' | 'PUT' | 'DELETE';
+type Method = "GET" | "PATCH" | "POST" | "PUT" | "DELETE";
 
 export type FetchAPIArgs = {
     method: Method;
@@ -67,17 +67,21 @@ async function fetchAPI({ method, url, headers = new Headers(), body }: FetchAPI
 }
 
 export function fetchAPIGET(args: Omit<FetchAPIArgs, "body" | "method">) {
-    return fetchAPI({ method: 'GET', ...args });
+    return fetchAPI({ method: "GET", ...args });
 }
 
 export function fetchAPIDELETE(args: Omit<FetchAPIArgs, "body" | "method">) {
-    return fetchAPI({ method: 'DELETE', ...args });
+    return fetchAPI({ method: "DELETE", ...args });
+}
+
+export function fetchAPIPATCH(args: Omit<FetchAPIArgs, "method">) {
+    return fetchAPI({ method: "PATCH", ...args });
 }
 
 export function fetchAPIPOST(args: Omit<FetchAPIArgs, "method">) {
-    return fetchAPI({ method: 'POST', ...args });
+    return fetchAPI({ method: "POST", ...args });
 }
 
 export function fetchAPIPUT(args: Omit<FetchAPIArgs, "method">) {
-    return fetchAPI({ method: 'PUT', ...args });
+    return fetchAPI({ method: "PUT", ...args });
 }
