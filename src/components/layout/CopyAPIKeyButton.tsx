@@ -61,7 +61,7 @@ export default function CopyAPIKeyButton(props: CopyAPIKeyButtonProps) {
     return (
         <div class="flex flex-wrap space-x-2">
             <pre title={apiKey.value} class="overflow-hidden text-ellipsis">{apiKey.value}</pre>
-            <button disabled={copied()} type="button" onClick={handleCopyButtonClick}>
+            <button title="Copy API Key" disabled={copied()} type="button" onClick={handleCopyButtonClick}>
                 <Show
                     when={!copied()}
                     fallback={<CopySuccessIcon class="w-6 h-6 text-white" />}
@@ -69,18 +69,16 @@ export default function CopyAPIKeyButton(props: CopyAPIKeyButtonProps) {
                     <CopyIcon class="w-5 h-5 fill-white" />
                 </Show>
             </button>
-            <button type="button" onClick={handleUpdateAPIKey}>
+            <button title="Refresh API Key" type="button" onClick={handleUpdateAPIKey}>
                 <Switch>
                     <Match when={apiKey.isLoading}>
-                        <div title="Loading...">
-                            <SpinnerIcon class="w-6 h-6 border-white" />
-                        </div>
+                        <SpinnerIcon class="w-6 h-6 border-white" />
                     </Match>
                     <Match when={!apiKey.isLoading && apiKey.isUpdated}>
                         <SuccessIcon class="w-6 h-6 fill-white" />
                     </Match>
                     <Match when={!apiKey.isLoading && !apiKey.isUpdated}>
-                        <RefreshIcon title="Refresh API Key" class="w-6 h-6 fill-white" />
+                        <RefreshIcon class="w-6 h-6 fill-white" />
                     </Match>
                 </Switch>
             </button>
