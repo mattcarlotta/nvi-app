@@ -60,13 +60,18 @@ export default function CopyAPIKeyButton(props: CopyAPIKeyButtonProps) {
 
     return (
         <div class="flex flex-wrap space-x-2">
-            <pre title={apiKey.value} class="overflow-hidden text-ellipsis">{apiKey.value}</pre>
+            <pre
+                title={apiKey.value}
+                class="overflow-hidden text-ellipsis"
+            >
+                {apiKey.value}
+            </pre>
             <button title="Copy API Key" disabled={copied()} type="button" onClick={handleCopyButtonClick}>
                 <Show
                     when={!copied()}
                     fallback={<CopySuccessIcon class="w-6 h-6 text-white" />}
                 >
-                    <CopyIcon class="w-5 h-5 fill-white" />
+                    <CopyIcon class="w-6 h-5 fill-white" />
                 </Show>
             </button>
             <button title="Refresh API Key" type="button" onClick={handleUpdateAPIKey}>
