@@ -10,9 +10,9 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/node": "^6.0.0",
     "@astrojs/solid-js": "^3.0.1",
     "@astrojs/tailwind": "^5.0.0",
+    "@astrojs/vercel": "^5.0.1",
     "astro": "^3.1.1",
     "lodash.debounce": "^4.0.8",
     "solid-js": "^1.7.12",
