@@ -1,12 +1,37 @@
 ---
 import MainLayout from "../layouts/main.astro";
+import ExternalLink from "../components/layout/ExternalLink.astro";
 ---
 
 <MainLayout
     description="a stand-alone .env file parser for interpolating and assigning multiple .env files into a process"
+    hideHeader
     title="home"
 >
-    <h1 class="text-3xl font-bold text-center">
-        Welcome to the NVI application
-    </h1>
+    <div class="flex flex-col items-center space-y-4">
+        <h1 class="text-3xl font-bold">
+            Welcome to the future home of the NVI application suite!
+        </h1>
+        <p>To view current progress, visit the following projects:</p>
+        <ul>
+            <li>
+                <ExternalLink
+                    href="https://github.com/mattcarlotta/nvi"
+                    title="NVI CLI Tool"
+                />
+            </li>
+            <li>
+                <ExternalLink
+                    href="https://github.com/mattcarlotta/nvi-app"
+                    title="NVI Front-Facing Application"
+                />
+            </li>
+            <li>
+                <ExternalLink
+                    href="https://github.com/mattcarlotta/nvi-api"
+                    title="NVI API Service"
+                />
+            </li>
+        </ul>
+    </div>
 </MainLayout>

@@ -5,11 +5,12 @@ import concatTitle from "../utils/concatTitle";
 
 interface Props {
     description?: string;
+    hideHeader?: boolean;
     title?: string;
     type?: string;
 }
 
-const { description, title, type } = Astro.props;
+const { description, hideHeader, title, type } = Astro.props;
 const canonicalURL = Astro.url.toString();
 const documentTitle = concatTitle(title, description);
 const documentType = type || "website";
@@ -144,9 +145,11 @@ const documentType = type || "website";
                 Skip to content
             </a>
         </header>
-        <slot name="navbar">
-            <NavHeader />
-        </slot>
+        {!hideHeader && (
+            <slot name="navbar">
+                <NavHeader />
+            </slot>
+        )}
         <main id="main" class="mx-auto w-full max-w-main p-2.5 pt-12">
             <div class="min-h-body">
                 <slot />
