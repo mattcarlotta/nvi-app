@@ -18,7 +18,7 @@ headers.append("Cookie", `SESSION_TOKEN=${sessionToken?.value}`);
 let userName = "";
 let project: Project | null = null;
 let environment: Environment | null = null;
-let environments: Environments | null = null;
+let environments: Environments = [];
 let secrets: Secrets = [];
 try {
     const userRes = await fetchAPIGET({
@@ -32,41 +32,18 @@ try {
 
     userName = userRes.data.name;
 
-    const projectRes = await fetchAPIGET({
-        url: `/project/name/${Astro.params.project}/`,
+    const res = await fetchAPIGET({
+        url: `/secrets/projectenvironment/?project=${Astro.params.project}&environment=${Astro.params.environment}`,
         headers,
     });
 
-    if (!projectRes.data?.id) {
-        throw Error("Not a valid project name");
-    }
+    project = res.data?.project || null;
 
-    project = projectRes.data;
+    environment = res.data?.environment || null;
 
-    const environmentsRes = await fetchAPIGET({
-        url: `/environments/project/${project?.id}/`,
-        headers,
-    });
+    environments = res.data?.environments || [];
 
-    environments = environmentsRes.data;
-
-    const environmentRes = await fetchAPIGET({
-        url: `/environment/name/?name=${Astro.params.environment}&projectID=${project?.id}`,
-        headers,
-    });
-
-    if (!environmentRes.data?.id) {
-        throw Error("Not a valid environment name");
-    }
-
-    environment = environmentRes.data;
-
-    const secretsRes = await fetchAPIGET({
-        url: `/secrets/id/${environment?.id}`,
-        headers,
-    });
-
-    secrets = secretsRes.data || [];
+    secrets = res.data?.secrets || [];
 } catch {
     // handle an invalid project and environment below
 }

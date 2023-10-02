@@ -25,23 +25,14 @@ try {
 
     userName = userRes.data.name;
 
-    const projectRes = await fetchAPIGET({
-        url: `/project/name/${Astro.params.project}/`,
+    const res = await fetchAPIGET({
+        url: `/environments/project/${Astro.params.project}`,
         headers,
     });
 
-    if (!projectRes.data?.id) {
-        throw Error("Not a valid project name");
-    }
+    project = res.data?.project || null;
 
-    project = projectRes.data;
-
-    const environmentsRes = await fetchAPIGET({
-        url: `/environments/project/${project?.id}/`,
-        headers,
-    });
-
-    environments = environmentsRes.data;
+    environments = res.data?.environments || [];
 } catch {
     // handles errors below
 }
