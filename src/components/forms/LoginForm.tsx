@@ -42,9 +42,9 @@ export default function LoginForm(props: LoginFormProps) {
                 body: { email, password }
             });
 
-            if (res.err === ErrorStatusCode.LoginUnregisteredEmail) {
+            if (res.data?.error === ErrorStatusCode.LoginUnregisteredEmail) {
                 window.location.pathname = "/register/";
-                return
+                return;
             }
 
             if (props.reloadPage) {
@@ -52,7 +52,6 @@ export default function LoginForm(props: LoginFormProps) {
             } else {
                 window.location.replace("/dashboard/");
             }
-
         } catch (error) {
             const message = getMessageFromStatusCode(error);
             setFields("formError", message);
@@ -62,9 +61,9 @@ export default function LoginForm(props: LoginFormProps) {
 
 
     return (
-        <div class="flex flex-col justify-center items-center space-y-4 rounded bg-primary-400 p-8 text-white">
-            <h1 class="text-3xl">Login</h1>
-            <div class="flex space-x-2 w-full">
+        <div class="flex flex-col justify-center items-center space-y-4 text-white">
+            <div class="flex flex-col space-y-4 w-full max-w-xl p-8 bg-gray-900 rounded">
+                <h1 class="text-center text-3xl">Login</h1>
                 <form id="login-form" class="w-full" onSubmit={handleSubmit}>
                     <div class="flex h-24 full flex-col space-y-1">
                         <label class="block" html-for="email">
@@ -107,17 +106,20 @@ export default function LoginForm(props: LoginFormProps) {
                             required
                         />
                     </div>
-                    <div class="my-2">
+                    <Show when={fields.formError}>
+                        <p class="font-bold text-red-600">{fields.formError}</p>
+                    </Show>
+                    <div class="flex flex-col space-y-2">
                         <SubmitButton
                             primary
                             isSubmitting={fields.isSubmitting}
                         >
                             Login
                         </SubmitButton>
+                        <p>
+                            Don't have an account? <a class="text-blue-500 hover:underline" href="/register/">Sign up</a>
+                        </p>
                     </div>
-                    <Show when={fields.formError}>
-                        <p class="font-bold text-red-600">{fields.formError}</p>
-                    </Show>
                 </form>
             </div>
         </div>

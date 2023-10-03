@@ -12,15 +12,14 @@ import { fetchAPIGET } from "../../../utils/fetchAPI";
 import SecretsList from "../../../components/layout/SecretsList";
 
 const sessionToken = Astro.cookies.get("SESSION_TOKEN");
-const headers = new Headers();
-headers.append("Cookie", `SESSION_TOKEN=${sessionToken?.value}`);
-
 let userName = "";
 let project: Project | null = null;
 let environment: Environment | null = null;
 let environments: Environments = [];
 let secrets: Secrets = [];
 try {
+    const headers = new Headers();
+    headers.append("Cookie", `SESSION_TOKEN=${sessionToken?.value}`);
     const userRes = await fetchAPIGET({
         url: "/loggedin/",
         headers,
