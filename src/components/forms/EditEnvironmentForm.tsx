@@ -17,6 +17,7 @@ type SearchOrCreateEnvironmentFormProps = {
     environmentID: string;
     environmentName: string;
     onCancel: () => void;
+    onSuccess: (newEnvironmentName: string) => void;
     projectID: string;
 }
 
@@ -53,11 +54,9 @@ export default function EditEnvironmentForm(props: SearchOrCreateEnvironmentForm
 
             dispatchToastEvent({ type: "success", message: res?.message, timeout: 3000 });
 
-            // TODO(carlotta): This should be called after the toast notification has expired or been closed
-            window.setTimeout(() => {
-                handleFormClear();
-                window.location.reload();
-            }, 3000);
+            handleFormClear();
+
+            props.onSuccess(name);
         } catch (error) {
             const message = getMessageFromStatusCode(error);
             setFields("formError", message);

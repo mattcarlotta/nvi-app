@@ -2,7 +2,7 @@ import { Show, batch, onCleanup, onMount } from "solid-js";
 import { createStore } from "solid-js/store";
 import CloseIcon from "../icons/CloseIcon";
 import clsx from "../../utils/clsx";
-import { ErrorStatusCode, getMessageFromStatusCode } from "../../utils/errors";
+import { getMessageFromStatusCode } from "../../utils/errors";
 
 export type ToastEvent = {
     message: string | null;

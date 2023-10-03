@@ -11,7 +11,9 @@ export type EnvironmentProps = {
     id: string;
     createdAt: string;
     editingEnvironmentID: string;
+    handleDeleteEnvironment: (environmentID: string) => void;
     handleEditEnvironmentID: (environmentID: string) => void;
+    handleEditEnvironmentUpdate: (newEnvironmentName: string) => void;
     name: string;
     updatedAt: string;
     projectID: string;
@@ -35,10 +37,7 @@ export default function Environment(props: EnvironmentProps) {
 
             dispatchToastEvent({ type: "success", message: res.message });
 
-            // TODO(carlotta): This should be called after the toast notification has expired or been closed
-            window.setTimeout(() => {
-                window.location.reload();
-            }, 3000)
+            props.handleDeleteEnvironment(props.id);
         } catch (error) {
             dispatchToastError(error);
         }
@@ -58,6 +57,7 @@ export default function Environment(props: EnvironmentProps) {
                         environmentID={props.id}
                         environmentName={props.name}
                         onCancel={handleCancelClick}
+                        onSuccess={props.handleEditEnvironmentUpdate}
                         projectID={props.projectID}
                     />
                 }

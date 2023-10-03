@@ -1,4 +1,4 @@
-import type { Environments, InputChangeEvent } from "../../types";
+import type { Environment, Environments, InputChangeEvent } from "../../types";
 import { Show, batch } from "solid-js";
 import { createStore } from "solid-js/store";
 import ClearIcon from "../icons/ClearIcon";
@@ -23,6 +23,7 @@ type SearchOrCreateEnvironmentFormProps = {
     disableSearch: boolean;
     projectID: string;
     onClear: () => void;
+    onCreateSuccess: (environment: Environment) => void;
     onSearch: (environments: Environments) => void;
 }
 
@@ -100,13 +101,15 @@ export default function SearchOrCreateEnvironmentForm(props: SearchOrCreateEnvir
                 body: { name: name, projectID: props.projectID }
             });
 
-            dispatchToastEvent({ type: "success", message: res?.message, timeout: 3000 });
+            dispatchToastEvent({
+                type: "success",
+                message: `Successfully created a ${name} environment!`,
+                timeout: 3000
+            });
 
-            // TODO(carlotta): This should be called after the toast notification has expired or been closed
-            window.setTimeout(() => {
-                handleFormClear();
-                window.location.reload();
-            }, 3000);
+            handleFormClear();
+
+            props.onCreateSuccess(res.data);
         } catch (error) {
             const message = getMessageFromStatusCode(error);
             setFields("formError", message);

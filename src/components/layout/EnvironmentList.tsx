@@ -1,9 +1,8 @@
-import { For, createSignal, Match, Switch } from "solid-js"
-import type { Environments } from "../../types"
+import { For, createSignal, Match, Switch, batch } from "solid-js"
+import type { Environment as Env, Environments } from "../../types"
 import SearchOrCreateEnvironmentForm from "../forms/SearchOrCreateEnvironmentForm"
 import EnvironmentIcon from "../icons/EnvironmentIcon"
 import Environment from "./Environment"
-
 
 type EnvironmentListProps = {
     environments: Environments
@@ -12,6 +11,7 @@ type EnvironmentListProps = {
 }
 
 export default function EnvironmentList(props: EnvironmentListProps) {
+    const [initialEnvironmentList, setInitialEnvironmentList] = createSignal(props.environments);
     const [environmentList, setEnvironmentList] = createSignal(props.environments);
     const [editingEnvironmentID, setEditingEnvironmentID] = createSignal("");
 
@@ -19,12 +19,44 @@ export default function EnvironmentList(props: EnvironmentListProps) {
         setEnvironmentList(environments);
     }
 
-    const clearSearchResults = () => {
-        setEnvironmentList(props.environments);
+    const handleCreateEnvironmentSuccess = (environment: Env) => {
+        const newInitialList = [...initialEnvironmentList(), environment];
+
+        batch(() => {
+            setInitialEnvironmentList(newInitialList);
+            setEnvironmentList(newInitialList);
+        });
     }
 
-    const handleEditEnvironmentID = (projectID: string) => {
-        setEditingEnvironmentID(projectID);
+    const clearSearchResults = () => {
+        setEnvironmentList(initialEnvironmentList());
+    }
+
+    const handleDeleteEnvironment = (environmentID: string) => {
+        const newInitialList = initialEnvironmentList().filter(e => e.id !== environmentID);
+
+        batch(() => {
+            setInitialEnvironmentList(newInitialList);
+            setEnvironmentList(newInitialList);
+        });
+    }
+
+    const handleEditEnvironmentID = (environmentID: string) => {
+        setEditingEnvironmentID(environmentID);
+    }
+
+    const handleEditEnvironmentUpdate = (newEnvironmentName: string) => {
+        const newInitialList = initialEnvironmentList().map(env =>
+            env.id === editingEnvironmentID()
+                ? { ...env, name: newEnvironmentName }
+                : env
+        );
+
+        batch(() => {
+            setInitialEnvironmentList(newInitialList);
+            setEnvironmentList(newInitialList);
+            setEditingEnvironmentID("");
+        });
     }
 
     return (
@@ -33,6 +65,7 @@ export default function EnvironmentList(props: EnvironmentListProps) {
                 disableSearch={!props.environments.length}
                 projectID={props.projectID}
                 onClear={clearSearchResults}
+                onCreateSuccess={handleCreateEnvironmentSuccess}
                 onSearch={handleSearchResults}
             />
             <Switch>
@@ -56,7 +89,9 @@ export default function EnvironmentList(props: EnvironmentListProps) {
                                     id={environment.id}
                                     createdAt={environment.createdAt}
                                     editingEnvironmentID={editingEnvironmentID()}
+                                    handleDeleteEnvironment={handleDeleteEnvironment}
                                     handleEditEnvironmentID={handleEditEnvironmentID}
+                                    handleEditEnvironmentUpdate={handleEditEnvironmentUpdate}
                                     name={environment.name}
                                     updatedAt={environment.updatedAt}
                                     projectID={props.projectID}

@@ -17,6 +17,7 @@ type SearchOrCreateProjectFormProps = {
     projectID: string;
     projectName: string;
     onCancel: () => void;
+    onCreateSuccess: (newProjectName: string) => void;
 }
 
 export default function EditProjectForm(props: SearchOrCreateProjectFormProps) {
@@ -52,11 +53,9 @@ export default function EditProjectForm(props: SearchOrCreateProjectFormProps) {
 
             dispatchToastEvent({ type: "success", message: res?.message, timeout: 3000 });
 
-            // TODO(carlotta): This should be called after the toast notification has expired or been closed
-            window.setTimeout(() => {
-                handleFormClear();
-                window.location.reload();
-            }, 3000);
+            handleFormClear();
+
+            props.onCreateSuccess(name);
         } catch (error) {
             const message = getMessageFromStatusCode(error);
             setFields("formError", message);

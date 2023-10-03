@@ -11,7 +11,9 @@ export type ProjectProps = {
     id: string;
     createdAt: string;
     editingProjectID: string;
+    handleDeleteProject: (projectID: string) => void;
     handleEditProjectID: (projectID: string) => void;
+    handleEditProjectUpdate: (newProjectName: string) => void;
     name: string;
     updatedAt: string;
 }
@@ -33,10 +35,7 @@ export default function Project(props: ProjectProps) {
 
             dispatchToastEvent({ type: "success", message: res.message });
 
-            // TODO(carlotta): This should be called after the toast notification has expired or been closed
-            window.setTimeout(() => {
-                window.location.reload();
-            }, 3000)
+            props.handleDeleteProject(props.id);
         } catch (error) {
             dispatchToastError(error);
         }
@@ -56,6 +55,7 @@ export default function Project(props: ProjectProps) {
                         projectID={props.id}
                         projectName={props.name}
                         onCancel={handleCancelClick}
+                        onCreateSuccess={props.handleEditProjectUpdate}
                     />
                 }
             >

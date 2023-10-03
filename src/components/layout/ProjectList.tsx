@@ -1,5 +1,5 @@
-import { For, createSignal, Switch, Match } from "solid-js"
-import type { Projects } from "../../types"
+import { For, createSignal, Switch, Match, batch } from "solid-js"
+import type { Project as Proj, Projects } from "../../types"
 import SearchOrCreateProjectForm from "../forms/SearchOrCreateProjectForm"
 import Project from "./Project"
 import ProjectIcon from "../icons/ProjectIcon"
@@ -10,6 +10,7 @@ type ProjectListProps = {
 }
 
 export default function ProjectList(props: ProjectListProps) {
+    const [initialProjectList, setInitialProjectList] = createSignal(props.projects);
     const [projectList, setProjectList] = createSignal(props.projects);
     const [editingProjectID, setEditingProjectID] = createSignal("");
 
@@ -17,12 +18,44 @@ export default function ProjectList(props: ProjectListProps) {
         setProjectList(projects);
     }
 
+    const handleCreateProjectSuccess = (project: Proj) => {
+        const newInitialList = [...initialProjectList(), project];
+
+        batch(() => {
+            setInitialProjectList(newInitialList);
+            setProjectList(newInitialList);
+        });
+    }
+
     const clearSearchResults = () => {
-        setProjectList(props.projects);
+        setProjectList(initialProjectList());
+    }
+
+    const handleDeleteProject = (projectID: string) => {
+        const newInitialList = initialProjectList().filter(p => p.id !== projectID);
+
+        batch(() => {
+            setInitialProjectList(newInitialList);
+            setProjectList(newInitialList);
+        });
     }
 
     const handleEditProjectID = (projectID: string) => {
         setEditingProjectID(projectID);
+    }
+
+    const handleEditProjectUpdate = (newProjectName: string) => {
+        const newInitialList = initialProjectList().map(p =>
+            p.id === editingProjectID()
+                ? { ...p, name: newProjectName }
+                : p
+        );
+
+        batch(() => {
+            setInitialProjectList(newInitialList);
+            setProjectList(newInitialList);
+            setEditingProjectID("");
+        });
     }
 
     return (
@@ -30,6 +63,7 @@ export default function ProjectList(props: ProjectListProps) {
             <SearchOrCreateProjectForm
                 disableSearch={!props.projects.length}
                 onClear={clearSearchResults}
+                onCreateSuccess={handleCreateProjectSuccess}
                 onSearch={handleSearchResults}
             />
             <Switch>
@@ -54,7 +88,9 @@ export default function ProjectList(props: ProjectListProps) {
                                     id={project.id}
                                     editingProjectID={editingProjectID()}
                                     name={project.name}
+                                    handleDeleteProject={handleDeleteProject}
                                     handleEditProjectID={handleEditProjectID}
+                                    handleEditProjectUpdate={handleEditProjectUpdate}
                                     updatedAt={project.updatedAt}
                                 />
                             )}

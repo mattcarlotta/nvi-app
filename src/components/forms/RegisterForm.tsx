@@ -11,7 +11,7 @@ type RegisterFormStore = {
     isSubmitting: boolean;
     formError: string;
     showPassword: boolean;
-    showSuccessMessage: string;
+    successMessage: string;
 };
 
 export default function RegisterForm() {
@@ -19,7 +19,7 @@ export default function RegisterForm() {
         isSubmitting: false,
         formError: "",
         showPassword: false,
-        showSuccessMessage: ""
+        successMessage: ""
     });
 
     const toggleShowPassword = () => {
@@ -48,19 +48,19 @@ export default function RegisterForm() {
 
             form.reset();
 
-            setFields("showSuccessMessage", res.message);
+            setFields("successMessage", res.message);
         } catch (error) {
             const message = getMessageFromStatusCode(error);
             setFields("formError", message);
             setFields("isSubmitting", false);
-            setFields("showSuccessMessage", "");
+            setFields("successMessage", "");
         }
     };
 
     return (
         <Show
-            when={!fields.showSuccessMessage.length}
-            fallback={<SuccessRegisterMessage message={fields.showSuccessMessage} />}
+            when={!fields.successMessage.length}
+            fallback={<SuccessRegisterMessage message={fields.successMessage} />}
         >
             <div class="flex flex-col justify-center items-center space-y-4 text-white">
                 <div class="flex flex-col space-y-4 w-full max-w-xl p-8 bg-gray-900 rounded">

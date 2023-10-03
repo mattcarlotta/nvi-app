@@ -1,7 +1,7 @@
 import debounce from "lodash.debounce";
 import { Show, batch } from "solid-js";
 import { createStore } from "solid-js/store";
-import type { InputChangeEvent, Projects } from "../../types";
+import type { InputChangeEvent, Project, Projects } from "../../types";
 import ClearIcon from "../icons/ClearIcon";
 import SearchProjectIcon from "../icons/SearchProjectIcon";
 import SubmitButton from "../layout/SubmitButton";
@@ -22,6 +22,7 @@ type CreateProjectFormStore = {
 type SearchOrCreateProjectFormProps = {
     disableSearch: boolean;
     onClear: () => void
+    onCreateSuccess: (project: Project) => void;
     onSearch: (projects: Projects) => void
 }
 
@@ -98,13 +99,15 @@ export default function SearchOrCreateProjectForm(props: SearchOrCreateProjectFo
                 url: `/create/project/${name}/`,
             });
 
-            dispatchToastEvent({ type: "success", message: res?.message, timeout: 3000 });
+            dispatchToastEvent({
+                type: "success",
+                message: `Successfully created a ${name} project!`,
+                timeout: 3000
+            });
 
-            // TODO(carlotta): This should be called after the toast notification has expired or been closed
-            window.setTimeout(() => {
-                handleFormClear();
-                window.location.reload();
-            }, 3000);
+            handleFormClear();
+
+            props.onCreateSuccess(res.data);
         } catch (error) {
             const message = getMessageFromStatusCode(error);
             setFields("formError", message);
