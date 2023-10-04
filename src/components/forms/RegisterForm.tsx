@@ -1,11 +1,11 @@
-import { Show } from "solid-js";
+import { Show, batch } from "solid-js";
 import { createStore } from "solid-js/store";
 import HideIcon from "../icons/HideIcon";
 import ShowIcon from "../icons/ShowIcon";
 import SubmitButton from "../layout/SubmitButton";
+import SuccessRegisterMessage from "../layout/SuccessRegisterMessage";
 import { fetchAPIPOST } from "../../utils/fetchAPI";
 import { ErrorStatusCode, getMessageFromStatusCode } from "../../utils/errors";
-import SuccessRegisterMessage from "../layout/SuccessRegisterMessage";
 
 type RegisterFormStore = {
     isSubmitting: boolean;
@@ -28,8 +28,11 @@ export default function RegisterForm() {
 
     const handleSubmit = async (e: Event) => {
         e.preventDefault();
-        setFields("formError", "");
-        setFields("isSubmitting", true);
+
+        batch(() => {
+            setFields("formError", "");
+            setFields("isSubmitting", true);
+        });
         try {
             const form = (document.getElementById("register-form") as HTMLFormElement);
             const name = (form.querySelector("#name") as HTMLInputElement).value;
@@ -50,10 +53,11 @@ export default function RegisterForm() {
 
             setFields("successMessage", res.message);
         } catch (error) {
-            const message = getMessageFromStatusCode(error);
-            setFields("formError", message);
-            setFields("isSubmitting", false);
-            setFields("successMessage", "");
+            batch(() => {
+                setFields("formError", getMessageFromStatusCode(error));
+                setFields("isSubmitting", false);
+                setFields("successMessage", "");
+            });
         }
     };
 

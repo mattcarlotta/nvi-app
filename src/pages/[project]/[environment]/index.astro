@@ -7,9 +7,9 @@ import type {
 } from "../../../types";
 import LoginForm from "../../../components/forms/LoginForm";
 import NavBar from "../../../components/layout/NavBar.astro";
+import SecretsList from "../../../components/layout/SecretsList";
 import MainLayout from "../../../layouts/main.astro";
 import { fetchAPIGET } from "../../../utils/fetchAPI";
-import SecretsList from "../../../components/layout/SecretsList";
 
 const sessionToken = Astro.cookies.get("SESSION_TOKEN");
 let userName = "";

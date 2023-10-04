@@ -2,12 +2,12 @@
 import type { User } from "../types";
 import CopyAPIKeyButton from "../components/layout/CopyAPIKeyButton";
 import LoginForm from "../components/forms/LoginForm";
+import ExternalLink from "../components/layout/ExternalLink.astro";
+import LogoutButton from "../components/layout/LogoutButton.astro";
 import NavBar from "../components/layout/NavBar.astro";
 import MainLayout from "../layouts/main.astro";
 import { fetchAPIGET } from "../utils/fetchAPI";
 import relativeTimeFromNow from "../utils/timeSince";
-import ExternalLink from "../components/layout/ExternalLink.astro";
-import LogoutButton from "../components/layout/LogoutButton.astro";
 
 const sessionToken = Astro.cookies.get("SESSION_TOKEN");
 let user: User | null = null;

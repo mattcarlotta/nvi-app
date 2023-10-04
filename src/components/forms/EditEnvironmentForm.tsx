@@ -44,8 +44,11 @@ export default function EditEnvironmentForm(props: SearchOrCreateEnvironmentForm
         if (!name || nameInputInvalid(name)) {
             return;
         }
-        setFields("formError", "");
-        setFields("isSubmitting", true);
+
+        batch(() => {
+            setFields("formError", "");
+            setFields("isSubmitting", true);
+        });
         try {
             const res = await fetchAPIPUT({
                 url: "/update/environment/",
@@ -58,9 +61,10 @@ export default function EditEnvironmentForm(props: SearchOrCreateEnvironmentForm
 
             props.onSuccess(name);
         } catch (error) {
-            const message = getMessageFromStatusCode(error);
-            setFields("formError", message);
-            setFields("isSubmitting", false);
+            batch(() => {
+                setFields("formError", getMessageFromStatusCode(error));
+                setFields("isSubmitting", false);
+            });
         }
     };
 

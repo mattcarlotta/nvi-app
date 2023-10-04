@@ -43,8 +43,11 @@ export default function EditProjectForm(props: SearchOrCreateProjectFormProps) {
         if (!name || nameInputInvalid(name)) {
             return;
         }
-        setFields("formError", "");
-        setFields("isSubmitting", true);
+
+        batch(() => {
+            setFields("formError", "");
+            setFields("isSubmitting", true);
+        });
         try {
             const res = await fetchAPIPUT({
                 url: "/update/project/",
@@ -57,9 +60,10 @@ export default function EditProjectForm(props: SearchOrCreateProjectFormProps) {
 
             props.onCreateSuccess(name);
         } catch (error) {
-            const message = getMessageFromStatusCode(error);
-            setFields("formError", message);
-            setFields("isSubmitting", false);
+            batch(() => {
+                setFields("formError", getMessageFromStatusCode(error));
+                setFields("isSubmitting", false);
+            });
         }
     };
 

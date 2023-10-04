@@ -7,7 +7,7 @@ import SpinnerIcon from "../icons/SpinnerIcon";
 import SearchSecretIcon from "../icons/SearchSearchIcon";
 import clsx from "../../utils/clsx";
 import { fetchAPIGET } from "../../utils/fetchAPI";
-import { getMessageFromStatusCode, type ErrorStatusCode } from "../../utils/errors";
+import { getMessageFromStatusCode } from "../../utils/errors";
 
 type CreateSecretFormStore = {
     formError: string;
@@ -32,8 +32,11 @@ export default function SearchSecretForm(props: SearchSecretFormProps) {
 
 
     const handleInputChange = ({ target: { value } }: InputChangeEvent) => {
-        setFields("formError", "");
-        setFields("hasValue", Boolean(value.length));
+        batch(() => {
+            setFields("formError", "");
+            setFields("hasValue", Boolean(value.length));
+        });
+
         if (!value.length) {
             props.onClear();
         } else {
@@ -47,8 +50,11 @@ export default function SearchSecretForm(props: SearchSecretFormProps) {
         if (props.disableSearch || key.length < 2) {
             return;
         }
-        setFields("formError", "");
-        setFields("isSearching", true);
+
+        batch(() => {
+            setFields("formError", "");
+            setFields("isSearching", true);
+        });
         try {
             const res = await fetchAPIGET({
                 url: `/secrets/search/?key=${key}&environmentID=${props.environmentID}`,
@@ -56,11 +62,9 @@ export default function SearchSecretForm(props: SearchSecretFormProps) {
 
             props.onSearch(res.data || []);
         } catch (error) {
-            const message = getMessageFromStatusCode(error);
-            setFields("formError", message);
+            setFields("formError", getMessageFromStatusCode(error));
         } finally {
             setFields("isSearching", false);
-
         }
     }, 300);
 

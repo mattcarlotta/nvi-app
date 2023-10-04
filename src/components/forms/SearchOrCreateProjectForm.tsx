@@ -2,15 +2,15 @@ import debounce from "lodash.debounce";
 import { Show, batch } from "solid-js";
 import { createStore } from "solid-js/store";
 import type { InputChangeEvent, Project, Projects } from "../../types";
+import AddProjectIcon from "../icons/AddProjectIcon";
 import ClearIcon from "../icons/ClearIcon";
 import SearchProjectIcon from "../icons/SearchProjectIcon";
+import SpinnerIcon from "../icons/SpinnerIcon";
 import SubmitButton from "../layout/SubmitButton";
 import { dispatchToastEvent } from "../layout/Toast";
 import { ErrorStatusCode, getMessageFromStatusCode } from "../../utils/errors";
 import { fetchAPIGET, fetchAPIPOST } from "../../utils/fetchAPI";
 import { nameRegex } from "../../utils/regexValidations";
-import SpinnerIcon from "../icons/SpinnerIcon";
-import AddProjectIcon from "../icons/AddProjectIcon";
 
 type CreateProjectFormStore = {
     hasValue: boolean;
@@ -46,8 +46,11 @@ export default function SearchOrCreateProjectForm(props: SearchOrCreateProjectFo
     }
 
     const handleInputChange = ({ target: { value } }: InputChangeEvent) => {
-        setFields("formError", "");
-        setFields("hasValue", Boolean(value.length));
+        batch(() => {
+            setFields("formError", "");
+            setFields("hasValue", Boolean(value.length));
+        });
+
         if (!value.length) {
             props.onClear();
         } else {
@@ -61,24 +64,25 @@ export default function SearchOrCreateProjectForm(props: SearchOrCreateProjectFo
         if (props.disableSearch || !name || nameInputInvalid(name)) {
             return;
         }
-        setFields("formError", "");
-        setFields("isSearching", true);
-        setFields("isSubmitting", false);
+
+        batch(() => {
+            setFields("formError", "");
+            setFields("isSearching", true);
+            setFields("isSubmitting", false);
+        });
         try {
             const res = await fetchAPIGET({
                 url: `/projects/search/${name}/`,
             });
 
             props.onSearch(res.data || []);
-
-            setFields("isSearching", false);
         } catch (error) {
             if (error as ErrorStatusCode === ErrorStatusCode.GetProjectNonExistentName) {
                 props.onSearch([]);
             } else {
-                const message = getMessageFromStatusCode(error);
-                setFields("formError", message);
+                setFields("formError", getMessageFromStatusCode(error));
             }
+        } finally {
             setFields("isSearching", false);
         }
     }, 300);
@@ -91,9 +95,12 @@ export default function SearchOrCreateProjectForm(props: SearchOrCreateProjectFo
         if (!name || nameInputInvalid(name)) {
             return;
         }
-        setFields("formError", "");
-        setFields("isSearching", false);
-        setFields("isSubmitting", true);
+
+        batch(() => {
+            setFields("formError", "");
+            setFields("isSearching", false);
+            setFields("isSubmitting", true);
+        });
         try {
             const res = await fetchAPIPOST({
                 url: `/create/project/${name}/`,
@@ -109,9 +116,10 @@ export default function SearchOrCreateProjectForm(props: SearchOrCreateProjectFo
 
             props.onCreateSuccess(res.data);
         } catch (error) {
-            const message = getMessageFromStatusCode(error);
-            setFields("formError", message);
-            setFields("isSubmitting", false);
+            batch(() => {
+                setFields("formError", getMessageFromStatusCode(error));
+                setFields("isSubmitting", false);
+            });
         }
     };
 

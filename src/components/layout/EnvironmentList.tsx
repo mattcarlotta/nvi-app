@@ -19,6 +19,10 @@ export default function EnvironmentList(props: EnvironmentListProps) {
         setEnvironmentList(environments);
     }
 
+    const clearSearchResults = () => {
+        setEnvironmentList(initialEnvironmentList());
+    }
+
     const handleCreateEnvironmentSuccess = (environment: Env) => {
         const newInitialList = [...initialEnvironmentList(), environment];
 
@@ -26,10 +30,6 @@ export default function EnvironmentList(props: EnvironmentListProps) {
             setInitialEnvironmentList(newInitialList);
             setEnvironmentList(newInitialList);
         });
-    }
-
-    const clearSearchResults = () => {
-        setEnvironmentList(initialEnvironmentList());
     }
 
     const handleDeleteEnvironment = (environmentID: string) => {

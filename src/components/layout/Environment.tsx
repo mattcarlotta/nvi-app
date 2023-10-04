@@ -1,11 +1,11 @@
 import { Show } from "solid-js";
 import relativeTimeFromNow from "../../utils/timeSince"
 import EnvironmentIcon from "../icons/EnvironmentIcon"
-import ActionButton from "./ActionButton";
 import EditEnvironmentForm from "../forms/EditEnvironmentForm";
 import clsx from "../../utils/clsx";
 import { fetchAPIDELETE } from "../../utils/fetchAPI";
 import { dispatchToastError, dispatchToastEvent } from "./Toast";
+import ActionButton from "./ActionButton";
 
 export type EnvironmentProps = {
     id: string;
@@ -15,9 +15,9 @@ export type EnvironmentProps = {
     handleEditEnvironmentID: (environmentID: string) => void;
     handleEditEnvironmentUpdate: (newEnvironmentName: string) => void;
     name: string;
-    updatedAt: string;
     projectID: string;
     projectName: string;
+    updatedAt: string;
 }
 
 export default function Environment(props: EnvironmentProps) {

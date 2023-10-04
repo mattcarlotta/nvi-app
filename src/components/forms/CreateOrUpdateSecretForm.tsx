@@ -1,20 +1,21 @@
 import { For, Show, batch, onMount } from "solid-js";
 import { createStore } from "solid-js/store";
-import type { Environments } from "../../types";
+import type { Environments, Secret } from "../../types";
+import SaveIcon from "../icons/SaveIcon";
+import CloseIcon from "../icons/CloseIcon";
+import ClearFormIcon from "../icons/ClearFormIcon";
 import SubmitButton from "../layout/SubmitButton";
 import { dispatchToastError, dispatchToastEvent } from "../layout/Toast";
 import { ErrorStatusCode, getMessageFromStatusCode } from "../../utils/errors";
 import { fetchAPIGET, fetchAPIPOST, fetchAPIPUT } from "../../utils/fetchAPI";
 import clsx from "../../utils/clsx";
-import SaveIcon from "../icons/SaveIcon";
-import CloseIcon from "../icons/CloseIcon";
-import ClearFormIcon from "../icons/ClearFormIcon";
-
 
 type CreateOrUpdateSecretFormProps = {
     secretID?: string;
     environments: Environments;
     onCancel?: () => void;
+    onCreateSuccess: (newSecret: Secret) => void;
+    onUpdateSecretSuccess?: (updatedSecret: Secret) => void;
     projectID: string;
 }
 
@@ -37,7 +38,9 @@ export default function CreateOrUpdateSecretForm(props: CreateOrUpdateSecretForm
 
     const handleFormSubmit = async (e: Event) => {
         e.preventDefault();
+
         setFields("formError", "");
+
         const form = (document.getElementById(selectedFormID)) as HTMLFormElement;
         const key = (form.querySelector("#key") as HTMLInputElement)?.value;
         const value = (form.querySelector("#value") as HTMLInputElement)?.value;
@@ -47,6 +50,7 @@ export default function CreateOrUpdateSecretForm(props: CreateOrUpdateSecretForm
             setFields("formError", getMessageFromStatusCode(ErrorStatusCode.CreateSecretInvalidBody));
             return;
         }
+
         setFields("isSubmitting", true);
         try {
             const res = !fields.isEditing
@@ -59,18 +63,24 @@ export default function CreateOrUpdateSecretForm(props: CreateOrUpdateSecretForm
                     body: { id: props.secretID, key, value, projectID: props.projectID, environmentIDs }
                 });
 
-            dispatchToastEvent({ type: "success", message: res?.message });
+            dispatchToastEvent({
+                type: "success",
+                message: `Successfully ${!fields.isEditing ? "created a" : "updated the"} ${key} secret!`,
+                timeout: 3000
+            });
 
             handleFormClear();
 
-            // TODO(carlotta): This should be called after the toast notification has expired or been closed
-            window.setTimeout(() => {
-                window.location.reload();
-            }, 3000);
+            if (!fields.isEditing) {
+                props.onCreateSuccess(res.data);
+            } else {
+                props.onUpdateSecretSuccess?.(res.data);
+            }
         } catch (error) {
-            const message = getMessageFromStatusCode(error);
-            setFields("formError", message);
-            setFields("isSubmitting", false);
+            batch(() => {
+                setFields("formError", getMessageFromStatusCode(error));
+                setFields("isSubmitting", false);
+            });
         }
     };
 

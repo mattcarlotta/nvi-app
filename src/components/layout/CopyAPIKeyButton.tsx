@@ -1,12 +1,12 @@
 import { Match, Show, Switch, batch, createSignal } from "solid-js";
+import { createStore } from "solid-js/store";
 import CopyIcon from "../icons/CopyIcon";
 import CopySuccessIcon from "../icons/CopySuccessIcon";
-import { dispatchToastError, dispatchToastEvent } from "./Toast"
-import { createStore } from "solid-js/store";
+import RefreshIcon from "../icons/RefreshIcon";
 import SpinnerIcon from "../icons/SpinnerIcon";
 import SuccessIcon from "../icons/SuccessIcon";
-import RefreshIcon from "../icons/RefreshIcon";
 import { fetchAPIPATCH } from "../../utils/fetchAPI";
+import { dispatchToastError, dispatchToastEvent } from "./Toast"
 
 type CopyAPIKeyButtonProps = {
     apiKey: string;

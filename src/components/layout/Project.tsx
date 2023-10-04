@@ -1,11 +1,11 @@
 import { Show } from "solid-js";
-import relativeTimeFromNow from "../../utils/timeSince"
-import ProjectIcon from "../icons/ProjectIcon"
-import ActionButton from "./ActionButton";
 import EditProjectForm from "../forms/EditProjectForm";
+import ProjectIcon from "../icons/ProjectIcon"
 import clsx from "../../utils/clsx";
 import { fetchAPIDELETE } from "../../utils/fetchAPI";
+import relativeTimeFromNow from "../../utils/timeSince"
 import { dispatchToastError, dispatchToastEvent } from "./Toast";
+import ActionButton from "./ActionButton";
 
 export type ProjectProps = {
     id: string;

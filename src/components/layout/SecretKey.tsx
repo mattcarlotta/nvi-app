@@ -1,15 +1,15 @@
 import { For, Match, Show, Switch, batch } from "solid-js"
 import { createStore } from "solid-js/store"
-import type { Environments } from "../../types"
+import type { Environments, Secret } from "../../types"
+import CreateOrUpdateSecretForm from "../forms/CreateOrUpdateSecretForm"
 import LockedSecretIcon from "../icons/LockSecretIcon"
-import UnlockedSecretIcon from "../icons/UnlockedSecretIcon"
 import SpinnerIcon from "../icons/SpinnerIcon"
+import UnlockedSecretIcon from "../icons/UnlockedSecretIcon"
 import clsx from "../../utils/clsx"
 import { fetchAPIDELETE, fetchAPIGET } from "../../utils/fetchAPI"
 import relativeTimeFromNow from "../../utils/timeSince"
-import { dispatchToastError, dispatchToastEvent } from "./Toast"
 import ActionButton from "./ActionButton"
-import CreateOrUpdateSecretForm from "../forms/CreateOrUpdateSecretForm"
+import { dispatchToastError, dispatchToastEvent } from "./Toast"
 
 type SecretKeyProps = {
     id: string;
@@ -18,8 +18,11 @@ type SecretKeyProps = {
     secretListLength: number;
     key: string;
     environments: Environments;
-    editingID: string;
-    handleEditID: (id: string) => void;
+    editingSecretID: string;
+    handleCreateSecretSuccess: (newSecret: Secret) => void;
+    handleDeleteSecret: (secretID: string) => void;
+    handleEditSecretID: (secretID: string) => void;
+    handleEditSecretUpdate: (updatedSecret: Secret) => void;
     projectName: string;
     projectID: string;
     createdAt: string;
@@ -68,21 +71,18 @@ export default function SecretKey(props: SecretKeyProps) {
 
             dispatchToastEvent({ type: "success", message: res.message });
 
-            // TODO(carlotta): This should be called after the toast notification has expired or been closed
-            window.setTimeout(() => {
-                window.location.reload();
-            }, 3000)
+            props.handleDeleteSecret(props.id);
         } catch (error) {
             dispatchToastError(error);
         }
     }
 
     const handleEditKey = () => {
-        props.handleEditID(props.id);
+        props.handleEditSecretID(props.id);
     }
 
     const handleCancelEditKey = () => {
-        props.handleEditID("");
+        props.handleEditSecretID("");
     }
 
     const hideKey = () => {
@@ -99,7 +99,7 @@ export default function SecretKey(props: SecretKeyProps) {
                 clsx(
                     "items-center p-4 md:space-x-2 md:grid md:grid-cols-12",
                     props.idx + 1 !== props.secretListLength && "border-b border-gray-700",
-                    props.id === props.editingID && "bg-gray-900"
+                    props.id === props.editingSecretID && "bg-gray-900"
                 )
             }
         >
@@ -190,13 +190,15 @@ export default function SecretKey(props: SecretKeyProps) {
                     </div>
                 </div>
             </div>
-            <Show when={props.id === props.editingID}>
+            <Show when={props.id === props.editingSecretID}>
                 <div class="col-span-12 border-t border-t-gray-600 mt-4">
                     <CreateOrUpdateSecretForm
                         secretID={props.id}
                         environments={props.availableEnvironments}
-                        projectID={props.projectID}
                         onCancel={handleCancelEditKey}
+                        onCreateSuccess={props.handleCreateSecretSuccess}
+                        onUpdateSecretSuccess={props.handleEditSecretUpdate}
+                        projectID={props.projectID}
                     />
                 </div>
             </Show>

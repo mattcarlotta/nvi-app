@@ -1,10 +1,10 @@
-import { Show } from "solid-js";
+import { Show, batch } from "solid-js";
 import { createStore } from "solid-js/store";
 import HideIcon from "../icons/HideIcon";
 import ShowIcon from "../icons/ShowIcon";
+import SubmitButton from "../layout/SubmitButton";
 import { ErrorStatusCode, getMessageFromStatusCode } from "../../utils/errors";
 import { fetchAPIPOST } from "../../utils/fetchAPI";
-import SubmitButton from "../layout/SubmitButton";
 
 type LoginFormProps = {
     reloadPage?: boolean;
@@ -30,8 +30,11 @@ export default function LoginForm(props: LoginFormProps) {
 
     const handleSubmit = async (e: Event) => {
         e.preventDefault();
-        setFields("formError", "");
-        setFields("isSubmitting", true);
+
+        batch(() => {
+            setFields("formError", "");
+            setFields("isSubmitting", true);
+        });
         try {
             const form = (document.getElementById("login-form")) as HTMLFormElement;
             const email = (form.querySelector("#email") as HTMLInputElement).value;
@@ -53,9 +56,10 @@ export default function LoginForm(props: LoginFormProps) {
                 window.location.replace("/dashboard/");
             }
         } catch (error) {
-            const message = getMessageFromStatusCode(error);
-            setFields("formError", message);
-            setFields("isSubmitting", false);
+            batch(() => {
+                setFields("formError", getMessageFromStatusCode(error));
+                setFields("isSubmitting", false);
+            });
         }
     };
 
