@@ -84,21 +84,16 @@ export default function LoginForm(props: LoginFormProps) {
                         />
                     </div>
                     <div class="flex h-24 flex-col space-y-1">
-                        <label class="w-full flex space-x-1" html-for="password">
-                            <span>Password</span>
-                            <Show
-                                when={fields.showPassword}
-                                fallback={
-                                    <button type="button" title="Show Password" onClick={toggleShowPassword}>
-                                        <ShowIcon class="w-5 h-5 fill-white" />
-                                    </button>
-                                }
-                            >
-                                <button type="button" title="Hide Password" onClick={toggleShowPassword}>
+                        <div class="w-full flex space-x-1">
+                            <label html-for="password">
+                                Password
+                            </label>
+                            <button type="button" title={`${fields.showPassword ? "Show" : "Hide"} Password`} onClick={toggleShowPassword}>
+                                <Show when={fields.showPassword} fallback={<ShowIcon class="w-5 h-5 fill-white" />}>
                                     <HideIcon class="w-5 h-5 fill-white" />
-                                </button>
-                            </Show>
-                        </label>
+                                </Show>
+                            </button>
+                        </div>
                         <input
                             class="w-full rounded px-1.5 py-2 text-black"
                             id="password"
