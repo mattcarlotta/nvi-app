@@ -52,6 +52,7 @@ export enum ErrorStatusCode {
     UpdateProjectInvalidBody = "E048",
     UpdateProjectNonExistentID = "E049",
     UpdateProjectNameTaken = "E050",
+    SearchForSecretsByEnvAndSecretInvalidKey = "E051",
 }
 
 export function getMessageFromStatusCode(error: ErrorStatusCode | unknown): string {
@@ -192,6 +193,9 @@ export function getMessageFromStatusCode(error: ErrorStatusCode | unknown): stri
             return errorCode;
         }
         case ErrorStatusCode.UpdateProjectNonExistentID: {
+            return errorCode;
+        }
+        case ErrorStatusCode.SearchForSecretsByEnvAndSecretInvalidKey: {
             return errorCode;
         }
         case ErrorStatusCode.Unknown:
