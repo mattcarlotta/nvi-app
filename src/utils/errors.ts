@@ -53,6 +53,9 @@ export enum ErrorStatusCode {
     UpdateProjectNonExistentID = "E049",
     UpdateProjectNameTaken = "E050",
     SearchForSecretsByEnvAndSecretInvalidKey = "E051",
+    CreateProjectOverLimit = "E052",
+    CreateEnvironmentOverLimit = "E053",
+
 }
 
 export function getMessageFromStatusCode(error: ErrorStatusCode | unknown): string {
@@ -197,6 +200,12 @@ export function getMessageFromStatusCode(error: ErrorStatusCode | unknown): stri
         }
         case ErrorStatusCode.SearchForSecretsByEnvAndSecretInvalidKey: {
             return errorCode;
+        }
+        case ErrorStatusCode.CreateProjectOverLimit: {
+            return "Accounts are currently limited to 10 projects per account. Please remove a project before attempting to create another."
+        }
+        case ErrorStatusCode.CreateEnvironmentOverLimit: {
+            return "Accounts are currently limited to 10 environments per project. Please remove an environment before attempting to create another."
         }
         case ErrorStatusCode.Unknown:
         default:
