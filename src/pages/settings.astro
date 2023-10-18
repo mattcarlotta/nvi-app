@@ -59,11 +59,11 @@ try {
                     </div>
                     <div class="space-y-4 bg-gray-900 border border-gray-800 rounded p-4">
                         <header>
-                            <h3 class="text-2xl">API key</h3>
+                            <h3 class="text-2xl">api key</h3>
                         </header>
                         <p>
-                            Use this unique key to retrieve environment secrets
-                            from the nvi API using the
+                            Use this unique key to retrieve environment secrets from the nvi API
+                            using the
                             <ExternalLink
                                 href="https://github.com/mattcarlotta/nvi"
                                 title="nvi CLI tool"
@@ -71,17 +71,14 @@ try {
                             .
                         </p>
                         <div class="bg-gray-800 p-2 border border-gray-700 rounded max-w-max">
-                            <CopyAPIKeyButton
-                                client:load
-                                apiKey={user.apiKey}
-                            />
+                            <CopyAPIKeyButton client:load apiKey={user.apiKey} />
                         </div>
                         <div class="border-t border-t-gray-700 p-1">
                             <p class="mt-2">
                                 Please refer to the
                                 <ExternalLink
-                                    href="https://github.com/mattcarlotta/nvi/blob/main/README.md#usage"
-                                    title="nvi CLI documentation"
+                                    href="https://github.com/mattcarlotta/nvi/wiki"
+                                    title="nvi wiki"
                                 />
                                 for more information.
                             </p>

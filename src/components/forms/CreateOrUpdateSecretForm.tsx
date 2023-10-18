@@ -119,13 +119,15 @@ export default function CreateOrUpdateSecretForm(props: CreateOrUpdateSecretForm
                         e.checked = true;
                     }
                 });
-                setFields("isLoading", false);
             } catch (error) {
                 dispatchToastError(error);
                 handleFormClear();
                 props.onCancel?.();
+            } finally {
+                setFields("isLoading", false);
             }
         }
+
         if (fields.isEditing) fetchSecret();
     });
 
@@ -170,7 +172,7 @@ export default function CreateOrUpdateSecretForm(props: CreateOrUpdateSecretForm
                         </legend>
                         <div class="max-h-56 overflow-y-scroll text-white">
                             <p class="text-xs text-gray-500 border-b border-gray-500 pt-1 pb-2">
-                                Please select one or many environments ({props.environments.length} available)
+                                Please select one or more environments ({props.environments.length} available)
                             </p>
                             <For each={props.environments}>
                                 {(environment) => (
@@ -178,9 +180,9 @@ export default function CreateOrUpdateSecretForm(props: CreateOrUpdateSecretForm
                                         <input type="checkbox" id={environment.name} name="environment" value={environment.id}>
                                             {environment.name}
                                         </input>
-                                        <span>
+                                        <p>
                                             {environment.name}
-                                        </span>
+                                        </p>
                                     </label>
                                 )}
                             </For>

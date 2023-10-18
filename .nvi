@@ -1,12 +1,13 @@
 [dev]
 debug = false
 files = ["development.env"]
-exec = "pnpm run dev --port 3000 --host 127.0.0.1"
+execute = "pnpm run dev --port 3000 --host 127.0.0.1"
 required = ["PUBLIC_API_URL"]
 
 [dev_remote]
+api = true
 debug = false
-env = "development"
-exec = "pnpm run dev --port 3000 --host 127.0.0.1"
+environment = "development"
+execute = "pnpm run dev --port 3000 --host 127.0.0.1"
 project = "nvi_app"
 required = ["PUBLIC_API_URL"]

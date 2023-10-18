@@ -25,7 +25,7 @@ export default function SubmitButton(props: SubmitButtonProps) {
                     props.secondary && !props.isSubmitting && "bg-gray-900 border border-gray-600 text-gray-200 fill-gray-200 hover:bg-gray-800",
                     props.secondary && (props.isSubmitting || props.disabled) && "bg-gray-700 text-gray-200 border border-gray-600",
                     props.isSubmitting && "cursor-not-allowed",
-                    'w-full rounded p-2'
+                    'w-full rounded p-2 transition'
                 )}
                 disabled={props.disabled || props.isSubmitting}
                 onClick={props.onClick}
