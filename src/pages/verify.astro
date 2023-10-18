@@ -1,0 +1,29 @@
+---
+import MainLayout from "../layouts/main.astro";
+import { fetchAPIPATCH } from "../utils/fetchAPI";
+
+const token = Astro.url.searchParams.get("token") || "";
+let message = "";
+try {
+    const res = await fetchAPIPATCH({
+        url: `/verify/account/?token=${token}`,
+    });
+
+    message = res.message || "Your email address is already verified!";
+} catch {
+    // handle errors below
+}
+---
+
+<MainLayout description="verify email address">
+    {
+        message ? (
+            <h1 class="text-3xl font-bold text-center">{message}</h1>
+        ) : (
+            <p>
+                Unable to verify that email address. Please try generating another account
+                verification verification.
+            </p>
+        )
+    }
+</MainLayout>
