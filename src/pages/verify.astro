@@ -1,4 +1,6 @@
 ---
+import CloseFormIcon from "../components/icons/CloseFormIcon";
+import SuccessIcon from "../components/icons/SuccessIcon";
 import MainLayout from "../layouts/main.astro";
 import { fetchAPIPATCH } from "../utils/fetchAPI";
 
@@ -9,21 +11,40 @@ try {
         url: `/verify/account/?token=${token}`,
     });
 
-    message = res.message || "Your email address is already verified!";
+    message = res.message || "Your email address is already verified.";
 } catch {
     // handle errors below
 }
 ---
 
-<MainLayout description="verify email address">
-    {
-        message ? (
-            <h1 class="text-3xl font-bold text-center">{message}</h1>
-        ) : (
-            <p>
-                Unable to verify that email address. Please try generating another account
-                verification verification.
-            </p>
-        )
-    }
+<MainLayout description={message ? "successfully verified account" : "account verification failed"}>
+    <div class="flex flex-col items-center justify-center">
+        <div class="flex flex-col items-center space-y-4 w-full max-w-xl p-8 bg-gray-900 rounded">
+            {
+                message ? (
+                    <>
+                        <SuccessIcon class="w-20 h-20 fill-green-500" />
+                        <h1 class="text-2xl font-bold text-center">{message}</h1>
+                        <h2 class="text-lg">
+                            When you&apos;re ready, feel free to
+                            <a class="text-blue-500 hover:underline" href="/login/">
+                                login
+                            </a>
+                            .
+                        </h2>
+                    </>
+                ) : (
+                    <>
+                        <CloseFormIcon class="w-20 h-20 fill-red-500" />
+                        <h1 class="text-2xl font-bold text-center">
+                            Unable to verify email address.
+                        </h1>
+                        <h2 class="text-md font-bold text-center text-red-500">
+                            Please try generating another account verification.
+                        </h2>
+                    </>
+                )
+            }
+        </div>
+    </div>
 </MainLayout>
