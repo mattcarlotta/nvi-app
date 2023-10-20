@@ -2,19 +2,20 @@
 import AccountDropdown from "./AccountDropdown";
 
 interface Props {
+    email?: string;
     userName?: string;
 }
 
-const { userName } = Astro.props;
+const { email, userName } = Astro.props;
 ---
 
-<div class="flex justify-center items-center bg-gray-800">
+<div class="flex justify-center items-center bg-gray-900">
     <nav class="w-full max-w-main flex py-3 px-2">
         <div class="flex-1">
-            <a class="block py-1" href="/">Home</a>
+            <a class="block py-1" href="/">&#91;nvi&#93;</a>
         </div>
         <div>
-            <AccountDropdown client:load userName={userName} />
+            <AccountDropdown client:load email={email} userName={userName} />
         </div>
     </nav>
 </div>

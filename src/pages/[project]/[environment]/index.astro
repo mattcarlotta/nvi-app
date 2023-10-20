@@ -1,10 +1,5 @@
 ---
-import type {
-    Environment,
-    Environments,
-    Project,
-    Secrets,
-} from "../../../types";
+import type { Environment, Environments, Project, Secrets, User } from "../../../types";
 import LoginForm from "../../../components/forms/LoginForm";
 import NavBar from "../../../components/layout/NavBar.astro";
 import SecretsList from "../../../components/layout/SecretsList";
@@ -12,7 +7,7 @@ import MainLayout from "../../../layouts/main.astro";
 import { fetchAPIGET } from "../../../utils/fetchAPI";
 
 const sessionToken = Astro.cookies.get("SESSION_TOKEN");
-let userName = "";
+let user: User | null = null;
 let project: Project | null = null;
 let environment: Environment | null = null;
 let environments: Environments = [];
@@ -25,11 +20,11 @@ try {
         headers,
     });
 
-    if (!userRes.data?.name) {
-        throw Error("Not logged in!");
+    if (!userRes.data) {
+        throw Error("Not logged in");
     }
 
-    userName = userRes.data.name;
+    user = userRes.data;
 
     const res = await fetchAPIGET({
         url: `/secrets/projectenvironment/?project=${Astro.params.project}&environment=${Astro.params.environment}`,
@@ -54,17 +49,14 @@ const description =
 ---
 
 <MainLayout description={description}>
-    <NavBar userName={userName} slot="navbar" />
+    <NavBar email={user?.email} userName={user?.name} slot="navbar" />
     {
-        !userName ? (
+        !user?.name ? (
             <LoginForm client:load reloadPage />
         ) : project && environment && environments?.length ? (
             <>
                 <div class="flex items-center space-x-2 text-3xl mb-2">
-                    <a
-                        class="block text-blue-500 hover:underline"
-                        href="/dashboard/"
-                    >
+                    <a class="block text-blue-500 hover:underline" href="/dashboard/">
                         dashboard
                     </a>
                     <div class="text-2xl">&#187;</div>

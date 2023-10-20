@@ -1,4 +1,5 @@
 ---
+import type { User } from "../types";
 import LoginForm from "../components/forms/LoginForm";
 import MainLayout from "../layouts/main.astro";
 import NavBar from "../components/layout/NavBar.astro";
@@ -6,7 +7,7 @@ import ProjectList from "../components/layout/ProjectList";
 import { fetchAPIGET } from "../utils/fetchAPI";
 
 const sessionToken = Astro.cookies.get("SESSION_TOKEN");
-let userName = "";
+let user: User | null = null;
 let projects = [];
 try {
     const headers = new Headers();
@@ -16,11 +17,11 @@ try {
         headers,
     });
 
-    if (!userRes.data?.name) {
-        throw new Error("Not logged in!");
+    if (!userRes.data) {
+        throw Error("Not logged in");
     }
 
-    userName = userRes.data.name;
+    user = userRes.data;
 
     const projectRes = await fetchAPIGET({
         url: "/projects/",
@@ -34,9 +35,9 @@ try {
 ---
 
 <MainLayout description="dashboard">
-    <NavBar userName={userName} slot="navbar" />
+    <NavBar email={user?.email} userName={user?.name} slot="navbar" />
     {
-        !userName ? (
+        !user?.name ? (
             <LoginForm client:load reloadPage />
         ) : (
             <>

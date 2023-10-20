@@ -1,7 +1,9 @@
 import { Show, batch, createEffect } from "solid-js"
 import { createStore } from "solid-js/store";
+import LogoutButton from "./LogoutButton";
 
 type AccountDropdownProps = {
+    email?: string;
     userName?: string;
 }
 
@@ -21,7 +23,7 @@ export default function AccountDropdown(props: AccountDropdownProps) {
 
     const toggleVisibility = () => {
         batch(() => {
-            setOptions("x", currentX => currentX === 0 ? -95 : 0);
+            setOptions("x", currentX => currentX === 0 ? -155 : 0);
             setOptions("y", currentY => currentY === 0 ? 5 : 0);
             setOptions("isVisible", v => !v);
         });
@@ -47,18 +49,33 @@ export default function AccountDropdown(props: AccountDropdownProps) {
             </button>
             <Show when={options.isVisible}>
                 <ul
-                    class="absolute z-10 bg-gray-900 border-2 border-gray-600 rounded min-w-[8rem]"
+                    class="text-sm absolute z-10 bg-gray-900 border-2 border-gray-600 rounded w-[12rem]"
                     style={`transform: translate(${options.x}px,${options.y}px);`}
                 >
+                    <li class="p-2">
+                        <p class="text-gray-50">
+                            {props.userName}
+                        </p>
+                        <p class="text-gray-400 text-xs text-ellipsis overflow-hidden line-clamp-1">
+                            {props.email}
+                        </p>
+                    </li>
                     <li>
-                        <a class="block p-2 hover:bg-gray-700" href="/dashboard/">
+                        <a class="block text-gray-400 p-2 hover:text-gray-50 hover:bg-gray-800" href="/dashboard/">
                             Dashboard
                         </a>
                     </li>
                     <li>
-                        <a class="block p-2 hover:bg-gray-700" href="/settings/">
+                        <a class="block text-gray-400 p-2 hover:text-gray-50 hover:bg-gray-800" href="/settings/">
                             Settings
                         </a>
+                    </li>
+                    <li>
+                        <LogoutButton
+                            className="block text-left w-full text-gray-400 p-2 hover:text-gray-50 hover:bg-gray-800"
+                        >
+                            Logout
+                        </LogoutButton>
                     </li>
                 </ul>
             </Show>

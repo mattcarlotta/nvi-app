@@ -1,5 +1,5 @@
 ---
-import type { Environments, Project } from "../../types/";
+import type { Environments, Project, User } from "../../types/";
 import EnvironmentList from "../../components/layout/EnvironmentList";
 import LoginForm from "../../components/forms/LoginForm";
 import NavBar from "../../components/layout/NavBar.astro";
@@ -7,7 +7,7 @@ import MainLayout from "../../layouts/main.astro";
 import { fetchAPIGET } from "../../utils/fetchAPI";
 
 const sessionToken = Astro.cookies.get("SESSION_TOKEN");
-let userName = "";
+let user: User | null = null;
 let project: Project | null = null;
 let environments: Environments = [];
 try {
@@ -18,11 +18,11 @@ try {
         headers,
     });
 
-    if (!userRes.data?.name) {
+    if (!userRes.data) {
         throw Error("Not logged in");
     }
 
-    userName = userRes.data.name;
+    user = userRes.data;
 
     const res = await fetchAPIGET({
         url: `/environments/project/${Astro.params.project}`,
@@ -38,17 +38,14 @@ try {
 ---
 
 <MainLayout description={project ? project.name : "project not found"}>
-    <NavBar userName={userName} slot="navbar" />
+    <NavBar email={user?.email} userName={user?.name} slot="navbar" />
     {
-        !userName ? (
+        !user?.name ? (
             <LoginForm client:load reloadPage />
         ) : project ? (
             <>
                 <div class="flex items-center space-x-2 text-3xl mb-2">
-                    <a
-                        class="block text-blue-500 hover:underline"
-                        href="/dashboard/"
-                    >
+                    <a class="block text-blue-500 hover:underline" href="/dashboard/">
                         dashboard
                     </a>
                     <div class="text-2xl">&#187;</div>

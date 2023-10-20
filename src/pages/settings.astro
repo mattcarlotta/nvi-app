@@ -2,8 +2,9 @@
 import type { User } from "../types";
 import CopyAPIKeyButton from "../components/layout/CopyAPIKeyButton";
 import LoginForm from "../components/forms/LoginForm";
+import SettingsIcon from "../components/icons/SettingsIcon";
 import ExternalLink from "../components/layout/ExternalLink.astro";
-import LogoutButton from "../components/layout/LogoutButton.astro";
+import LogoutButton from "../components/layout/LogoutButton";
 import NavBar from "../components/layout/NavBar.astro";
 import MainLayout from "../layouts/main.astro";
 import { fetchAPIGET } from "../utils/fetchAPI";
@@ -30,15 +31,16 @@ try {
 ---
 
 <MainLayout description="settings">
-    <NavBar userName={user?.name} slot="navbar" />
+    <NavBar email={user?.email} userName={user?.name} slot="navbar" />
     {
         !user?.name ? (
             <LoginForm client:load reloadPage />
         ) : (
             <>
                 <h1 class="text-3xl mb-2">
-                    settings
-                    <LogoutButton className="text-sm text-blue-500 hover:underline">
+                    <SettingsIcon class="w-5 h-5 fill-white inline" />
+                    <span class="px-1">settings</span>
+                    <LogoutButton client:load className="text-sm text-blue-500 hover:underline">
                         (logout)
                     </LogoutButton>
                 </h1>

@@ -3,10 +3,11 @@ import DashboardHeader from "./DashboardHeader.astro";
 import NavHeader from "./NavHeader.astro";
 
 interface Props {
+    email?: string;
     userName?: string;
 }
 
-const { userName } = Astro.props;
+const { email, userName } = Astro.props;
 ---
 
-{!userName ? <NavHeader /> : <DashboardHeader userName={userName} />}
+{!userName ? <NavHeader /> : <DashboardHeader email={email} userName={userName} />}
