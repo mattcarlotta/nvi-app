@@ -49,10 +49,10 @@ export default function AccountDropdown(props: AccountDropdownProps) {
             </button>
             <Show when={options.isVisible}>
                 <ul
-                    class="text-sm absolute z-10 bg-gray-900 border-2 border-gray-600 rounded w-[12rem]"
+                    class="text-sm absolute z-10 bg-gray-900 border-2 border-gray-600 rounded w-48"
                     style={`transform: translate(${options.x}px,${options.y}px);`}
                 >
-                    <li class="p-2">
+                    <li class="py-2 pl-4 pr-2">
                         <p class="text-gray-50">
                             {props.userName}
                         </p>
@@ -60,20 +60,18 @@ export default function AccountDropdown(props: AccountDropdownProps) {
                             {props.email}
                         </p>
                     </li>
-                    <li>
-                        <a class="block text-gray-400 p-2 hover:text-gray-50 hover:bg-gray-800" href="/dashboard/">
+                    <li class="text-gray-400 hover:text-gray-50 hover:bg-gray-800">
+                        <a class="block py-2 pl-4 pr-2" href="/dashboard/">
                             Dashboard
                         </a>
                     </li>
-                    <li>
-                        <a class="block text-gray-400 p-2 hover:text-gray-50 hover:bg-gray-800" href="/settings/">
+                    <li class="text-gray-400 hover:text-gray-50 hover:bg-gray-800">
+                        <a class="block py-2 pl-4 pr-2" href="/settings/">
                             Settings
                         </a>
                     </li>
-                    <li>
-                        <LogoutButton
-                            className="block text-left w-full text-gray-400 p-2 hover:text-gray-50 hover:bg-gray-800"
-                        >
+                    <li class="text-gray-400 hover:text-gray-50 hover:bg-gray-800">
+                        <LogoutButton className="w-full text-left py-2 pl-4 pr-2">
                             Logout
                         </LogoutButton>
                     </li>
