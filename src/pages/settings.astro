@@ -54,7 +54,20 @@ try {
                             class="block max-w-max"
                             datetime={user.createdAt}
                         >
-                            Registered: {relativeTimeFromNow(user.createdAt)}
+                            Registered: {relativeTimeFromNow(user.createdAt)}&#32;
+                            <span class="text-xs">
+                                &#40;
+                                {new Intl.DateTimeFormat("en-US", {
+                                    year: "numeric",
+                                    month: "long",
+                                    day: "numeric",
+                                    hour: "numeric",
+                                    minute: "numeric",
+                                    second: "numeric",
+                                    hour12: true,
+                                }).format(new Date(user.createdAt))}
+                                &#41;
+                            </span>
                         </time>
                     </div>
                     <div class="space-y-4 bg-gray-900 border border-gray-800 rounded p-4">
@@ -62,8 +75,8 @@ try {
                             <h3 class="text-2xl">api key</h3>
                         </header>
                         <p>
-                            Use this unique key to retrieve environment secrets from the nvi API
-                            using the
+                            Use this unique key to retrieve project environment secrets from the nvi
+                            API using the
                             <ExternalLink
                                 href="https://github.com/mattcarlotta/nvi"
                                 title="nvi CLI tool"
@@ -78,7 +91,7 @@ try {
                                 Please refer to the
                                 <ExternalLink
                                     href="https://github.com/mattcarlotta/nvi/wiki"
-                                    title="nvi wiki"
+                                    title="nvi CLI wiki"
                                 />
                                 for more information.
                             </p>

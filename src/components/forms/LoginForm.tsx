@@ -118,6 +118,7 @@ export default function LoginForm(props: LoginFormProps) {
                         <p>
                             Don't have an account? <a class="text-blue-500 hover:underline" href="/register/">Sign up</a>
                         </p>
+                        <a class="block text-blue-500 hover:underline" href="/forgot-password/">Forgot your password?</a>
                     </div>
                 </form>
             </div>

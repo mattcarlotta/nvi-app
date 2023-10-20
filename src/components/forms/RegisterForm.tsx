@@ -121,13 +121,16 @@ export default function RegisterForm() {
                                 required
                             />
                         </div>
-                        <SubmitButton primary isSubmitting={fields.isSubmitting}>Register</SubmitButton>
-                        <p>
-                            Already have an account? <a class="text-blue-500 hover:underline" href="/login/">Log in</a>
-                        </p>
                         <Show when={fields.formError}>
                             <p class="font-bold text-red-600">{fields.formError}</p>
                         </Show>
+                        <div class="flex flex-col space-y-2">
+                            <SubmitButton primary isSubmitting={fields.isSubmitting}>Register</SubmitButton>
+                            <p>
+                                Already have an account? <a class="text-blue-500 hover:underline" href="/login/">Log in</a>
+                            </p>
+                            <a class="block text-blue-500 hover:underline" href="/forgot-password/">Forgot your password?</a>
+                        </div>
                     </form>
                 </div>
             </div>

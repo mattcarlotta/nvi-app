@@ -1,6 +1,6 @@
 ---
-import CloseFormIcon from "../components/icons/CloseFormIcon";
 import SuccessIcon from "../components/icons/SuccessIcon";
+import ResendAccountVerificationEmailForm from "../components/forms/ResendAccountVerificationEmailForm";
 import MainLayout from "../layouts/main.astro";
 import { fetchAPIPATCH } from "../utils/fetchAPI";
 
@@ -34,15 +34,7 @@ try {
                         </h2>
                     </>
                 ) : (
-                    <>
-                        <CloseFormIcon class="w-20 h-20 fill-red-500" />
-                        <h1 class="text-2xl font-bold text-center">
-                            Unable to verify email address.
-                        </h1>
-                        <h2 class="text-md font-bold text-center text-red-500">
-                            Please try generating another account verification.
-                        </h2>
-                    </>
+                    <ResendAccountVerificationEmailForm client:load />
                 )
             }
         </div>
