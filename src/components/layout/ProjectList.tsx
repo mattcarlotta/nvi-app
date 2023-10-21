@@ -1,7 +1,7 @@
 import { For, createSignal, Switch, Match, batch } from "solid-js"
 import type { Project as Proj, Projects } from "../../types"
-import SearchOrCreateProjectForm from "../forms/SearchOrCreateProjectForm"
 import ProjectIcon from "../icons/ProjectIcon"
+import SearchOrCreateProjectForm from "../forms/SearchOrCreateProjectForm"
 import Project from "./Project"
 
 

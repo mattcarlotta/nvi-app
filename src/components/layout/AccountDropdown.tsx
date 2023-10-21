@@ -1,5 +1,8 @@
 import { Show, batch, createEffect } from "solid-js"
 import { createStore } from "solid-js/store";
+import DashboardIcon from "../icons/DashboardIcon";
+import LogoutIcon from "../icons/LogoutIcon";
+import SettingsIcon from "../icons/SettingsIcon";
 import LogoutButton from "./LogoutButton";
 
 type AccountDropdownProps = {
@@ -61,17 +64,20 @@ export default function AccountDropdown(props: AccountDropdownProps) {
                         </p>
                     </li>
                     <li class="text-gray-400 hover:text-gray-50 hover:bg-gray-800">
-                        <a class="block py-2 pl-4 pr-2" href="/dashboard/">
+                        <a class="block py-2 pl-3.5 pr-2" href="/dashboard/">
+                            <DashboardIcon class="w-5 h-5 inline mr-1" />
                             Dashboard
                         </a>
                     </li>
                     <li class="text-gray-400 hover:text-gray-50 hover:bg-gray-800">
                         <a class="block py-2 pl-4 pr-2" href="/settings/">
+                            <SettingsIcon class="w-4 h-4 fill-gray-400 inline mr-1.5" />
                             Settings
                         </a>
                     </li>
                     <li class="text-gray-400 hover:text-gray-50 hover:bg-gray-800">
-                        <LogoutButton className="w-full text-left py-2 pl-4 pr-2">
+                        <LogoutButton className="w-full text-left py-2 pl-3.5 pr-2">
+                            <LogoutIcon class="w-5 h-5 inline mr-1" />
                             Logout
                         </LogoutButton>
                     </li>

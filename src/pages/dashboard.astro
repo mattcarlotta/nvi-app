@@ -5,6 +5,7 @@ import MainLayout from "../layouts/main.astro";
 import NavBar from "../components/layout/NavBar.astro";
 import ProjectList from "../components/layout/ProjectList";
 import { fetchAPIGET } from "../utils/fetchAPI";
+import DashboardIcon from "../components/icons/DashboardIcon";
 
 const sessionToken = Astro.cookies.get("SESSION_TOKEN");
 let user: User | null = null;
@@ -41,7 +42,10 @@ try {
             <LoginForm client:load reloadPage />
         ) : (
             <>
-                <h1 class="text-3xl mb-2">dashboard</h1>
+                <h1 class="text-3xl mb-2 text-gray-100">
+                    <DashboardIcon class="w-6 h-6 inline" />
+                    <span>dashboard</span>
+                </h1>
                 <ProjectList client:load projects={projects} />
             </>
         )

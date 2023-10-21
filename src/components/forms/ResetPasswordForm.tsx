@@ -104,12 +104,18 @@ export default function ResetPasswordForm() {
                             <Show when={fields.formError}>
                                 <p class="font-bold text-red-600">{fields.formError}</p>
                             </Show>
-                            <SubmitButton
-                                primary
-                                isSubmitting={fields.isSubmitting}
-                            >
-                                Reset
-                            </SubmitButton>
+                            <div class="flex flex-col space-y-2">
+                                <SubmitButton
+                                    primary
+                                    isSubmitting={fields.isSubmitting}
+                                >
+                                    Reset
+                                </SubmitButton>
+                                <p>
+                                    Having trouble resetting your password?&#31;
+                                    <a class="text-blue-500 hover:underline" href="/forgot-password/">Request another password reset</a>
+                                </p>
+                            </div>
                         </form>
                     </>
                 </Show>

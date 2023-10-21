@@ -132,7 +132,7 @@ export default function CreateOrUpdateSecretForm(props: CreateOrUpdateSecretForm
     });
 
     return (
-        <div class={clsx("bg-gray-900 rounded", !props.secretID && "p-4")}>
+        <div class={clsx("bg-gray-900 rounded", !props.secretID && "p-4 border border-gray-800")}>
             <form id={selectedFormID} onSubmit={handleFormSubmit}>
                 <div class="flex flex-col space-y-2 text-black border-b border-b-gray-600 pt-2 pb-4 md:grid md:grid-cols-12 md:gap-4 md:space-y-0">
                     <div class="md:col-span-6 md:flex md:flex-col md:space-y-4">

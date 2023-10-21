@@ -67,8 +67,10 @@ export function getMessageFromStatusCode(error: ErrorStatusCode | unknown): stri
         case ErrorStatusCode.RegisterEmailTaken: {
             return errorCode;
         }
-        case ErrorStatusCode.LoginInvalidBody:
         case ErrorStatusCode.UpdatePasswordInvalidBody: {
+            return "A password (between 5-36 characters) and a unique password reset token must be provided."
+        }
+        case ErrorStatusCode.LoginInvalidBody: {
             return "A valid email address and a password (between 5-36 characters) must be provided."
         }
         case ErrorStatusCode.LoginUnregisteredEmail: {

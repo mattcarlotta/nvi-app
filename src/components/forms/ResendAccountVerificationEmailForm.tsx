@@ -37,7 +37,7 @@ export default function ResendAccountVerficiationForm() {
             batch(() => {
                 setFields("formError", "");
                 setFields("isSubmitting", false);
-                setFields("message", `Resent an email verification to ${email}!`);
+                setFields("message", `Resent an account verification email to ${email}!`);
             });
         } catch (error) {
             batch(() => {

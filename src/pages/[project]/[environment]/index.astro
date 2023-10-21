@@ -1,6 +1,9 @@
 ---
 import type { Environment, Environments, Project, Secrets, User } from "../../../types";
 import LoginForm from "../../../components/forms/LoginForm";
+import DashboardIcon from "../../../components/icons/DashboardIcon";
+import EnvironmentIcon from "../../../components/icons/EnvironmentIcon";
+import ProjectIcon from "../../../components/icons/ProjectIcon";
 import NavBar from "../../../components/layout/NavBar.astro";
 import SecretsList from "../../../components/layout/SecretsList";
 import MainLayout from "../../../layouts/main.astro";
@@ -55,23 +58,26 @@ const description =
             <LoginForm client:load reloadPage />
         ) : project && environment && environments?.length ? (
             <>
-                <div class="flex items-center space-x-2 text-3xl mb-2">
-                    <a class="block text-blue-500 hover:underline" href="/dashboard/">
-                        dashboard
+                <div class="text-2xl mb-2 md:flex md:items-center md:space-x-2 md:text-3xl">
+                    <a class="hidden text-blue-500 md:block hover:underline" href="/dashboard/">
+                        <DashboardIcon class="w-6 h-6 text-blue-500 inline" />
+                        <span>dashboard</span>
                     </a>
-                    <div class="text-2xl">&#187;</div>
+                    <div class="hidden text-2xl text-gray-600 md:block">&#8227;</div>
                     <a
                         title={project.name}
                         class="block text-blue-500 text-ellipsis overflow-hidden max-w-[20rem] hover:underline"
                         href={`/${project.name}/`}
                     >
-                        {project.name}
+                        <ProjectIcon class="hidden w-6 h-6 fill-blue-500 mr-1 md:inline" />
+                        <span>{project.name}</span>
                     </a>
-                    <div class="text-2xl">&#187;</div>
+                    <div class="hidden text-2xl text-gray-600 md:block">&#8227;</div>
                     <h1
                         title={environment.name}
-                        class="font-bold text-ellipsis overflow-hidden max-w-[20rem]"
+                        class="font-bold text-gray-100 text-ellipsis overflow-hidden max-w-[20rem]"
                     >
+                        <EnvironmentIcon class="w-6 h-6 fill-gray-100 inline mr-1" />
                         {environment.name}
                     </h1>
                 </div>
