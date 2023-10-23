@@ -76,5 +76,5 @@ export default function Project(props: ProjectProps) {
                 </div>
             </Show>
         </div>
-    )
+    );
 }

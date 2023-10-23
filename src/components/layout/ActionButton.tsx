@@ -46,6 +46,7 @@ export default function ActionButton(props: ActionButtonProps) {
         props.onDeleteClick();
         toggleVisibility();
     }
+
     createEffect(() => {
         document.addEventListener("click", handleClickOutside);
         return () => {
@@ -85,6 +86,5 @@ export default function ActionButton(props: ActionButtonProps) {
                 </ul>
             </Show>
         </div>
-    )
-
+    );
 }

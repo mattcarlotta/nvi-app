@@ -108,7 +108,7 @@ export function getMessageFromStatusCode(error: ErrorStatusCode | unknown): stri
             return "A valid environment name and a project ID must be provided."
         }
         case ErrorStatusCode.CreateEnvironmentInvalidProjectID: {
-            return errorCode;
+            return "Unable to create an environment because the project doesn't appear to exist anymore.";
         }
         case ErrorStatusCode.CreateEnvironmentNameTaken:
         case ErrorStatusCode.UpdateEnvironmentNameTaken: {
@@ -118,7 +118,7 @@ export function getMessageFromStatusCode(error: ErrorStatusCode | unknown): stri
             return errorCode;
         }
         case ErrorStatusCode.DeleteEnvironmentNonExistentID: {
-            return errorCode;
+            return "Unable to delete this environment because it doesn't appear to exist anymore.";
         }
         case ErrorStatusCode.UpdateEnvironmentInvalidBody: {
             return errorCode;
@@ -127,7 +127,7 @@ export function getMessageFromStatusCode(error: ErrorStatusCode | unknown): stri
             return errorCode;
         }
         case ErrorStatusCode.UpdateEnvironmentNonExistentID: {
-            return errorCode;
+            return "Unable to update this environment because it doesn't appear to exist anymore.";
         }
         case ErrorStatusCode.GetSecretInvalidID: {
             return errorCode;
@@ -158,7 +158,7 @@ export function getMessageFromStatusCode(error: ErrorStatusCode | unknown): stri
             return errorCode;
         }
         case ErrorStatusCode.DeleteSecretNonExistentID: {
-            return errorCode;
+            return "Unable to delete this secret because it doesn't appear to exist anymore.";
         }
         case ErrorStatusCode.UpdateSecretInvalidBody: {
             return errorCode;
@@ -167,7 +167,7 @@ export function getMessageFromStatusCode(error: ErrorStatusCode | unknown): stri
             return errorCode;
         }
         case ErrorStatusCode.UpdateSecretNonExistentEnv: {
-            return errorCode;
+            return "Unable to update this secret because it doesn't appear to exist anymore.";
         }
         case ErrorStatusCode.GetProjectInvalidID: {
             return errorCode;
@@ -192,13 +192,13 @@ export function getMessageFromStatusCode(error: ErrorStatusCode | unknown): stri
             return errorCode;
         }
         case ErrorStatusCode.DeleteProjectNonExistentID: {
-            return errorCode;
+            return "Unable to delete this project because it doesn't appear to exist anymore.";
         }
         case ErrorStatusCode.UpdateProjectInvalidBody: {
             return errorCode;
         }
         case ErrorStatusCode.UpdateProjectNonExistentID: {
-            return errorCode;
+            return "Unable to update this project because it doesn't appear to exist anymore.";
         }
         case ErrorStatusCode.SearchForSecretsByEnvAndSecretInvalidKey: {
             return errorCode;

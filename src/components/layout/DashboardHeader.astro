@@ -12,7 +12,7 @@ const { email, userName } = Astro.props;
 <div class="flex justify-center items-center bg-gray-900 border-b border-gray-800">
     <nav class="w-full max-w-main flex py-3 px-4 md:px-2">
         <div class="flex-1">
-            <a class="block py-1" href="/">&#91;nvi&#93;</a>
+            <a class="block max-w-max py-1" href="/">&#91;nvi&#93;</a>
         </div>
         <div>
             <AccountDropdown client:load email={email} userName={userName} />

@@ -3,6 +3,7 @@ import type { User } from "../types";
 import CopyAPIKeyButton from "../components/layout/CopyAPIKeyButton";
 import LoginForm from "../components/forms/LoginForm";
 import SettingsIcon from "../components/icons/SettingsIcon";
+import DeleteAccountButton from "../components/layout/DeleteAccountButton";
 import ExternalLink from "../components/layout/ExternalLink.astro";
 import LogoutButton from "../components/layout/LogoutButton";
 import NavBar from "../components/layout/NavBar.astro";
@@ -45,9 +46,11 @@ try {
                     </LogoutButton>
                 </h1>
                 <div class="flex flex-col space-y-4">
-                    <div class="space-y-4 bg-gray-900 border border-gray-800 rounded p-4">
+                    <section class="space-y-4 bg-gray-900 border border-gray-800 rounded p-4">
                         <header>
-                            <h3 class="text-2xl">account</h3>
+                            <h2 id="account" class="text-2xl">
+                                account
+                            </h2>
                         </header>
                         <p>Display Name: {user.name}</p>
                         <p>Email: {user.email}</p>
@@ -71,10 +74,12 @@ try {
                                 &#41;
                             </span>
                         </time>
-                    </div>
-                    <div class="space-y-4 bg-gray-900 border border-gray-800 rounded p-4">
+                    </section>
+                    <section class="space-y-4 bg-gray-900 border border-gray-800 rounded p-4">
                         <header>
-                            <h3 class="text-2xl">api key</h3>
+                            <h2 id="api" class="text-2xl">
+                                api
+                            </h2>
                         </header>
                         <p>
                             Use this unique key to retrieve project environment secrets from the nvi
@@ -98,7 +103,23 @@ try {
                                 for more information.
                             </p>
                         </div>
-                    </div>
+                    </section>
+                    <section class="space-y-4 bg-red-900 bg-opacity-30 border border-red-800 rounded p-4">
+                        <header>
+                            <h2 id="delete" class="text-2xl">
+                                delete
+                            </h2>
+                        </header>
+                        <p>
+                            Permanently delete your account and all of its contents from the nvi
+                            platform. This action is
+                            <strong class="underline text-red-500">irreversible</strong>, so
+                            continue with caution.
+                        </p>
+                        <div class="border-t border-t-red-900 py-2">
+                            <DeleteAccountButton client:load />
+                        </div>
+                    </section>
                 </div>
             </>
         )
