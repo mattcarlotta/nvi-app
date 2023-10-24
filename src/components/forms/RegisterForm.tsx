@@ -66,7 +66,7 @@ export default function RegisterForm() {
             when={!fields.successMessage.length}
             fallback={<SuccessRegisterMessage message={fields.successMessage} />}
         >
-            <div class="flex flex-col justify-center items-center space-y-4 text-white">
+            <div class="flex flex-col justify-center items-center space-y-4 text-gray-200">
                 <div class="flex flex-col space-y-4 w-full max-w-xl p-8 bg-gray-900 rounded">
                     <h1 class="text-center text-3xl">Register</h1>
                     <form id="register-form" class="w-full" onSubmit={handleSubmit}>

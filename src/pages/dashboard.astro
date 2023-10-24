@@ -42,9 +42,9 @@ try {
             <LoginForm client:load reloadPage />
         ) : (
             <>
-                <h1 class="text-3xl mb-2 text-gray-100">
-                    <DashboardIcon class="w-6 h-6 inline" />
-                    <span>dashboard</span>
+                <h1 class="flex items-center text-2xl mb-2 md:text-3xl">
+                    <DashboardIcon class="flex-none w-7 h-7" />
+                    dashboard
                 </h1>
                 <ProjectList client:load projects={projects} />
             </>

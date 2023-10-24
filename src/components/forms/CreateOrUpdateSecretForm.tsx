@@ -134,10 +134,10 @@ export default function CreateOrUpdateSecretForm(props: CreateOrUpdateSecretForm
     return (
         <div class={clsx("bg-gray-900 rounded", !props.secretID && "p-4 border border-gray-800")}>
             <form id={selectedFormID} onSubmit={handleFormSubmit}>
-                <div class="flex flex-col space-y-2 text-black border-b border-b-gray-600 pt-2 pb-4 md:grid md:grid-cols-12 md:gap-4 md:space-y-0">
+                <div class="flex flex-col space-y-2 border-b border-b-gray-600 pt-2 pb-4 md:grid md:grid-cols-12 md:gap-4 md:space-y-0">
                     <div class="md:col-span-6 md:flex md:flex-col md:space-y-4">
                         <div class="space-y-1">
-                            <label class="block text-white" html-for="key">
+                            <label class="block" html-for="key">
                                 Key
                             </label>
                             <input
@@ -152,7 +152,7 @@ export default function CreateOrUpdateSecretForm(props: CreateOrUpdateSecretForm
                             />
                         </div>
                         <div class="space-y-1">
-                            <label class="block text-white" html-for="value">
+                            <label class="block" html-for="value">
                                 Value
                             </label>
                             <textarea
@@ -167,20 +167,20 @@ export default function CreateOrUpdateSecretForm(props: CreateOrUpdateSecretForm
                         </div>
                     </div>
                     <fieldset class="md:col-span-6">
-                        <legend class="block text-white">
+                        <legend class="block">
                             Environments
                         </legend>
-                        <div class="max-h-56 overflow-y-scroll text-white">
+                        <div class="max-h-56 overflow-y-scroll">
                             <p class="text-xs text-gray-500 border-b border-gray-500 pt-1 pb-2">
                                 Please select one or more environments ({props.environments.length} available)
                             </p>
                             <For each={props.environments}>
                                 {(environment) => (
-                                    <label class="flex justify-start space-x-2 border-b border-gray-500 p-1 cursor-pointer">
-                                        <input type="checkbox" id={environment.name} name="environment" value={environment.id}>
+                                    <label class="grid grid-cols-12 gap-x-0.5 border-b border-gray-500 p-1 cursor-pointer sm:flex sm:space-x-2">
+                                        <input class="w-4 col-span-1" type="checkbox" id={environment.name} name="environment" value={environment.id}>
                                             {environment.name}
                                         </input>
-                                        <p>
+                                        <p class="col-span-11 text-ellipsis overflow-hidden">
                                             {environment.name}
                                         </p>
                                     </label>

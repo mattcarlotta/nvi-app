@@ -65,7 +65,7 @@ export default function LoginForm(props: LoginFormProps) {
 
 
     return (
-        <div class="flex flex-col justify-center items-center space-y-4 text-white">
+        <div class="flex flex-col justify-center items-center space-y-4">
             <div class="flex flex-col space-y-4 w-full max-w-xl p-8 bg-gray-900 rounded">
                 <h1 class="text-center text-3xl">Login</h1>
                 <form id="login-form" class="w-full" onSubmit={handleSubmit}>

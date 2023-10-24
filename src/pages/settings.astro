@@ -39,13 +39,15 @@ try {
             <LoginForm client:load reloadPage />
         ) : (
             <>
-                <h1 class="text-3xl mb-2 text-gray-100">
-                    <SettingsIcon class="w-5 h-5 fill-gray-100 inline" />
-                    <span class="px-1">settings</span>
+                <div class="flex">
+                    <h1 class="text-3xl mb-2">
+                        <SettingsIcon class="w-6 h-6 fill-gray-100 inline" />
+                        <span class="px-1">settings</span>
+                    </h1>
                     <LogoutButton client:load className="text-sm text-blue-500 hover:underline">
-                        (logout)
+                        &#40;logout&#41;
                     </LogoutButton>
-                </h1>
+                </div>
                 <div class="flex flex-col space-y-4">
                     <section class="space-y-4 bg-gray-900 border border-gray-800 rounded p-4">
                         <header>
@@ -76,7 +78,7 @@ try {
                         </time>
                     </section>
                     <section class="space-y-4 bg-gray-900 border border-gray-800 rounded p-4">
-                        <UpdateDisplayNameForm client:load name={user?.name} />
+                        <UpdateDisplayNameForm client:load name={user.name} />
                     </section>
                     <section class="space-y-4 bg-gray-900 border border-gray-800 rounded p-4">
                         <header>

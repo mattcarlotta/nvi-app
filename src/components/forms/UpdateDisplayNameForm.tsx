@@ -11,7 +11,7 @@ type UpdateDisplayNameFormStore = {
 };
 
 type UpdateDisplayNameFormProps = {
-    name?: string;
+    name: string;
 }
 
 export default function EditEnvironmentForm(props: UpdateDisplayNameFormProps) {
@@ -63,7 +63,7 @@ export default function EditEnvironmentForm(props: UpdateDisplayNameFormProps) {
                 </p>
                 <div class="flex space-x-2 items-center">
                     <input
-                        class="rounded px-2 w-60 py-2.5 text-black"
+                        class="w-full max-w-[15rem] rounded px-2 py-2.5 text-black"
                         id="name"
                         name="name"
                         type="text"

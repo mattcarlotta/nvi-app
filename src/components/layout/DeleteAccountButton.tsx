@@ -79,14 +79,14 @@ export default function DeleteAccountButton() {
                     <p class="text-center pb-2">Are you sure?</p>
                     <div class="flex space-x-5">
                         <button
-                            class="w-full text-gray-50 bg-gray-800 border border-gray-700 rounded p-2 hover:bg-gray-700 hover:border-gray-600"
+                            class="w-full text-gray-50 bg-gray-800 border border-gray-700 rounded p-2 hover:bg-gray-700 hover:border-gray-600 md:p-1.5"
                             type="button"
                             onClick={handleEditClick}
                         >
                             Cancel
                         </button>
                         <button
-                            class="w-full text-gray-50 bg-red-800 border border-red-600 p-2 rounded hover:bg-red-900"
+                            class="w-full text-gray-50 bg-red-800 border border-red-600 rounded p-2 hover:bg-red-900 md:p-1.5"
                             type="button"
                             onClick={handleDeleteClick}
                         >
