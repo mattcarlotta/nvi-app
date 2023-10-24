@@ -42,7 +42,7 @@ export default function DeleteAccountButton() {
         setLoading(true);
         try {
             await fetchAPIDELETE({ url: "/delete/account" });
-            window.location.replace("/login/");
+            window.location.replace("/thank-you/");
         } catch (error) {
             dispatchToastError(`The server encountered an unexpected error: ${String(error)}`);
         } finally {

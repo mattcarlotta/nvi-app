@@ -1,0 +1,24 @@
+---
+import SadIcon from "../components/icons/SadIcon";
+import ExternalLink from "../components/layout/ExternalLink.astro";
+import MainLayout from "../layouts/main.astro";
+---
+
+<MainLayout description="thank you">
+    <div class="flex flex-col justify-center items-center space-y-4">
+        <div class="flex flex-col items-center space-y-4 w-full max-w-xl p-8 bg-gray-900 rounded">
+            <SadIcon class="w-16 h-16 fill-gray-200" />
+            <h1 class="text-center text-4xl">Account Deleted</h1>
+            <p>
+                We&apos;re sorry to see you go, but we understand. Nevertheless, thank you for
+                trying out nvi. If there's anything we can improve on in the future, let us know by
+                filling out a
+                <ExternalLink
+                    href="https://github.com/mattcarlotta/nvi-app/issues"
+                    title="Github issue"
+                />. Otherwise, you&apos;re always welcome back any time!
+            </p>
+            <p><em>Thank You</em></p>
+        </div>
+    </div>
+</MainLayout>
