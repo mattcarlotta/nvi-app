@@ -47,7 +47,7 @@ export default function AccountDropdown(props: AccountDropdownProps) {
 
     return (
         <div ref={wrapperRef}>
-            <button class="border border-gray-600 rounded-full py-1 px-2.5 bg-gray-900 hover:bg-gray-700" type="button" onClick={toggleVisibility}>
+            <button class="uppercase border border-gray-600 rounded-full py-1 px-2.5 bg-gray-900 hover:bg-gray-700" type="button" onClick={toggleVisibility}>
                 {props.userName?.charAt(0)}
             </button>
             <Show when={options.isVisible}>
@@ -56,7 +56,7 @@ export default function AccountDropdown(props: AccountDropdownProps) {
                     style={`transform: translate(${options.x}px,${options.y}px);`}
                 >
                     <li class="py-2 pl-4 pr-2">
-                        <p class="text-gray-50">
+                        <p class="text-gray-50 text-ellipsis overflow-hidden line-clamp-1">
                             {props.userName}
                         </p>
                         <p class="text-gray-400 text-xs text-ellipsis overflow-hidden line-clamp-1">

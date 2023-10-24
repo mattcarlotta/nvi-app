@@ -1,5 +1,7 @@
 import type { JSX } from "solid-js";
+import { Show } from "solid-js";
 import clsx from "../../utils/clsx";
+import SpinnerIcon from "../icons/SpinnerIcon";
 
 type SubmitButtonProps = {
     class?: string;
@@ -32,7 +34,11 @@ export default function SubmitButton(props: SubmitButtonProps) {
                 title={props.title}
                 type={props.type || "submit"}
             >
-                {props.children}
+                <Show when={props.primary && props.isSubmitting} fallback={props.children}>
+                    <div class="flex justify-center items-center">
+                        <SpinnerIcon class="w-6 h-6 border-gray-600" />
+                    </div>
+                </Show>
             </button>
         </div>
     );

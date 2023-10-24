@@ -3,6 +3,7 @@ import type { User } from "../types";
 import CopyAPIKeyButton from "../components/layout/CopyAPIKeyButton";
 import LoginForm from "../components/forms/LoginForm";
 import SettingsIcon from "../components/icons/SettingsIcon";
+import UpdateDisplayNameForm from "../components/forms/UpdateDisplayNameForm";
 import DeleteAccountButton from "../components/layout/DeleteAccountButton";
 import ExternalLink from "../components/layout/ExternalLink.astro";
 import LogoutButton from "../components/layout/LogoutButton";
@@ -52,7 +53,6 @@ try {
                                 account
                             </h2>
                         </header>
-                        <p>Display Name: {user.name}</p>
                         <p>Email: {user.email}</p>
                         <time
                             title={user.createdAt}
@@ -74,6 +74,9 @@ try {
                                 &#41;
                             </span>
                         </time>
+                    </section>
+                    <section class="space-y-4 bg-gray-900 border border-gray-800 rounded p-4">
+                        <UpdateDisplayNameForm client:load name={user?.name} />
                     </section>
                     <section class="space-y-4 bg-gray-900 border border-gray-800 rounded p-4">
                         <header>

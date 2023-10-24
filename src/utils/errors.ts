@@ -55,6 +55,7 @@ export enum ErrorStatusCode {
     SearchForSecretsByEnvAndSecretInvalidKey = "E051",
     CreateProjectOverLimit = "E052",
     CreateEnvironmentOverLimit = "E053",
+    UpdateDisplayNameMissingName = "E054",
 
 }
 
@@ -62,7 +63,7 @@ export function getMessageFromStatusCode(error: ErrorStatusCode | unknown): stri
     const errorCode = String(error);
     switch (errorCode) {
         case ErrorStatusCode.RegisterInvalidBody: {
-            return "A name (between 2-255 characters), a valid email address and a password (between 5-36 characters) must be provided."
+            return "A name (between 2-64 characters), a valid email address and a password (between 5-36 characters) must be provided."
         }
         case ErrorStatusCode.RegisterEmailTaken: {
             return errorCode;
@@ -208,6 +209,10 @@ export function getMessageFromStatusCode(error: ErrorStatusCode | unknown): stri
         }
         case ErrorStatusCode.CreateEnvironmentOverLimit: {
             return "Accounts are currently limited to 10 environments per project. Please remove an environment before attempting to create another."
+        }
+        case ErrorStatusCode.UpdateDisplayNameMissingName: {
+            return "You must supply a valid display name (between 2-64 characters)."
+
         }
         case ErrorStatusCode.Unknown:
         default:

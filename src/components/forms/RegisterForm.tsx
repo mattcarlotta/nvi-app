@@ -72,16 +72,16 @@ export default function RegisterForm() {
                     <form id="register-form" class="w-full" onSubmit={handleSubmit}>
                         <div class="flex h-24 full flex-col space-y-1">
                             <label class="block" html-for="name">
-                                Name
+                                Display Name
                             </label>
                             <input
                                 class="w-full rounded px-1.5 py-2 text-black"
                                 id="name"
                                 name="name"
                                 type="text"
-                                placeholder="Enter your full name..."
+                                placeholder="Enter a display name..."
                                 minlength="2"
-                                maxlength="255"
+                                maxlength="64"
                                 required
                             />
                         </div>
