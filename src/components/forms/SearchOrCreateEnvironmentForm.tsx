@@ -158,7 +158,7 @@ export default function SearchOrCreateEnvironmentForm(props: SearchOrCreateEnvir
                         id="name"
                         name="name"
                         type="text"
-                        placeholder="Search for or create a new environment..."
+                        placeholder="Search for or create a new environment within this project..."
                         maxlength="255"
                         autocomplete="off"
                         autocorrect="off"

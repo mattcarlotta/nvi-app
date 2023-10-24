@@ -141,7 +141,7 @@ export default function CreateOrUpdateSecretForm(props: CreateOrUpdateSecretForm
                                 Key
                             </label>
                             <input
-                                class="w-full rounded py-2 px-4"
+                                class="w-full rounded py-2 px-4 text-black"
                                 id="key"
                                 name="key"
                                 type="text"
@@ -156,7 +156,7 @@ export default function CreateOrUpdateSecretForm(props: CreateOrUpdateSecretForm
                                 Value
                             </label>
                             <textarea
-                                class="w-full rounded py-2 px-4"
+                                class="w-full rounded py-2 px-4 text-black"
                                 id="value"
                                 name="value"
                                 rows="4"

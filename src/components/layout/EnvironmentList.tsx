@@ -79,7 +79,7 @@ export default function EnvironmentList(props: EnvironmentListProps) {
                 </Match>
                 <Match when={environmentList().length}>
                     <h3 class="flex space-x-1 items-center">
-                        <EnvironmentIcon class="w-4 h-4 fill-white" />
+                        <EnvironmentIcon class="w-4 h-4 fill-gray-200" />
                         <span>Environments</span>
                     </h3>
                     <section class="grid grid-cols-1 gap-y-4 gap-x-8 md:grid-cols-3">

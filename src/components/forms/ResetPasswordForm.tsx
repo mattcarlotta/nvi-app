@@ -58,7 +58,7 @@ export default function ResetPasswordForm() {
 
 
     return (
-        <div class="flex flex-col justify-center items-center space-y-4 text-white">
+        <div class="flex flex-col justify-center items-center space-y-4">
             <div class="flex flex-col space-y-4 w-full max-w-xl p-8 bg-gray-900 rounded">
                 <Show
                     when={!fields.message}
@@ -85,8 +85,8 @@ export default function ResetPasswordForm() {
                                         Password
                                     </label>
                                     <button type="button" title={`${fields.showPassword ? "Show" : "Hide"} Password`} onClick={toggleShowPassword}>
-                                        <Show when={fields.showPassword} fallback={<ShowIcon class="w-5 h-5 fill-white" />}>
-                                            <HideIcon class="w-5 h-5 fill-white" />
+                                        <Show when={fields.showPassword} fallback={<ShowIcon class="w-5 h-5 fill-gray-200" />}>
+                                            <HideIcon class="w-5 h-5 fill-gray-200" />
                                         </Show>
                                     </button>
                                 </div>

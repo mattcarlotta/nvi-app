@@ -88,7 +88,7 @@ export default function SecretList(props: SecretsListProps) {
                 <Match when={secretList().length}>
                     <div class="space-y-0">
                         <h3 class="flex space-x-1 items-center">
-                            <LockSecretIcon class="w-4 h-4 fill-white" />
+                            <LockSecretIcon class="w-4 h-4 fill-gray-200" />
                             <span>Secrets</span>
                         </h3>
                         <section>

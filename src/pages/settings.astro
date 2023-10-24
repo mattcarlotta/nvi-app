@@ -51,31 +51,41 @@ try {
                 <div class="flex flex-col space-y-4">
                     <section class="space-y-4 bg-gray-900 border border-gray-800 rounded p-4">
                         <header>
-                            <h2 id="account" class="text-2xl">
-                                account
+                            <h2 id="email" class="text-2xl">
+                                email
                             </h2>
                         </header>
-                        <p>Email: {user.email}</p>
-                        <time
-                            title={user.createdAt}
-                            class="block max-w-max"
-                            datetime={user.createdAt}
-                        >
-                            Registered: {relativeTimeFromNow(user.createdAt)}&#32;
-                            <span class="text-xs">
-                                &#40;
-                                {new Intl.DateTimeFormat("en-US", {
-                                    year: "numeric",
-                                    month: "long",
-                                    day: "numeric",
-                                    hour: "numeric",
-                                    minute: "numeric",
-                                    second: "numeric",
-                                    hour12: true,
-                                }).format(new Date(user.createdAt))}
-                                &#41;
-                            </span>
-                        </time>
+                        <input
+                            class="cursor-not-allowed w-full max-w-[15rem] rounded px-2 py-2.5 text-gray-600 bg-gray-400"
+                            value={user.email}
+                            readonly
+                            disabled
+                        />
+                        <div class="border-t border-t-gray-700 py-2">
+                            <p>
+                                Registered
+                                <time
+                                    title={user.createdAt}
+                                    class="max-w-max"
+                                    datetime={user.createdAt}
+                                >
+                                    {relativeTimeFromNow(user.createdAt)}&#32;
+                                    <span class="text-xs">&#40;</span>
+                                    <span class="text-xs">
+                                        {new Intl.DateTimeFormat("en-US", {
+                                            year: "numeric",
+                                            month: "long",
+                                            day: "numeric",
+                                            hour: "numeric",
+                                            minute: "numeric",
+                                            second: "numeric",
+                                            hour12: true,
+                                        }).format(new Date(user.createdAt))}
+                                    </span>
+                                    <span class="text-xs">&#41;</span>
+                                </time>
+                            </p>
+                        </div>
                     </section>
                     <section class="space-y-4 bg-gray-900 border border-gray-800 rounded p-4">
                         <UpdateDisplayNameForm client:load name={user.name} />

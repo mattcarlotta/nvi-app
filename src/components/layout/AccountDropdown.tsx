@@ -63,6 +63,9 @@ export default function AccountDropdown(props: AccountDropdownProps) {
                             {props.email}
                         </p>
                     </li>
+                    <li>
+                        <div class="border-b border-gray-600" />
+                    </li>
                     <li class="text-gray-400 hover:text-gray-50 hover:bg-gray-800">
                         <a class="block py-2 pl-3.5 pr-2" href="/dashboard/">
                             <DashboardIcon class="w-5 h-5 inline mr-1" />

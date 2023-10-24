@@ -119,7 +119,7 @@ export default function SecretKey(props: SecretKeyProps) {
                                     class="p-2 rounded hover:bg-gray-800"
                                     onClick={hideKey}
                                 >
-                                    <UnlockedSecretIcon class="w-5 h-5 fill-white" />
+                                    <UnlockedSecretIcon class="w-5 h-5 fill-gray-200" />
                                 </button>
                             </Match>
                             <Match when={!secretData.showKey && !secretData.isLoading}>
@@ -129,7 +129,7 @@ export default function SecretKey(props: SecretKeyProps) {
                                     class="p-2 rounded hover:bg-gray-800"
                                     onClick={showKey}
                                 >
-                                    <LockedSecretIcon class="w-5 h-5 fill-white" />
+                                    <LockedSecretIcon class="w-5 h-5 fill-gray-200" />
                                 </button>
                             </Match>
                         </Switch>

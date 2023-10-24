@@ -105,8 +105,8 @@ export default function RegisterForm() {
                                     Password
                                 </label>
                                 <button type="button" title={`${fields.showPassword ? "Show" : "Hide"} Password`} onClick={toggleShowPassword}>
-                                    <Show when={fields.showPassword} fallback={<ShowIcon class="w-5 h-5 fill-white" />}>
-                                        <HideIcon class="w-5 h-5 fill-white" />
+                                    <Show when={fields.showPassword} fallback={<ShowIcon class="w-5 h-5 fill-gray-200" />}>
+                                        <HideIcon class="w-5 h-5 fill-gray-200" />
                                     </Show>
                                 </button>
                             </div>

@@ -61,7 +61,7 @@ export default function Project(props: ProjectProps) {
             >
                 <a class="col-span-10" href={`/${props.name}/`}>
                     <div class="flex items-center space-x-2">
-                        <ProjectIcon class="flex-none w-6 h-6 fill-white" />
+                        <ProjectIcon class="flex-none w-6 h-6 fill-gray-200" />
                         <h2 title={props.name} class="text-2xl text-ellipsis overflow-hidden">{props.name}</h2>
                     </div>
                     <time class="block" datetime={props.createdAt}>
