@@ -3,6 +3,7 @@ import type { Project as Proj, Projects } from "../../types"
 import ProjectIcon from "../icons/ProjectIcon"
 import SearchOrCreateProjectForm from "../forms/SearchOrCreateProjectForm"
 import Project from "./Project"
+import AddProjectIcon from "../icons/AddProjectIcon"
 
 
 type ProjectListProps = {
@@ -11,6 +12,7 @@ type ProjectListProps = {
 
 export default function ProjectList(props: ProjectListProps) {
     const [initialProjectList, setInitialProjectList] = createSignal(props.projects);
+    const [hasSearchValue, setSearchValue] = createSignal(false);
     const [projectList, setProjectList] = createSignal(props.projects);
     const [editingProjectID, setEditingProjectID] = createSignal("");
 
@@ -61,25 +63,46 @@ export default function ProjectList(props: ProjectListProps) {
     return (
         <>
             <SearchOrCreateProjectForm
+                hasSearchValue={hasSearchValue()}
+                setSearchValue={setSearchValue}
                 disableSearch={!props.projects.length}
                 onClear={clearSearchResults}
                 onCreateSuccess={handleCreateProjectSuccess}
                 onSearch={handleSearchResults}
             />
             <Switch>
-                <Match when={!projectList().length && !props.projects.length}>
-                    <h2 class="text-xl">
-                        You don't have any projects! Use the input field above to create a new project.
-                    </h2>
+                <Match when={!projectList().length && !hasSearchValue()}>
+                    <div class="flex flex-col items-center justify-center w-full p-4 bg-gray-900 border border-gray-800 rounded md:p-8">
+                        <div class="flex flex-col space-y-4 items-center w-full">
+                            <h2 class="text-center text-2xl md:text-3xl md:text-left">
+                                You haven&apos;t created any projects yet!
+                            </h2>
+                            <div class="space-y-2">
+                                <h3 class="md:text-xl">Use the search field above to create a new project:</h3>
+                                <ul class="text-sm list-disc space-y-2 pl-8 md:text-base">
+                                    <li class="list-item">Input a new project name.</li>
+                                    <li class="list-item">Click the&#32;
+                                        <button
+                                            class="bg-gray-100 border border-gray-100 text-black fill-black inline rounded p-1 transition hover:bg-gray-300"
+                                            title="Create Project"
+                                        >
+                                            <AddProjectIcon class="h-5 w-5 inline" />
+                                        </button>&#32;
+                                        button or press the &ldquo;Enter&rdquo; key.
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                 </Match>
-                <Match when={!projectList().length && props.projects.length}>
+                <Match when={!projectList().length && hasSearchValue()}>
                     <h2 class="text-xl">No Results Found</h2>
                 </Match>
                 <Match when={projectList().length}>
-                    <h3 class="flex space-x-1 items-center">
+                    <h2 class="flex space-x-1 items-center">
                         <ProjectIcon class="w-4 h-4 fill-gray-200" />
                         <span>projects</span>
-                    </h3>
+                    </h2>
                     <section class="grid grid-cols-1 gap-y-4 gap-x-8 md:grid-cols-3">
                         <For each={projectList()}>
                             {(project) => (
@@ -97,7 +120,7 @@ export default function ProjectList(props: ProjectListProps) {
                         </For>
                     </section>
                 </Match>
-            </Switch>
+            </Switch >
         </>
     )
 }

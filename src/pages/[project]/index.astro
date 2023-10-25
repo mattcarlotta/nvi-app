@@ -36,6 +36,9 @@ try {
     environments = res.data?.environments || [];
 } catch {
     // handles errors below
+} finally {
+    // prevent browser history from displaying stale client state
+    Astro.response.headers.append("Cache-Control", "no-cache, no-store");
 }
 ---
 

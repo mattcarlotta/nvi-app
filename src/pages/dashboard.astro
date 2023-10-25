@@ -32,6 +32,9 @@ try {
     projects = projectRes.data;
 } catch {
     // handle errors below
+} finally {
+    // prevent browser history from displaying stale client state
+    Astro.response.headers.append("Cache-Control", "no-cache, no-store");
 }
 ---
 

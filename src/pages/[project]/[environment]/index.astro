@@ -43,6 +43,9 @@ try {
     secrets = res.data?.secrets || [];
 } catch {
     // handle an invalid project and environment below
+} finally {
+    // prevent browser history from displaying stale client state
+    Astro.response.headers.append("Cache-Control", "no-cache, no-store");
 }
 
 const description =
