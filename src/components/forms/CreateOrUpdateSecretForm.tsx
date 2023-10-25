@@ -11,6 +11,7 @@ import { fetchAPIGET, fetchAPIPOST, fetchAPIPUT } from "../../utils/fetchAPI";
 import clsx from "../../utils/clsx";
 
 type CreateOrUpdateSecretFormProps = {
+    currentEnvironmentID?: string;
     secretID?: string;
     environments: Environments;
     onCancel?: () => void;
@@ -105,7 +106,7 @@ export default function CreateOrUpdateSecretForm(props: CreateOrUpdateSecretForm
                     url: `/secret/${props.secretID}`,
                 });
 
-                const form = document.getElementById("update-secret-form") as HTMLFormElement;
+                const form = document.getElementById(selectedFormID) as HTMLFormElement;
 
                 const key = (form.querySelector("#key") as HTMLInputElement);
                 key.value = res.data?.key;
@@ -127,7 +128,18 @@ export default function CreateOrUpdateSecretForm(props: CreateOrUpdateSecretForm
             }
         }
 
-        if (fields.isEditing) fetchSecret();
+        if (fields.isEditing) {
+            fetchSecret();
+        } else {
+            const form = document.getElementById(selectedFormID) as HTMLFormElement;
+            const checkedEnvironments = Array.from(form.querySelectorAll("input[type='checkbox']")) as HTMLInputElement[];
+            checkedEnvironments.forEach(e => {
+                if (e.value === props.currentEnvironmentID) {
+                    e.checked = true;
+                }
+            });
+
+        }
     });
 
     return (
@@ -147,6 +159,7 @@ export default function CreateOrUpdateSecretForm(props: CreateOrUpdateSecretForm
                                 placeholder="e.g: API_KEY"
                                 minLength="2"
                                 maxlength="255"
+                                disabled={fields.isLoading}
                                 required
                             />
                         </div>
@@ -161,6 +174,7 @@ export default function CreateOrUpdateSecretForm(props: CreateOrUpdateSecretForm
                                 rows="4"
                                 placeholder="secret value"
                                 maxlength="5000"
+                                disabled={fields.isLoading}
                                 required
                             />
                         </div>
@@ -176,7 +190,14 @@ export default function CreateOrUpdateSecretForm(props: CreateOrUpdateSecretForm
                             <For each={props.environments}>
                                 {(environment) => (
                                     <label class="grid grid-cols-12 gap-x-0.5 border-b border-gray-500 p-1 cursor-pointer sm:flex sm:space-x-2">
-                                        <input class="w-4 col-span-1" type="checkbox" id={environment.name} name="environment" value={environment.id}>
+                                        <input
+                                            class="w-4 col-span-1"
+                                            type="checkbox"
+                                            id={environment.name}
+                                            name="environment"
+                                            value={environment.id}
+                                            disabled={fields.isLoading}
+                                        >
                                             {environment.name}
                                         </input>
                                         <p class="col-span-11 text-ellipsis overflow-hidden">

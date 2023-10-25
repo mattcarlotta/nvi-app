@@ -65,6 +65,7 @@ export default function SecretList(props: SecretsListProps) {
     return (
         <div class="flex flex-col space-y-4 mb-10">
             <CreateOrUpdateSecretForm
+                currentEnvironmentID={props.environment.id}
                 environments={props.environments}
                 projectID={props.projectID}
                 onCreateSuccess={handleCreateSecretSuccess}

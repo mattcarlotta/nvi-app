@@ -94,115 +94,113 @@ export function getMessageFromStatusCode(error: ErrorStatusCode | unknown): stri
             return "The reset password token is invalid or has expired. Please request another verification token.";
         }
         case ErrorStatusCode.GetEnvironmentInvalidID: {
-            return errorCode;
+            return "The request params or request query contains an invalid 'id' or 'environmentID' property."
         }
         case ErrorStatusCode.GetEnvironmentInvalidName: {
-            return errorCode;
+            return "The request query contains an invalid 'name' or 'environment' property."
         }
-        case ErrorStatusCode.GetEnvironmentNonExistentID: {
-            return errorCode;
-        }
+        case ErrorStatusCode.GetEnvironmentNonExistentID:
         case ErrorStatusCode.GetEnvironmentNonExistentName: {
-            return errorCode;
+            return "Unable to retrieve this environment because it doesn't appear to exist anymore. Try refreshing the page.";
         }
         case ErrorStatusCode.CreateEnvironmentInvalidBody: {
             return "A valid environment name and a project ID must be provided."
         }
         case ErrorStatusCode.CreateEnvironmentInvalidProjectID: {
-            return "Unable to create an environment because the project doesn't appear to exist anymore.";
+            return "Unable to create an environment because the project doesn't appear to exist anymore. Try refreshing the page.";
         }
         case ErrorStatusCode.CreateEnvironmentNameTaken:
         case ErrorStatusCode.UpdateEnvironmentNameTaken: {
             return "The provided environment already exists within the current project. Please use a different name or update the pre-existing environment."
         }
         case ErrorStatusCode.DeleteEnvironmentInvalidID: {
-            return errorCode;
+            return "The request params contains an invalid 'id' property."
         }
         case ErrorStatusCode.DeleteEnvironmentNonExistentID: {
-            return "Unable to delete this environment because it doesn't appear to exist anymore.";
+            return "Unable to delete this environment because it doesn't appear to exist anymore. Try refreshing the page.";
         }
         case ErrorStatusCode.UpdateEnvironmentInvalidBody: {
-            return errorCode;
+            return "The request body contains an invalid 'id,' 'projectID,' or 'updatedName' property."
         }
         case ErrorStatusCode.UpdateEnvironmentInvalidProjectID: {
-            return errorCode;
+            return "The request body contains an invalid 'projectID' property that doesn't match any created projects."
         }
         case ErrorStatusCode.UpdateEnvironmentNonExistentID: {
-            return "Unable to update this environment because it doesn't appear to exist anymore.";
+            return "Unable to update this environment because it doesn't appear to exist anymore. Try refreshing the page.";
         }
         case ErrorStatusCode.GetSecretInvalidID: {
-            return errorCode;
+            return "The request params contains an invalid 'id' property."
         }
         case ErrorStatusCode.GetSecretNonExistentID: {
-            return errorCode;
+            return "Unable to retrieve this secret because it doesn't appear to exist anymore. Try refreshing the page.";
         }
         case ErrorStatusCode.GetSecretsByEnvInvalidID: {
-            return errorCode;
+            return "The request params contains an invalid 'id' property."
         }
         case ErrorStatusCode.GetSecretsByEnvNonExistentID: {
-            return errorCode;
+            return "Unable to retrieve secrets within this environment because the environment doesn't appear to exist anymore. Try refreshing the page.";
         }
         case ErrorStatusCode.CreateSecretInvalidBody: {
             return "Please input a key (between 2-255 characters), a value (max 5000 characters), and choose at least one or more of the listed environments."
         }
         case ErrorStatusCode.CreateSecretNonExistentProject: {
-            return errorCode;
+            return "Unable to create secrets within this project because the project doesn't appear to exist anymore. Try refreshing the page.";
         }
         case ErrorStatusCode.CreateSecretNonExistentEnv: {
-            return errorCode;
+            return "Unable to create secrets within this environment because the environment doesn't appear to exist anymore. Try refreshing the page.";
         }
         case ErrorStatusCode.CreateSecretKeyAlreadyExists:
         case ErrorStatusCode.UpdateSecretKeyAlreadyExists: {
             return "The provided key's value already exists within one or more of the selected environments. Please use a different key value or update the pre-existing key."
         }
         case ErrorStatusCode.DeleteSecretInvalidID: {
-            return errorCode;
+            return "The request params contains an invalid 'id' property."
         }
         case ErrorStatusCode.DeleteSecretNonExistentID: {
-            return "Unable to delete this secret because it doesn't appear to exist anymore.";
+            return "Unable to delete this secret because it doesn't appear to exist anymore. Try refreshing the page.";
         }
         case ErrorStatusCode.UpdateSecretInvalidBody: {
-            return errorCode;
+            return "The request body contains an invalid 'id,' 'environmentIDs,' 'key,' or 'value' property."
         }
         case ErrorStatusCode.UpdateSecretInvalidID: {
-            return errorCode;
+            return "The request body contains an invalid 'id' property that doesn't match a created secret."
         }
         case ErrorStatusCode.UpdateSecretNonExistentEnv: {
-            return "Unable to update this secret because it doesn't appear to exist anymore.";
+            return "Unable to update this secret because it doesn't appear to exist anymore. Try refreshing the page.";
         }
         case ErrorStatusCode.GetProjectInvalidID: {
-            return errorCode;
+            return "The request params contains an invalid 'id' property."
         }
         case ErrorStatusCode.GetProjectNonExistentID: {
-            return errorCode;
+            return "Unable to retrieve this project because it doesn't appear to exist anymore. Try refreshing the page.";
         }
         case ErrorStatusCode.GetProjectInvalidName: {
             return "A project name must be an alphanumeric (a-z,A-Z,0-9) value with optional underscores. For example: \"my_project\" (max 255 characters)."
         }
         case ErrorStatusCode.GetProjectNonExistentName: {
-            return errorCode;
+            return "Unable to retrieve this project because it doesn't appear to exist anymore. Try refreshing the page.";
         }
         case ErrorStatusCode.CreateProjectInvalidName: {
-            return errorCode;
+            return "The request params contains an invalid 'name' property."
         }
         case ErrorStatusCode.CreateProjectNameTaken:
         case ErrorStatusCode.UpdateProjectNameTaken: {
             return "A project with that name already exists. Please choose a different name, for example: \"my_project_2\"."
         }
         case ErrorStatusCode.DeleteProjectInvalidID: {
-            return errorCode;
+            return "The request params contains an invalid 'id' property."
         }
         case ErrorStatusCode.DeleteProjectNonExistentID: {
-            return "Unable to delete this project because it doesn't appear to exist anymore.";
+            return "Unable to delete this project because it doesn't appear to exist anymore. Try refreshing the page.";
         }
         case ErrorStatusCode.UpdateProjectInvalidBody: {
-            return errorCode;
+            return "The request body contains an invalid 'id' and 'updatedName' property."
         }
         case ErrorStatusCode.UpdateProjectNonExistentID: {
-            return "Unable to update this project because it doesn't appear to exist anymore.";
+            return "Unable to update this project because it doesn't appear to exist anymore. Try refreshing the page.";
         }
         case ErrorStatusCode.SearchForSecretsByEnvAndSecretInvalidKey: {
-            return errorCode;
+            return "The request query contains an invalid 'key' property."
         }
         case ErrorStatusCode.CreateProjectOverLimit: {
             return "Accounts are currently limited to 10 projects per account. Please remove a project before attempting to create another."
