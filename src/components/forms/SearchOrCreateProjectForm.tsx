@@ -109,7 +109,6 @@ export default function SearchOrCreateProjectForm(props: SearchOrCreateProjectFo
             dispatchToastEvent({
                 type: "success",
                 message: `Successfully created a ${name} project!`,
-                timeout: 3000
             });
 
             handleFormClear();

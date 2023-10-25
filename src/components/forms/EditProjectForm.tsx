@@ -54,7 +54,7 @@ export default function EditProjectForm(props: SearchOrCreateProjectFormProps) {
                 body: { id: props.projectID, updatedName: name }
             });
 
-            dispatchToastEvent({ type: "success", message: res?.message, timeout: 3000 });
+            dispatchToastEvent({ type: "success", message: res?.message });
 
             handleFormClear();
 

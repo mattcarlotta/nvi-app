@@ -112,7 +112,6 @@ export default function SearchOrCreateEnvironmentForm(props: SearchOrCreateEnvir
             dispatchToastEvent({
                 type: "success",
                 message: `Successfully created a ${name} environment!`,
-                timeout: 3000
             });
 
             handleFormClear();

@@ -23,6 +23,9 @@ dependencies:
   solid-js:
     specifier: ^1.8.1
     version: 1.8.1
+  solid-sonner:
+    specifier: ^0.2.0
+    version: 0.2.0(solid-js@1.8.1)
   tailwindcss:
     specifier: ^3.0.24
     version: 3.3.3
@@ -4866,6 +4869,14 @@ packages:
       '@babel/generator': 7.22.15
       '@babel/helper-module-imports': 7.22.15
       '@babel/types': 7.22.15
+      solid-js: 1.8.1
+    dev: false
+
+  /solid-sonner@0.2.0(solid-js@1.8.1):
+    resolution: {integrity: sha512-R0A5TSWbPYp4pOj9RY4LXliTJv5RLlmZmKxuIUZA/80eYrk19l8OMlYf3PcOTdEfM7voG0jWeVWv1GT/EObJ2A==}
+    peerDependencies:
+      solid-js: ^1.6.0
+    dependencies:
       solid-js: 1.8.1
     dev: false
 

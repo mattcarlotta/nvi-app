@@ -66,7 +66,6 @@ export default function CreateOrUpdateSecretForm(props: CreateOrUpdateSecretForm
             dispatchToastEvent({
                 type: "success",
                 message: `Successfully ${!fields.isEditing ? "created a" : "updated the"} ${key} secret!`,
-                timeout: 3000
             });
 
             handleFormClear();

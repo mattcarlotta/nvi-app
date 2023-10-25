@@ -55,7 +55,7 @@ export default function EditEnvironmentForm(props: SearchOrCreateEnvironmentForm
                 body: { id: props.environmentID, projectID: props.projectID, updatedName: name }
             });
 
-            dispatchToastEvent({ type: "success", message: res?.message, timeout: 3000 });
+            dispatchToastEvent({ type: "success", message: res?.message });
 
             handleFormClear();
 
