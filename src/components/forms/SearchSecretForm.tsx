@@ -101,7 +101,7 @@ export default function SearchSecretForm(props: SearchSecretFormProps) {
                         id="search-key"
                         name="key"
                         type="text"
-                        placeholder="Search for secret keys within this environment..."
+                        placeholder="Search for secret keys within this project's environment..."
                         maxlength="255"
                         autocomplete="off"
                         autocorrect="off"

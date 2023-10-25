@@ -47,7 +47,7 @@ export default function Environment(props: EnvironmentProps) {
         <div class={
             clsx(
                 "grid grid-cols-12 p-4 border border-gray-800 rounded bg-gray-900",
-                props.id !== props.editingEnvironmentID && "hover:bg-gray-800"
+                props.id !== props.editingEnvironmentID && "hover:bg-gray-800 hover:border-gray-700"
             )
         }>
             <Show

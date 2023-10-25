@@ -144,9 +144,14 @@ export default function CreateOrUpdateSecretForm(props: CreateOrUpdateSecretForm
 
     return (
         <div class={clsx("bg-gray-900 rounded", !props.secretID && "p-4 border border-gray-800")}>
+            {!fields.isEditing && (
+                <h2 class="text-xl border-b border-b-gray-600 pb-2">
+                    Create Environment Secret
+                </h2>
+            )}
             <form id={selectedFormID} onSubmit={handleFormSubmit}>
                 <div class="flex flex-col space-y-2 border-b border-b-gray-600 pt-2 pb-4 md:grid md:grid-cols-12 md:gap-4 md:space-y-0">
-                    <div class="md:col-span-6 md:flex md:flex-col md:space-y-4">
+                    <div class="space-y-4 md:col-span-6 md:flex md:flex-col">
                         <div class="space-y-1">
                             <label class="block" html-for="key">
                                 Key
@@ -189,7 +194,9 @@ export default function CreateOrUpdateSecretForm(props: CreateOrUpdateSecretForm
                             </p>
                             <For each={props.environments}>
                                 {(environment) => (
-                                    <label class="grid grid-cols-12 gap-x-0.5 border-b border-gray-500 p-1 cursor-pointer sm:flex sm:space-x-2">
+                                    <label
+                                        class="grid grid-cols-12 gap-x-0.5 border-b border-gray-500 p-1 cursor-pointer transition-colors sm:flex sm:space-x-2 hover:text-gray-400"
+                                    >
                                         <input
                                             class="w-4 col-span-1"
                                             type="checkbox"

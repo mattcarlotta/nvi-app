@@ -78,7 +78,7 @@ export default function ProjectList(props: ProjectListProps) {
                 <Match when={projectList().length}>
                     <h3 class="flex space-x-1 items-center">
                         <ProjectIcon class="w-4 h-4 fill-gray-200" />
-                        <span>Projects</span>
+                        <span>projects</span>
                     </h3>
                     <section class="grid grid-cols-1 gap-y-4 gap-x-8 md:grid-cols-3">
                         <For each={projectList()}>

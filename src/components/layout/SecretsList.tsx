@@ -90,10 +90,10 @@ export default function SecretList(props: SecretsListProps) {
                     <div class="space-y-0">
                         <h3 class="flex space-x-1 items-center">
                             <LockSecretIcon class="w-4 h-4 fill-gray-200" />
-                            <span>Secrets</span>
+                            <span>secrets</span>
                         </h3>
                         <section>
-                            <ul class="border-2 rounded border-gray-700">
+                            <ul class="bg-gray-950 border-2 rounded border-gray-700">
                                 <For each={secretList()}>
                                     {(secret, idx) => (
                                         <SecretKey

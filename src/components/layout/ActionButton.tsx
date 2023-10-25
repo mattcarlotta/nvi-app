@@ -62,7 +62,7 @@ export default function ActionButton(props: ActionButtonProps) {
             </button>
             <Show when={options.isVisible}>
                 <ul
-                    class="absolute z-10 bg-black border-2 border-gray-600 rounded p-2 min-w-[10rem]"
+                    class="absolute z-10 bg-gray-950 border-2 border-gray-600 rounded p-2 min-w-[10rem]"
                     style={`transform: translate(${options.x}px,${options.y}px);`}
                 >
                     <li>

@@ -45,7 +45,7 @@ export default function Project(props: ProjectProps) {
         <div class={
             clsx(
                 "grid grid-cols-12 p-4 border border-gray-800 rounded bg-gray-900",
-                props.id !== props.editingProjectID && "hover:bg-gray-800"
+                props.id !== props.editingProjectID && "hover:bg-gray-800 hover:border-gray-700"
             )
         }>
             <Show

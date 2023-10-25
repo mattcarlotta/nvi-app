@@ -67,13 +67,13 @@ export default function DeleteAccountButton() {
                     </div>
                 }
             >
-                <button class="text-gray-50 bg-red-800 border border-red-600 p-2 rounded" type="button" onClick={toggleVisibility}>
+                <button class="text-gray-50 bg-red-800 border border-red-600 p-2 rounded hover:bg-red-900" type="button" onClick={toggleVisibility}>
                     Delete Account
                 </button>
             </Show>
             <Show when={options.isVisible}>
                 <div
-                    class="absolute z-10 bg-gray-900 border-2 border-gray-600 rounded p-2 min-w-[11rem]"
+                    class="absolute z-10 bg-gray-950 border-2 border-gray-600 rounded p-2 min-w-[11rem]"
                     style={`transform: translate(${options.x}px,${options.y}px);`}
                 >
                     <p class="text-center pb-2">Are you sure?</p>
