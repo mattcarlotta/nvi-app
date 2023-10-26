@@ -5,14 +5,13 @@ import SearchOrCreateProjectForm from "../forms/SearchOrCreateProjectForm"
 import Project from "./Project"
 import AddProjectIcon from "../icons/AddProjectIcon"
 
-
 type ProjectListProps = {
     projects: Projects
 }
 
 export default function ProjectList(props: ProjectListProps) {
+    const [showHelpMessage, setShowHelpMessage] = createSignal(!Boolean(props.projects.length));
     const [initialProjectList, setInitialProjectList] = createSignal(props.projects);
-    const [hasSearchValue, setSearchValue] = createSignal(false);
     const [projectList, setProjectList] = createSignal(props.projects);
     const [editingProjectID, setEditingProjectID] = createSignal("");
 
@@ -24,6 +23,7 @@ export default function ProjectList(props: ProjectListProps) {
         const newInitialList = [...initialProjectList(), project];
 
         batch(() => {
+            setShowHelpMessage(false);
             setInitialProjectList(newInitialList);
             setProjectList(newInitialList);
         });
@@ -37,6 +37,7 @@ export default function ProjectList(props: ProjectListProps) {
         const newInitialList = initialProjectList().filter(p => p.id !== projectID);
 
         batch(() => {
+            setShowHelpMessage(!Boolean(newInitialList.length));
             setInitialProjectList(newInitialList);
             setProjectList(newInitialList);
         });
@@ -46,10 +47,10 @@ export default function ProjectList(props: ProjectListProps) {
         setEditingProjectID(projectID);
     }
 
-    const handleEditProjectUpdate = (newProjectName: string) => {
+    const handleEditProjectUpdate = (updatedProject: Proj) => {
         const newInitialList = initialProjectList().map(p =>
             p.id === editingProjectID()
-                ? { ...p, name: newProjectName }
+                ? updatedProject
                 : p
         );
 
@@ -63,15 +64,13 @@ export default function ProjectList(props: ProjectListProps) {
     return (
         <>
             <SearchOrCreateProjectForm
-                hasSearchValue={hasSearchValue()}
-                setSearchValue={setSearchValue}
-                disableSearch={!props.projects.length}
+                disableSearch={showHelpMessage()}
                 onClear={clearSearchResults}
                 onCreateSuccess={handleCreateProjectSuccess}
                 onSearch={handleSearchResults}
             />
             <Switch>
-                <Match when={!projectList().length && !hasSearchValue()}>
+                <Match when={showHelpMessage()}>
                     <div class="flex flex-col items-center justify-center w-full p-4 bg-gray-900 border border-gray-800 rounded md:p-8">
                         <div class="flex flex-col space-y-4 items-center w-full">
                             <h2 class="text-center text-2xl md:text-3xl md:text-left">
@@ -95,7 +94,7 @@ export default function ProjectList(props: ProjectListProps) {
                         </div>
                     </div>
                 </Match>
-                <Match when={!projectList().length && hasSearchValue()}>
+                <Match when={!projectList().length}>
                     <h2 class="text-xl">No Results Found</h2>
                 </Match>
                 <Match when={projectList().length}>

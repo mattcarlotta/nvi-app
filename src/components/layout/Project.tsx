@@ -1,9 +1,10 @@
-import { Show } from "solid-js";
+import { Show, createSignal, onCleanup, onMount } from "solid-js";
+import type { Project as UpdatedProject } from "../../types";
 import EditProjectForm from "../forms/EditProjectForm";
 import ProjectIcon from "../icons/ProjectIcon"
 import clsx from "../../utils/clsx";
 import { fetchAPIDELETE } from "../../utils/fetchAPI";
-import relativeTimeFromNow from "../../utils/timeSince"
+import { relativeTimeFromDate } from "../../utils/timeSince"
 import { dispatchToastError, dispatchToastEvent } from "./Toast";
 import ActionButton from "./ActionButton";
 
@@ -13,12 +14,14 @@ export type ProjectProps = {
     editingProjectID: string;
     handleDeleteProject: (projectID: string) => void;
     handleEditProjectID: (projectID: string) => void;
-    handleEditProjectUpdate: (newProjectName: string) => void;
+    handleEditProjectUpdate: (updatedProject: UpdatedProject) => void;
     name: string;
     updatedAt: string;
 }
 
 export default function Project(props: ProjectProps) {
+    const [currentTime, setCurrentTime] = createSignal(new Date().getTime());
+
     const handleEditClick = () => {
         props.handleEditProjectID(props.id);
     }
@@ -40,6 +43,16 @@ export default function Project(props: ProjectProps) {
             dispatchToastError(error);
         }
     }
+
+    onMount(() => {
+        const timer = setInterval(() => {
+            setCurrentTime(new Date().getTime());
+        }, 30000);
+
+        onCleanup(() => {
+            clearInterval(timer);
+        });
+    });
 
     return (
         <div class={
@@ -65,10 +78,10 @@ export default function Project(props: ProjectProps) {
                         <h2 title={props.name} class="text-2xl text-ellipsis overflow-hidden">{props.name}</h2>
                     </div>
                     <time class="block" datetime={props.createdAt}>
-                        Created: {relativeTimeFromNow(props.createdAt)}
+                        Created: {relativeTimeFromDate(currentTime(), props.createdAt)}
                     </time>
                     <time class="block" datetime={props.updatedAt}>
-                        Updated: {relativeTimeFromNow(props.updatedAt)}
+                        Updated: {relativeTimeFromDate(currentTime(), props.updatedAt)}
                     </time>
                 </a>
                 <div class="col-span-2 flex justify-end">

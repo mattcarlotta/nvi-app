@@ -1,5 +1,5 @@
 import debounce from "lodash.debounce";
-import { Show, batch } from "solid-js";
+import { Show, batch, createEffect } from "solid-js";
 import { createStore } from "solid-js/store";
 import type { InputChangeEvent, Secrets } from "../../types";
 import ClearIcon from "../icons/ClearIcon";
@@ -78,6 +78,12 @@ export default function SearchSecretForm(props: SearchSecretFormProps) {
             setFields("isSearching", false);
         });
     }
+
+    createEffect(() => {
+        if (props.disableSearch) {
+            handleFormClear();
+        }
+    });
 
     return (
         <>

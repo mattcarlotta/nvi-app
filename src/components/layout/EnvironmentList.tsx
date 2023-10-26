@@ -1,6 +1,7 @@
 import { For, createSignal, Match, Switch, batch } from "solid-js"
 import type { Environment as Env, Environments } from "../../types"
 import SearchOrCreateEnvironmentForm from "../forms/SearchOrCreateEnvironmentForm"
+import AddEnvironmentIcon from "../icons/AddEnvironmentIcon"
 import EnvironmentIcon from "../icons/EnvironmentIcon"
 import Environment from "./Environment"
 
@@ -11,6 +12,7 @@ type EnvironmentListProps = {
 }
 
 export default function EnvironmentList(props: EnvironmentListProps) {
+    const [showHelpMessage, setShowHelpMessage] = createSignal(!Boolean(props.environments.length));
     const [initialEnvironmentList, setInitialEnvironmentList] = createSignal(props.environments);
     const [environmentList, setEnvironmentList] = createSignal(props.environments);
     const [editingEnvironmentID, setEditingEnvironmentID] = createSignal("");
@@ -27,6 +29,7 @@ export default function EnvironmentList(props: EnvironmentListProps) {
         const newInitialList = [...initialEnvironmentList(), environment];
 
         batch(() => {
+            setShowHelpMessage(false);
             setInitialEnvironmentList(newInitialList);
             setEnvironmentList(newInitialList);
         });
@@ -36,6 +39,7 @@ export default function EnvironmentList(props: EnvironmentListProps) {
         const newInitialList = initialEnvironmentList().filter(e => e.id !== environmentID);
 
         batch(() => {
+            setShowHelpMessage(!Boolean(newInitialList.length));
             setInitialEnvironmentList(newInitialList);
             setEnvironmentList(newInitialList);
         });
@@ -45,10 +49,10 @@ export default function EnvironmentList(props: EnvironmentListProps) {
         setEditingEnvironmentID(environmentID);
     }
 
-    const handleEditEnvironmentUpdate = (newEnvironmentName: string) => {
+    const handleEditEnvironmentUpdate = (updatedEnvironment: Env) => {
         const newInitialList = initialEnvironmentList().map(env =>
             env.id === editingEnvironmentID()
-                ? { ...env, name: newEnvironmentName }
+                ? updatedEnvironment
                 : env
         );
 
@@ -62,19 +66,38 @@ export default function EnvironmentList(props: EnvironmentListProps) {
     return (
         <>
             <SearchOrCreateEnvironmentForm
-                disableSearch={!props.environments.length}
+                disableSearch={showHelpMessage()}
                 projectID={props.projectID}
                 onClear={clearSearchResults}
                 onCreateSuccess={handleCreateEnvironmentSuccess}
                 onSearch={handleSearchResults}
             />
             <Switch>
-                <Match when={!environmentList().length && !props.environments.length}>
-                    <h2 class="text-xl">
-                        You don't have any environments! Use the input field above to create a new environment.
-                    </h2>
+                <Match when={showHelpMessage()}>
+                    <div class="flex flex-col items-center justify-center w-full p-4 bg-gray-900 border border-gray-800 rounded md:p-8">
+                        <div class="flex flex-col space-y-4 items-center w-full">
+                            <h2 class="text-center text-2xl md:text-3xl md:text-left">
+                                You haven&apos;t created any environments yet!
+                            </h2>
+                            <div class="space-y-2">
+                                <h3 class="md:text-xl">Use the search field above to create a new project:</h3>
+                                <ul class="text-sm list-disc space-y-2 pl-8 md:text-base">
+                                    <li class="list-item">Input a new project name.</li>
+                                    <li class="list-item">Click the&#32;
+                                        <button
+                                            class="bg-gray-100 border border-gray-100 text-black fill-black inline rounded p-1 transition hover:bg-gray-300"
+                                            title="Create Project"
+                                        >
+                                            <AddEnvironmentIcon class="h-5 w-5 inline" />
+                                        </button>&#32;
+                                        button or press the &ldquo;Enter&rdquo; key.
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                 </Match>
-                <Match when={!environmentList().length && props.environments.length}>
+                <Match when={!environmentList().length}>
                     <h2 class="text-xl">No Results Found</h2>
                 </Match>
                 <Match when={environmentList().length}>

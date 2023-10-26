@@ -1,5 +1,6 @@
 import { Show, batch, onMount } from "solid-js";
 import { createStore } from "solid-js/store";
+import type { Environment } from "../../types";
 import CloseIcon from "../icons/CloseIcon";
 import SaveIcon from "../icons/SaveIcon";
 import SubmitButton from "../layout/SubmitButton";
@@ -17,7 +18,7 @@ type SearchOrCreateEnvironmentFormProps = {
     environmentID: string;
     environmentName: string;
     onCancel: () => void;
-    onSuccess: (newEnvironmentName: string) => void;
+    onSuccess: (updatedEnvironment: Environment) => void;
     projectID: string;
 }
 
@@ -55,11 +56,11 @@ export default function EditEnvironmentForm(props: SearchOrCreateEnvironmentForm
                 body: { id: props.environmentID, projectID: props.projectID, updatedName: name }
             });
 
-            dispatchToastEvent({ type: "success", message: res?.message });
+            dispatchToastEvent({ type: "success", message: `Successfully updated the ${name} environment!` });
 
             handleFormClear();
 
-            props.onSuccess(name);
+            props.onSuccess(res.data);
         } catch (error) {
             batch(() => {
                 setFields("formError", getMessageFromStatusCode(error));

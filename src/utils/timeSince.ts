@@ -19,9 +19,17 @@ export function relativeTimeFromElapsed(elapsed: number) {
     return "";
 }
 
-export default function relativeTimeFromNow(relative?: string) {
-    if (!relative) return "";
-    const d = new Date(relative);
+export function relativeTimeFromDate(currentTime: number, date?: string) {
+    if (!date) return "";
+    const d = new Date(date);
+    const elapsed = d.getTime() - currentTime;
+    return relativeTimeFromElapsed(elapsed);
+}
+
+export default function relativeTimeFromNow(date?: string) {
+    if (!date) return "";
+    const d = new Date(date);
     const elapsed = d.getTime() - new Date().getTime();
     return relativeTimeFromElapsed(elapsed);
 }
+

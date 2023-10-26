@@ -55,7 +55,11 @@ try {
                                 email
                             </h2>
                         </header>
+                        <label class="block" html-for="email">
+                            Updating your email address has been disabled during the beta phase.
+                        </label>
                         <input
+                            id="email"
                             class="cursor-not-allowed w-full max-w-[15rem] rounded px-2 py-2.5 text-gray-600 bg-gray-400"
                             value={user.email}
                             readonly

@@ -1,5 +1,6 @@
 import { Show, batch, onMount } from "solid-js";
 import { createStore } from "solid-js/store";
+import type { Project } from "../../types";
 import CloseIcon from "../icons/CloseIcon";
 import SaveIcon from "../icons/SaveIcon";
 import SubmitButton from "../layout/SubmitButton";
@@ -17,7 +18,7 @@ type SearchOrCreateProjectFormProps = {
     projectID: string;
     projectName: string;
     onCancel: () => void;
-    onCreateSuccess: (newProjectName: string) => void;
+    onCreateSuccess: (updatedProject: Project) => void;
 }
 
 export default function EditProjectForm(props: SearchOrCreateProjectFormProps) {
@@ -54,11 +55,11 @@ export default function EditProjectForm(props: SearchOrCreateProjectFormProps) {
                 body: { id: props.projectID, updatedName: name }
             });
 
-            dispatchToastEvent({ type: "success", message: res?.message });
+            dispatchToastEvent({ type: "success", message: `Successfully updated the ${name} project!` });
 
             handleFormClear();
 
-            props.onCreateSuccess(name);
+            props.onCreateSuccess(res.data);
         } catch (error) {
             batch(() => {
                 setFields("formError", getMessageFromStatusCode(error));

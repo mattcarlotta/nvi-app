@@ -14,6 +14,7 @@ type SecretsListProps = {
 }
 
 export default function SecretList(props: SecretsListProps) {
+    const [showHelpMessage, setShowHelpMessage] = createSignal(!Boolean(props.secrets.length));
     const [initialSecretList, setInitialSecretList] = createSignal(props.secrets);
     const [secretList, setSecretList] = createSignal(props.secrets);
     const [editingSecretID, setEditingSecretID] = createSignal("");
@@ -30,6 +31,7 @@ export default function SecretList(props: SecretsListProps) {
         const newInitialList = [...initialSecretList(), newSecret];
 
         batch(() => {
+            setShowHelpMessage(false);
             setInitialSecretList(newInitialList);
             setSecretList(newInitialList);
         });
@@ -39,6 +41,7 @@ export default function SecretList(props: SecretsListProps) {
         const newInitialList = initialSecretList().filter(e => e.id !== secretID);
 
         batch(() => {
+            setShowHelpMessage(!Boolean(newInitialList.length));
             setInitialSecretList(newInitialList);
             setSecretList(newInitialList);
         });
@@ -71,19 +74,19 @@ export default function SecretList(props: SecretsListProps) {
                 onCreateSuccess={handleCreateSecretSuccess}
             />
             <SearchSecretForm
-                disableSearch={!props.secrets.length}
+                disableSearch={showHelpMessage()}
                 environmentID={props.environment.id}
                 projectID={props.projectID}
                 onClear={clearSearchResults}
                 onSearch={handleSearchResults}
             />
             <Switch>
-                <Match when={!secretList().length && !props.secrets.length}>
+                <Match when={showHelpMessage()}>
                     <h2 class="text-xl my-2">
                         You don't have any secrets within this environment! Use the form above to create a new secret.
                     </h2>
                 </Match>
-                <Match when={!secretList().length && props.secrets.length}>
+                <Match when={!secretList().length}>
                     <h2 class="text-xl my-2">No Results Found</h2>
                 </Match>
                 <Match when={secretList().length}>

@@ -1,4 +1,4 @@
-import { For, Match, Show, Switch, batch } from "solid-js"
+import { For, Match, Show, Switch, batch, createSignal, onCleanup, onMount } from "solid-js"
 import { createStore } from "solid-js/store"
 import type { Environments, Secret } from "../../types"
 import CreateOrUpdateSecretForm from "../forms/CreateOrUpdateSecretForm"
@@ -7,7 +7,7 @@ import SpinnerIcon from "../icons/SpinnerIcon"
 import UnlockedSecretIcon from "../icons/UnlockedSecretIcon"
 import clsx from "../../utils/clsx"
 import { fetchAPIDELETE, fetchAPIGET } from "../../utils/fetchAPI"
-import relativeTimeFromNow from "../../utils/timeSince"
+import { relativeTimeFromDate } from "../../utils/timeSince"
 import ActionButton from "./ActionButton"
 import { dispatchToastError, dispatchToastEvent } from "./Toast"
 
@@ -36,6 +36,7 @@ type SecretDataStore = {
 }
 
 export default function SecretKey(props: SecretKeyProps) {
+    const [currentTime, setCurrentTime] = createSignal(new Date().getTime());
     const [secretData, setSecretData] = createStore<SecretDataStore>({
         showKey: false,
         isLoading: false,
@@ -92,6 +93,17 @@ export default function SecretKey(props: SecretKeyProps) {
             setSecretData("value", "");
         });
     }
+
+
+    onMount(() => {
+        const timer = setInterval(() => {
+            setCurrentTime(new Date().getTime());
+        }, 30000);
+
+        onCleanup(() => {
+            clearInterval(timer);
+        });
+    });
 
     return (
         <li
@@ -179,10 +191,10 @@ export default function SecretKey(props: SecretKeyProps) {
                 <div class="justify-end md:grid md:grid-cols-12">
                     <div class="col-span-12 flex flex-col md:col-span-10 md:text-right">
                         <time class="block" datetime={props.createdAt}>
-                            Created: {relativeTimeFromNow(props.createdAt)}
+                            Created: {relativeTimeFromDate(currentTime(), props.createdAt)}
                         </time>
                         <time class="block" datetime={props.updatedAt}>
-                            Updated: {relativeTimeFromNow(props.updatedAt)}
+                            Updated: {relativeTimeFromDate(currentTime(), props.updatedAt)}
                         </time>
                     </div>
                     <div class="hidden md:col-span-2 md:flex md:justify-center md:items-center">

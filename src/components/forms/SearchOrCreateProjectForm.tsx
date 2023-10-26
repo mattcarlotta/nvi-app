@@ -13,6 +13,7 @@ import { fetchAPIGET, fetchAPIPOST } from "../../utils/fetchAPI";
 import { nameRegex } from "../../utils/regexValidations";
 
 type CreateProjectFormStore = {
+    hasValue: boolean;
     isSearching: boolean;
     isSubmitting: boolean;
     formError: string;
@@ -20,17 +21,16 @@ type CreateProjectFormStore = {
 
 type SearchOrCreateProjectFormProps = {
     disableSearch: boolean;
-    hasSearchValue: boolean;
     onClear: () => void
     onCreateSuccess: (project: Project) => void;
     onSearch: (projects: Projects) => void
-    setSearchValue: (hasValue: boolean) => void;
 }
 
 
 export default function SearchOrCreateProjectForm(props: SearchOrCreateProjectFormProps) {
     const [fields, setFields] = createStore<CreateProjectFormStore>({
         formError: "",
+        hasValue: false,
         isSearching: false,
         isSubmitting: false,
     });
@@ -46,8 +46,10 @@ export default function SearchOrCreateProjectForm(props: SearchOrCreateProjectFo
     }
 
     const handleInputChange = ({ target: { value } }: InputChangeEvent) => {
-        setFields("formError", "");
-        props.setSearchValue(Boolean(value.length));
+        batch(() => {
+            setFields("formError", "");
+            setFields("hasValue", Boolean(value.length));
+        });
 
         if (!value.length) {
             props.onClear();
@@ -83,7 +85,7 @@ export default function SearchOrCreateProjectForm(props: SearchOrCreateProjectFo
         } finally {
             setFields("isSearching", false);
         }
-    }, 300);
+    }, 500);
 
 
     const handleCreateProject = async (e: Event) => {
@@ -123,9 +125,9 @@ export default function SearchOrCreateProjectForm(props: SearchOrCreateProjectFo
     const handleFormClear = () => {
         (document.getElementById("search-or-create-project-form") as HTMLFormElement)?.reset();
         props.onClear();
-        props.setSearchValue(false);
         batch(() => {
             setFields("formError", "");
+            setFields("hasValue", false);
             setFields("isSearching", false);
             setFields("isSubmitting", false);
         });
@@ -159,7 +161,7 @@ export default function SearchOrCreateProjectForm(props: SearchOrCreateProjectFo
                         required
                         onInput={handleInputChange}
                     />
-                    <Show when={props.hasSearchValue}>
+                    <Show when={fields.hasValue}>
                         <button
                             class="h-full absolute p-2 right-0"
                             title="Clear"
@@ -172,7 +174,7 @@ export default function SearchOrCreateProjectForm(props: SearchOrCreateProjectFo
                 </div>
                 <SubmitButton
                     primary
-                    title="Create Project"
+                    title="Create a project"
                     isSubmitting={fields.isSubmitting}
                 >
                     <AddProjectIcon class="h-6 w-6" />

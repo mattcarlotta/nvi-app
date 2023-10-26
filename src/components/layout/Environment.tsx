@@ -1,9 +1,10 @@
-import { Show } from "solid-js";
-import relativeTimeFromNow from "../../utils/timeSince"
+import { Show, createSignal, onCleanup, onMount } from "solid-js";
+import type { Environment as UpdatedEnvironment } from "../../types";
 import EnvironmentIcon from "../icons/EnvironmentIcon"
 import EditEnvironmentForm from "../forms/EditEnvironmentForm";
 import clsx from "../../utils/clsx";
 import { fetchAPIDELETE } from "../../utils/fetchAPI";
+import { relativeTimeFromDate } from "../../utils/timeSince"
 import { dispatchToastError, dispatchToastEvent } from "./Toast";
 import ActionButton from "./ActionButton";
 
@@ -13,7 +14,7 @@ export type EnvironmentProps = {
     editingEnvironmentID: string;
     handleDeleteEnvironment: (environmentID: string) => void;
     handleEditEnvironmentID: (environmentID: string) => void;
-    handleEditEnvironmentUpdate: (newEnvironmentName: string) => void;
+    handleEditEnvironmentUpdate: (updatedEnvironment: UpdatedEnvironment) => void;
     name: string;
     projectID: string;
     projectName: string;
@@ -21,6 +22,8 @@ export type EnvironmentProps = {
 }
 
 export default function Environment(props: EnvironmentProps) {
+    const [currentTime, setCurrentTime] = createSignal(new Date().getTime());
+
     const handleEditClick = () => {
         props.handleEditEnvironmentID(props.id);
     }
@@ -42,6 +45,16 @@ export default function Environment(props: EnvironmentProps) {
             dispatchToastError(error);
         }
     }
+
+    onMount(() => {
+        const timer = setInterval(() => {
+            setCurrentTime(new Date().getTime());
+        }, 30000);
+
+        onCleanup(() => {
+            clearInterval(timer);
+        });
+    });
 
     return (
         <div class={
@@ -68,10 +81,10 @@ export default function Environment(props: EnvironmentProps) {
                         <h2 title={props.name} class="text-2xl text-ellipsis overflow-hidden">{props.name}</h2>
                     </div>
                     <time class="block" datetime={props.createdAt}>
-                        Created: {relativeTimeFromNow(props.createdAt)}
+                        Created: {relativeTimeFromDate(currentTime(), props.createdAt)}
                     </time>
                     <time class="block" datetime={props.updatedAt}>
-                        Updated: {relativeTimeFromNow(props.updatedAt)}
+                        Updated: {relativeTimeFromDate(currentTime(), props.updatedAt)}
                     </time>
                 </a>
                 <div class="col-span-2 flex justify-end">
