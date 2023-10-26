@@ -26,6 +26,18 @@ export function relativeTimeFromDate(currentTime: number, date?: string) {
     return relativeTimeFromElapsed(elapsed);
 }
 
+export function humanReadableDate(date = "") {
+    return new Intl.DateTimeFormat("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "numeric",
+        minute: "numeric",
+        second: "numeric",
+        hour12: true,
+    }).format(new Date(date));
+}
+
 export default function relativeTimeFromNow(date?: string) {
     if (!date) return "";
     const d = new Date(date);

@@ -6,7 +6,7 @@ import ProjectIcon from "../icons/ProjectIcon"
 import UpdatedIcon from "../icons/UpdatedIcon";
 import clsx from "../../utils/clsx";
 import { fetchAPIDELETE } from "../../utils/fetchAPI";
-import { relativeTimeFromDate } from "../../utils/timeSince"
+import { humanReadableDate, relativeTimeFromDate } from "../../utils/timeSince"
 import { dispatchToastError, dispatchToastEvent } from "./Toast";
 import ActionButton from "./ActionButton";
 
@@ -78,11 +78,11 @@ export default function Project(props: ProjectProps) {
                             <h2 title={props.name} class="text-2xl text-ellipsis overflow-hidden pr-8">{props.name}</h2>
                         </div>
                         <div class="pl-1">
-                            <time class="block" datetime={props.createdAt}>
+                            <time class="block" title={humanReadableDate(props.createdAt)} datetime={props.createdAt}>
                                 <CreatedIcon class="w-4 h-4 fill-gray-200 inline" /> {relativeTimeFromDate(currentTime(), props.createdAt)}
                             </time>
                             {props.createdAt !== props.updatedAt && (
-                                <time class="block" datetime={props.updatedAt}>
+                                <time class="block" title={humanReadableDate(props.updatedAt)} datetime={props.updatedAt}>
                                     <UpdatedIcon class="w-4 h-4 fill-gray-200 inline" /> {relativeTimeFromDate(currentTime(), props.updatedAt)}
                                 </time>
                             )}

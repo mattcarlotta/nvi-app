@@ -9,7 +9,7 @@ import UpdatedIcon from "../icons/UpdatedIcon"
 import UnlockedSecretIcon from "../icons/UnlockedSecretIcon"
 import clsx from "../../utils/clsx"
 import { fetchAPIDELETE, fetchAPIGET } from "../../utils/fetchAPI"
-import { relativeTimeFromDate } from "../../utils/timeSince"
+import { humanReadableDate, relativeTimeFromDate } from "../../utils/timeSince"
 import ActionButton from "./ActionButton"
 import { dispatchToastError, dispatchToastEvent } from "./Toast"
 
@@ -189,11 +189,11 @@ export default function SecretKey(props: SecretKeyProps) {
             <div class="py-2 md:py-0 md:col-span-4">
                 <div class="justify-end md:grid md:grid-cols-12">
                     <div class="col-span-12 flex flex-col justify-center md:col-span-10 md:text-right">
-                        <time class="block" datetime={props.createdAt}>
+                        <time class="block" title={humanReadableDate(props.createdAt)} datetime={props.createdAt}>
                             <CreatedIcon class="w-5 h-5 fill-gray-200 inline" /> {relativeTimeFromDate(currentTime(), props.createdAt)}
                         </time>
                         {props.createdAt !== props.updatedAt && (
-                            <time class="block" datetime={props.updatedAt}>
+                            <time class="block" title={humanReadableDate(props.updatedAt)} datetime={props.updatedAt}>
                                 <UpdatedIcon class="w-5 h-5 fill-gray-200 inline" /> {relativeTimeFromDate(currentTime(), props.updatedAt)}
                             </time>
                         )}
