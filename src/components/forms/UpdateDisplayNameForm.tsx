@@ -15,6 +15,7 @@ type UpdateDisplayNameFormProps = {
 }
 
 export default function EditEnvironmentForm(props: UpdateDisplayNameFormProps) {
+    let formRef!: HTMLFormElement;
     const [fields, setFields] = createStore<UpdateDisplayNameFormStore>({
         isSubmitting: false,
         formError: ""
@@ -22,8 +23,7 @@ export default function EditEnvironmentForm(props: UpdateDisplayNameFormProps) {
 
     const handleUpdateDisplayName = async (e: Event) => {
         e.preventDefault();
-        const form = (document.getElementById("edit-display-name-form")) as HTMLFormElement;
-        const name = (form.querySelector("#name") as HTMLInputElement)?.value;
+        const name = (formRef.querySelector("#name") as HTMLInputElement)?.value;
         if (!name || name === props.name) {
             return;
         }
@@ -47,14 +47,18 @@ export default function EditEnvironmentForm(props: UpdateDisplayNameFormProps) {
     };
 
     onMount(() => {
-        const form = (document.getElementById("edit-display-name-form") as HTMLFormElement);
-        const name = (form.querySelector("#name") as HTMLInputElement);
+        const name = (formRef.querySelector("#name") as HTMLInputElement);
         name.value = props.name || "";
     });
 
     return (
         <>
-            <form class="flex flex-col space-y-2" id="edit-display-name-form" onSubmit={handleUpdateDisplayName}>
+            <form
+                class="flex flex-col space-y-2"
+                ref={formRef}
+                id="edit-display-name-form"
+                onSubmit={handleUpdateDisplayName}
+            >
                 <label id="display-name" class="block text-2xl" html-for="name">
                     display name
                 </label>

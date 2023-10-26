@@ -1,4 +1,4 @@
-import { Show, createSignal, onCleanup, onMount } from "solid-js";
+import { Show, createSignal, onCleanup } from "solid-js";
 import type { Project as UpdatedProject } from "../../types";
 import EditProjectForm from "../forms/EditProjectForm";
 import ProjectIcon from "../icons/ProjectIcon"
@@ -21,6 +21,9 @@ export type ProjectProps = {
 
 export default function Project(props: ProjectProps) {
     const [currentTime, setCurrentTime] = createSignal(new Date().getTime());
+    const timer = setInterval(() => {
+        setCurrentTime(new Date().getTime());
+    }, 30000);
 
     const handleEditClick = () => {
         props.handleEditProjectID(props.id);
@@ -44,14 +47,8 @@ export default function Project(props: ProjectProps) {
         }
     }
 
-    onMount(() => {
-        const timer = setInterval(() => {
-            setCurrentTime(new Date().getTime());
-        }, 30000);
-
-        onCleanup(() => {
-            clearInterval(timer);
-        });
+    onCleanup(() => {
+        clearInterval(timer);
     });
 
     return (

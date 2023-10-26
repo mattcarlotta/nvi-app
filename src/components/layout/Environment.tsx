@@ -1,4 +1,4 @@
-import { Show, createSignal, onCleanup, onMount } from "solid-js";
+import { Show, createSignal, onCleanup } from "solid-js";
 import type { Environment as UpdatedEnvironment } from "../../types";
 import EnvironmentIcon from "../icons/EnvironmentIcon"
 import EditEnvironmentForm from "../forms/EditEnvironmentForm";
@@ -23,6 +23,9 @@ export type EnvironmentProps = {
 
 export default function Environment(props: EnvironmentProps) {
     const [currentTime, setCurrentTime] = createSignal(new Date().getTime());
+    const timer = setInterval(() => {
+        setCurrentTime(new Date().getTime());
+    }, 30000);
 
     const handleEditClick = () => {
         props.handleEditEnvironmentID(props.id);
@@ -46,14 +49,8 @@ export default function Environment(props: EnvironmentProps) {
         }
     }
 
-    onMount(() => {
-        const timer = setInterval(() => {
-            setCurrentTime(new Date().getTime());
-        }, 30000);
-
-        onCleanup(() => {
-            clearInterval(timer);
-        });
+    onCleanup(() => {
+        clearInterval(timer);
     });
 
     return (

@@ -1,4 +1,4 @@
-import { onCleanup, onMount } from "solid-js";
+import { onMount } from "solid-js";
 import { Toaster, toast } from "solid-sonner";
 import { getMessageFromStatusCode } from "../../utils/errors";
 
@@ -34,9 +34,9 @@ export default function Toast() {
     onMount(() => {
         window.addEventListener("dispatch-toast", handleToastNotification);
 
-        onCleanup(() => {
+        return () => {
             window.removeEventListener("dispatch-toast", handleToastNotification);
-        });
+        }
     });
 
     return (

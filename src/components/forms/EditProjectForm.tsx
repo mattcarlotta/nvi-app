@@ -22,6 +22,7 @@ type SearchOrCreateProjectFormProps = {
 }
 
 export default function EditProjectForm(props: SearchOrCreateProjectFormProps) {
+    let formRef!: HTMLFormElement;
     const [fields, setFields] = createStore<CreateProjectFormStore>({
         isSubmitting: false,
         formError: ""
@@ -39,8 +40,7 @@ export default function EditProjectForm(props: SearchOrCreateProjectFormProps) {
 
     const handleEditProject = async (e: Event) => {
         e.preventDefault();
-        const form = (document.getElementById("edit-project-form")) as HTMLFormElement;
-        const name = (form.querySelector("#name") as HTMLInputElement)?.value;
+        const name = (formRef.querySelector("#name") as HTMLInputElement)?.value;
         if (!name || nameInputInvalid(name)) {
             return;
         }
@@ -69,7 +69,7 @@ export default function EditProjectForm(props: SearchOrCreateProjectFormProps) {
     };
 
     const handleFormClear = () => {
-        (document.getElementById("edit-project-form") as HTMLFormElement)?.reset();
+        formRef.reset();
         batch(() => {
             setFields("formError", "");
             setFields("isSubmitting", false);
@@ -82,8 +82,7 @@ export default function EditProjectForm(props: SearchOrCreateProjectFormProps) {
     }
 
     onMount(() => {
-        const form = (document.getElementById("edit-project-form") as HTMLFormElement);
-        const name = (form.querySelector("#name") as HTMLInputElement);
+        const name = (formRef.querySelector("#name") as HTMLInputElement);
         name.value = props.projectName;
     });
 
@@ -91,6 +90,7 @@ export default function EditProjectForm(props: SearchOrCreateProjectFormProps) {
         <div class="col-span-12">
             <form
                 id="edit-project-form"
+                ref={formRef}
                 onSubmit={handleEditProject}
             >
                 <input

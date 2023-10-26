@@ -24,6 +24,7 @@ type SearchSecretFormProps = {
 }
 
 export default function SearchSecretForm(props: SearchSecretFormProps) {
+    let formRef!: HTMLFormElement;
     const [fields, setFields] = createStore<CreateSecretFormStore>({
         formError: "",
         isSearching: false,
@@ -45,8 +46,7 @@ export default function SearchSecretForm(props: SearchSecretFormProps) {
     }
 
     const handleSearchSecrets = debounce(async () => {
-        const form = (document.getElementById("search-secret-form") as HTMLFormElement);
-        const key = (form.querySelector("#search-key") as HTMLInputElement)?.value;
+        const key = (formRef.querySelector("#search-key") as HTMLInputElement)?.value;
         if (props.disableSearch || key.length < 2) {
             return;
         }
@@ -70,7 +70,7 @@ export default function SearchSecretForm(props: SearchSecretFormProps) {
 
 
     const handleFormClear = () => {
-        (document.getElementById("search-secret-form") as HTMLFormElement)?.reset();
+        formRef.reset();
         props.onClear();
         batch(() => {
             setFields("formError", "");
@@ -87,7 +87,12 @@ export default function SearchSecretForm(props: SearchSecretFormProps) {
 
     return (
         <>
-            <form id="search-secret-form" class="flex space-x-2 w-full items-center text-black" onSubmit={e => e.preventDefault()}>
+            <form
+                ref={formRef}
+                id="search-secret-form"
+                class="flex space-x-2 w-full items-center text-black"
+                onSubmit={e => e.preventDefault()}
+            >
                 <div class="flex flex-1 relative items-center">
                     <div class="h-full absolute p-2 left-0 mt-1">
                         <Show

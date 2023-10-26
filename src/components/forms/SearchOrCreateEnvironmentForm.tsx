@@ -29,6 +29,7 @@ type SearchOrCreateEnvironmentFormProps = {
 
 
 export default function SearchOrCreateEnvironmentForm(props: SearchOrCreateEnvironmentFormProps) {
+    let formRef!: HTMLFormElement;
     const [fields, setFields] = createStore<CreateEnvironmentFormStore>({
         formError: "",
         hasValue: false,
@@ -60,8 +61,7 @@ export default function SearchOrCreateEnvironmentForm(props: SearchOrCreateEnvir
     }
 
     const handleSearchEnvironments = debounce(async () => {
-        const form = (document.getElementById("search-or-create-environment-form") as HTMLFormElement);
-        const name = (form.querySelector("#name") as HTMLInputElement)?.value;
+        const name = (formRef.querySelector("#name") as HTMLInputElement)?.value;
         if (props.disableSearch || !name || nameInputInvalid(name)) {
             return;
         }
@@ -86,14 +86,12 @@ export default function SearchOrCreateEnvironmentForm(props: SearchOrCreateEnvir
         } finally {
             setFields("isSearching", false);
         }
-
     }, 300)
 
 
     const handleCreateEnvironment = async (e: Event) => {
         e.preventDefault();
-        const form = (document.getElementById("search-or-create-environment-form") as HTMLFormElement);
-        const name = (form.querySelector("#name") as HTMLInputElement)?.value;
+        const name = (formRef.querySelector("#name") as HTMLInputElement)?.value;
         if (!name || nameInputInvalid(name)) {
             return;
         }
@@ -126,7 +124,7 @@ export default function SearchOrCreateEnvironmentForm(props: SearchOrCreateEnvir
     };
 
     const handleFormClear = () => {
-        (document.getElementById("search-or-create-environment-form") as HTMLFormElement)?.reset();
+        formRef.reset();
         props.onClear();
         batch(() => {
             setFields("formError", "");
@@ -139,6 +137,7 @@ export default function SearchOrCreateEnvironmentForm(props: SearchOrCreateEnvir
     return (
         <div class="min-h-[5.5rem]">
             <form
+                ref={formRef}
                 id="search-or-create-environment-form"
                 class="flex space-x-2 w-full items-center text-black"
                 onSubmit={handleCreateEnvironment}

@@ -15,6 +15,7 @@ type RegisterFormStore = {
 };
 
 export default function RegisterForm() {
+    let formRef: HTMLFormElement | undefined;
     const [fields, setFields] = createStore<RegisterFormStore>({
         isSubmitting: false,
         formError: "",
@@ -34,10 +35,9 @@ export default function RegisterForm() {
             setFields("isSubmitting", true);
         });
         try {
-            const form = (document.getElementById("register-form") as HTMLFormElement);
-            const name = (form.querySelector("#name") as HTMLInputElement).value;
-            const email = (form.querySelector("#email") as HTMLInputElement).value;
-            const password = (form.querySelector("#password") as HTMLInputElement).value;
+            const name = (formRef?.querySelector("#name") as HTMLInputElement).value;
+            const email = (formRef?.querySelector("#email") as HTMLInputElement).value;
+            const password = (formRef?.querySelector("#password") as HTMLInputElement).value;
 
             const res = await fetchAPIPOST({
                 url: "/register/",
@@ -49,7 +49,7 @@ export default function RegisterForm() {
                 return;
             }
 
-            form.reset();
+            formRef?.reset();
 
             setFields("successMessage", res.message);
         } catch (error) {
@@ -69,7 +69,7 @@ export default function RegisterForm() {
             <div class="flex flex-col justify-center items-center space-y-4 text-gray-200">
                 <div class="flex flex-col space-y-4 w-full max-w-xl p-8 bg-gray-900 rounded">
                     <h1 class="text-center text-3xl">Register</h1>
-                    <form id="register-form" class="w-full" onSubmit={handleSubmit}>
+                    <form ref={formRef} id="register-form" class="w-full" onSubmit={handleSubmit}>
                         <div class="flex h-24 full flex-col space-y-1">
                             <label class="block" html-for="name">
                                 Display Name

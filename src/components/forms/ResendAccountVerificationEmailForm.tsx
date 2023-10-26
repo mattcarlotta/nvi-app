@@ -13,6 +13,7 @@ type ResendAccountVerficiationFormStore = {
 };
 
 export default function ResendAccountVerficiationForm() {
+    let formRef: HTMLFormElement | undefined;
     const [fields, setFields] = createStore<ResendAccountVerficiationFormStore>({
         isSubmitting: false,
         formError: "",
@@ -27,8 +28,7 @@ export default function ResendAccountVerficiationForm() {
             setFields("isSubmitting", true);
         });
         try {
-            const form = (document.getElementById("reverify-account-form")) as HTMLFormElement;
-            const email = (form.querySelector("#email") as HTMLInputElement).value;
+            const email = (formRef?.querySelector("#email") as HTMLInputElement).value;
 
             await fetchAPIPATCH({
                 url: `/reverify/account?email=${email}`,
@@ -66,7 +66,7 @@ export default function ResendAccountVerficiationForm() {
                 <h2 class="text-md font-bold text-center text-red-500">
                     Please try generating another account verification email.
                 </h2>
-                <form id="reverify-account-form" class="flex flex-col space-y-4 w-full" onSubmit={handleSubmit}>
+                <form ref={formRef} id="reverify-account-form" class="flex flex-col space-y-4 w-full" onSubmit={handleSubmit}>
                     <input
                         class="w-full rounded px-1.5 py-2 text-black"
                         id="email"

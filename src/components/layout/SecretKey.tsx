@@ -1,4 +1,4 @@
-import { For, Match, Show, Switch, batch, createSignal, onCleanup, onMount } from "solid-js"
+import { For, Match, Show, Switch, batch, createSignal, onCleanup } from "solid-js"
 import { createStore } from "solid-js/store"
 import type { Environments, Secret } from "../../types"
 import CreateOrUpdateSecretForm from "../forms/CreateOrUpdateSecretForm"
@@ -42,6 +42,9 @@ export default function SecretKey(props: SecretKeyProps) {
         isLoading: false,
         value: "",
     });
+    const timer = setInterval(() => {
+        setCurrentTime(new Date().getTime());
+    }, 30000);
 
     const showKey = async () => {
         setSecretData("isLoading", true);
@@ -94,15 +97,8 @@ export default function SecretKey(props: SecretKeyProps) {
         });
     }
 
-
-    onMount(() => {
-        const timer = setInterval(() => {
-            setCurrentTime(new Date().getTime());
-        }, 30000);
-
-        onCleanup(() => {
-            clearInterval(timer);
-        });
+    onCleanup(() => {
+        clearInterval(timer);
     });
 
     return (

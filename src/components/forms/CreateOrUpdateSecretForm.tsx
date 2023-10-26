@@ -1,9 +1,9 @@
 import { For, Show, batch, onMount } from "solid-js";
 import { createStore } from "solid-js/store";
 import type { Environments, Secret } from "../../types";
-import SaveIcon from "../icons/SaveIcon";
-import CloseIcon from "../icons/CloseIcon";
 import ClearFormIcon from "../icons/ClearFormIcon";
+import CloseIcon from "../icons/CloseIcon";
+import SaveIcon from "../icons/SaveIcon";
 import SubmitButton from "../layout/SubmitButton";
 import { dispatchToastError, dispatchToastEvent } from "../layout/Toast";
 import { ErrorStatusCode, getMessageFromStatusCode } from "../../utils/errors";

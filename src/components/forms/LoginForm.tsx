@@ -18,6 +18,7 @@ type LoginFormStore = {
 
 
 export default function LoginForm(props: LoginFormProps) {
+    let formRef!: HTMLFormElement;
     const [fields, setFields] = createStore<LoginFormStore>({
         isSubmitting: false,
         formError: '',
@@ -36,9 +37,8 @@ export default function LoginForm(props: LoginFormProps) {
             setFields("isSubmitting", true);
         });
         try {
-            const form = (document.getElementById("login-form")) as HTMLFormElement;
-            const email = (form.querySelector("#email") as HTMLInputElement).value;
-            const password = (form.querySelector("#password") as HTMLInputElement).value;
+            const email = (formRef.querySelector("#email") as HTMLInputElement).value;
+            const password = (formRef.querySelector("#password") as HTMLInputElement).value;
 
             const res = await fetchAPIPOST({
                 url: "/login/",
@@ -68,7 +68,7 @@ export default function LoginForm(props: LoginFormProps) {
         <div class="flex flex-col justify-center items-center space-y-4">
             <div class="flex flex-col space-y-4 w-full max-w-xl p-8 bg-gray-900 rounded">
                 <h1 class="text-center text-3xl">Login</h1>
-                <form id="login-form" class="w-full" onSubmit={handleSubmit}>
+                <form ref={formRef} id="login-form" class="w-full" onSubmit={handleSubmit}>
                     <div class="flex h-24 full flex-col space-y-1">
                         <label class="block" html-for="email">
                             Email
@@ -88,8 +88,15 @@ export default function LoginForm(props: LoginFormProps) {
                             <label html-for="password">
                                 Password
                             </label>
-                            <button type="button" title={`${fields.showPassword ? "Show" : "Hide"} Password`} onClick={toggleShowPassword}>
-                                <Show when={fields.showPassword} fallback={<ShowIcon class="w-5 h-5 fill-gray-200" />}>
+                            <button
+                                type="button"
+                                title={`${fields.showPassword ? "Show" : "Hide"} Password`}
+                                onClick={toggleShowPassword}
+                            >
+                                <Show
+                                    when={fields.showPassword}
+                                    fallback={<ShowIcon class="w-5 h-5 fill-gray-200" />}
+                                >
                                     <HideIcon class="w-5 h-5 fill-gray-200" />
                                 </Show>
                             </button>

@@ -23,6 +23,7 @@ type SearchOrCreateEnvironmentFormProps = {
 }
 
 export default function EditEnvironmentForm(props: SearchOrCreateEnvironmentFormProps) {
+    let formRef!: HTMLFormElement;
     const [fields, setFields] = createStore<CreateEnvironmentFormStore>({
         isSubmitting: false,
         formError: ""
@@ -40,8 +41,7 @@ export default function EditEnvironmentForm(props: SearchOrCreateEnvironmentForm
 
     const handleEditEnvironment = async (e: Event) => {
         e.preventDefault();
-        const form = (document.getElementById("edit-environment-form")) as HTMLFormElement;
-        const name = (form.querySelector("#name") as HTMLInputElement)?.value;
+        const name = (formRef.querySelector("#name") as HTMLInputElement)?.value;
         if (!name || nameInputInvalid(name)) {
             return;
         }
@@ -70,11 +70,11 @@ export default function EditEnvironmentForm(props: SearchOrCreateEnvironmentForm
     };
 
     const handleFormClear = () => {
+        formRef.reset();
         batch(() => {
             setFields("formError", "");
             setFields("isSubmitting", false);
         });
-        (document.getElementById("edit-environment-form") as HTMLFormElement)?.reset();
     }
 
     const handleCancelClick = () => {
@@ -83,8 +83,7 @@ export default function EditEnvironmentForm(props: SearchOrCreateEnvironmentForm
     }
 
     onMount(() => {
-        const form = (document.getElementById("edit-environment-form") as HTMLFormElement);
-        const name = (form.querySelector("#name") as HTMLInputElement);
+        const name = (formRef.querySelector("#name") as HTMLInputElement);
         name.value = props.environmentName;
     });
 
@@ -92,6 +91,7 @@ export default function EditEnvironmentForm(props: SearchOrCreateEnvironmentForm
         <div class="col-span-12">
             <form
                 id="edit-environment-form"
+                ref={formRef}
                 onSubmit={handleEditEnvironment}
             >
                 <input

@@ -12,6 +12,7 @@ type ForgotPasswordStore = {
 };
 
 export default function ForgotPasswordForm() {
+    let formRef: HTMLFormElement | undefined;
     const [fields, setFields] = createStore<ForgotPasswordStore>({
         isSubmitting: false,
         formError: "",
@@ -26,8 +27,7 @@ export default function ForgotPasswordForm() {
             setFields("isSubmitting", true);
         });
         try {
-            const form = (document.getElementById("forgot-password-form")) as HTMLFormElement;
-            const email = (form.querySelector("#email") as HTMLInputElement).value;
+            const email = (formRef?.querySelector("#email") as HTMLInputElement).value;
 
             await fetchAPIPATCH({
                 url: `/reset/password?email=${email}`,
@@ -62,7 +62,7 @@ export default function ForgotPasswordForm() {
                     <>
 
                         <h1 class="text-center text-3xl">Forgot Password?</h1>
-                        <form id="forgot-password-form" class="w-full" onSubmit={handleSubmit}>
+                        <form ref={formRef} id="forgot-password-form" class="w-full" onSubmit={handleSubmit}>
                             <div class="flex h-24 full flex-col space-y-1">
                                 <label class="block" html-for="email">
                                     Email
