@@ -5,4 +5,3 @@ export default function SadIcon(props: { class: string }) {
         </svg>
     );
 }
-

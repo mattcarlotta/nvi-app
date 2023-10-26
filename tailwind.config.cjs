@@ -19,7 +19,8 @@ module.exports = {
                 main: "75rem"
             },
             minHeight: {
-                body: "40rem"
+                desktop: "calc(100vh - 176px)",
+                mobile: "calc(100vh - 138px)"
             },
             minWidth: {
                 preview: "4.6875rem"

@@ -1,0 +1,37 @@
+---
+import type { User } from "../types";
+import LoginForm from "../components/forms/LoginForm";
+import NavBar from "../components/layout/NavBar.astro";
+import MainLayout from "../layouts/main.astro";
+import { fetchAPIGET } from "../utils/fetchAPI";
+
+const sessionToken = Astro.cookies.get("SESSION_TOKEN");
+let user: User | null = null;
+try {
+    const headers = new Headers();
+    headers.append("Cookie", `SESSION_TOKEN=${sessionToken?.value}`);
+    const res = await fetchAPIGET({
+        url: "/loggedin/",
+        headers,
+    });
+
+    if (!res.data) {
+        throw new Error("Not logged in!");
+    }
+
+    user = res.data;
+} catch {
+    // handle errors below
+}
+---
+
+<MainLayout description="documentation">
+    <NavBar email={user?.email} userName={user?.name} slot="navbar" />
+    {
+        !user?.name ? (
+            <LoginForm client:load reloadPage />
+        ) : (
+            <h1 class="text-3xl font-bold text-center">documentation</h1>
+        )
+    }
+</MainLayout>

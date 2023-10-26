@@ -1,16 +1,18 @@
 ---
 import NavHeader from "../components/layout/NavHeader.astro";
+import GithubIcon from "../components/icons/GithubIcon";
 import Toast from "../components/layout/Toast";
 import concatTitle from "../utils/concatTitle";
 
 interface Props {
     description?: string;
     hideHeader?: boolean;
+    hideFooter?: boolean;
     title?: string;
     type?: string;
 }
 
-const { description, hideHeader, title, type } = Astro.props;
+const { description, hideHeader, hideFooter, title, type } = Astro.props;
 const canonicalURL = Astro.url.toString();
 const documentTitle = concatTitle(title, description);
 const documentType = type || "website";
@@ -109,22 +111,33 @@ const documentType = type || "website";
                 Skip to content
             </a>
         </header>
-        {
-            !hideHeader && (
-                <slot name="navbar">
-                    <NavHeader />
-                </slot>
-            )
-        }
+        <slot name="navbar">
+            {!hideHeader && <NavHeader />}
+        </slot>
         <main id="main" class="mx-auto w-full max-w-main p-2.5 md:pt-12">
-            <div class="min-h-body">
+            <div class="min-h-mobile md:min-h-desktop pb-10">
                 <slot />
             </div>
-            <footer class="flex items-center justify-center py-4">
-                <p>
-                    &#169;{new Date().getFullYear()} Matt Carlotta
-                </p>
-            </footer>
         </main>
+        {
+            !hideFooter && (
+                <footer class="border-t border-t-gray-700 p-4 bg-gray-900">
+                    <div class="mx-auto flex max-w-main justify-center items-center">
+                        <p class="flex-1">
+                            <a
+                                class="text-gray-200 hover:text-gray-400"
+                                aria-label="nvi github"
+                                href="https://github.com/mattcarlotta/nvi-app/"
+                                rel="noopener noreferrer"
+                                target="_blank"
+                            >
+                                <GithubIcon class="w-6 h-6 inline-block" />
+                            </a>
+                        </p>
+                        <p>Copyright &#169; {new Date().getFullYear()} Matt Carlotta</p>
+                    </div>
+                </footer>
+            )
+        }
     </body>
 </html>

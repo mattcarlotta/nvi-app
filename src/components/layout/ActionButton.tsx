@@ -56,14 +56,14 @@ export default function ActionButton(props: ActionButtonProps) {
 
     return (
         <div ref={wrapperRef}>
-            <button class="hover:bg-gray-900 p-2 rounded" type="button" onClick={toggleVisibility}>
+            <button class="hover:bg-gray-700 p-2 rounded" type="button" onClick={toggleVisibility}>
                 <ActionHorizontalDots class="hidden w-6 h-6 text-white md:block" />
                 <ActionVerticalDots class="w-6 h-6 text-white md:hidden" />
             </button>
             <Show when={options.isVisible}>
                 <ul
                     class="absolute z-10 bg-gray-950 border-2 border-gray-600 rounded p-2 min-w-[10rem]"
-                    style={`transform: translate(${options.x}px,${options.y}px);`}
+                    style={`transform: translate(${options.x}px,${options.y}px);box-shadow: 0px 7px 15px 5px #030712;`}
                 >
                     <li>
                         <button

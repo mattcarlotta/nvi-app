@@ -1,6 +1,7 @@
 import { Show, batch, createEffect } from "solid-js"
 import { createStore } from "solid-js/store";
 import DashboardIcon from "../icons/DashboardIcon";
+import DocumentationIcon from "../icons/DocumentationIcon";
 import LogoutIcon from "../icons/LogoutIcon";
 import SettingsIcon from "../icons/SettingsIcon";
 import LogoutButton from "./LogoutButton";
@@ -57,7 +58,7 @@ export default function AccountDropdown(props: AccountDropdownProps) {
             <Show when={options.isVisible}>
                 <ul
                     class="text-sm absolute z-10 bg-gray-950 border-2 border-gray-600 rounded w-48"
-                    style={`transform: translate(${options.x}px,${options.y}px);`}
+                    style={`transform: translate(${options.x}px,${options.y}px);box-shadow: 0px 7px 15px 5px #030712;`}
                 >
                     <li class="py-2 pl-4 pr-2">
                         <p class="text-gray-50 text-ellipsis overflow-hidden line-clamp-1">
@@ -71,21 +72,27 @@ export default function AccountDropdown(props: AccountDropdownProps) {
                         <div class="border-b border-gray-600" />
                     </li>
                     <li class="text-gray-400 hover:text-gray-50 hover:bg-gray-800">
-                        <a class="block py-2 pl-3.5 pr-2" href="/dashboard/">
+                        <a class="flex items-center w-full py-2 pl-3.5 pr-2" href="/dashboard/">
                             <DashboardIcon class="w-5 h-5 inline mr-1" />
-                            dashboard
+                            <span>dashboard</span>
                         </a>
                     </li>
                     <li class="text-gray-400 hover:text-gray-50 hover:bg-gray-800">
-                        <a class="block py-2 pl-4 pr-2" href="/settings/">
+                        <a class="flex items-center w-full py-2 pl-3.5 pr-2" href="/documentation/">
+                            <DocumentationIcon class="w-5 h-5 fill-gray-400 inline mr-1" />
+                            <span>documentation</span>
+                        </a>
+                    </li>
+                    <li class="text-gray-400 hover:text-gray-50 hover:bg-gray-800">
+                        <a class="flex items-center w-full py-2 pl-4 pr-2" href="/settings/">
                             <SettingsIcon class="w-4 h-4 fill-gray-400 inline mr-1.5" />
-                            settings
+                            <span>settings</span>
                         </a>
                     </li>
                     <li class="text-gray-400 hover:text-gray-50 hover:bg-gray-800">
-                        <LogoutButton className="w-full text-left py-2 pl-3.5 pr-2">
+                        <LogoutButton className="flex item-center w-full text-left py-2 pl-3.5 pr-2">
                             <LogoutIcon class="w-5 h-5 inline mr-1" />
-                            logout
+                            <span>logout</span>
                         </LogoutButton>
                     </li>
                 </ul>

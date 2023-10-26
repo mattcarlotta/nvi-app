@@ -83,20 +83,21 @@ export default function SecretKey(props: SecretKeyProps) {
         }
     }
 
-    const handleEditKey = () => {
-        props.handleEditSecretID(props.id);
-    }
-
-    const handleCancelEditKey = () => {
-        props.handleEditSecretID("");
-    }
-
     const hideKey = () => {
         batch(() => {
             setSecretData("showKey", false);
             setSecretData("isLoading", false);
             setSecretData("value", "");
         });
+    }
+
+    const handleEditKey = () => {
+        hideKey();
+        props.handleEditSecretID(props.id);
+    }
+
+    const handleCancelEditKey = () => {
+        props.handleEditSecretID("");
     }
 
     onCleanup(() => {
@@ -126,7 +127,7 @@ export default function SecretKey(props: SecretKeyProps) {
                                 <button
                                     title="Lock Secret"
                                     type="button"
-                                    class="p-2 rounded hover:bg-gray-800"
+                                    class="p-2 rounded hover:bg-gray-700"
                                     onClick={hideKey}
                                 >
                                     <UnlockedSecretIcon class="w-5 h-5 fill-gray-200" />
@@ -136,7 +137,7 @@ export default function SecretKey(props: SecretKeyProps) {
                                 <button
                                     title="Unlock Secret"
                                     type="button"
-                                    class="p-2 rounded hover:bg-gray-800"
+                                    class="p-2 rounded hover:bg-gray-700"
                                     onClick={showKey}
                                 >
                                     <LockedSecretIcon class="w-5 h-5 fill-gray-200" />
@@ -173,7 +174,7 @@ export default function SecretKey(props: SecretKeyProps) {
             <div class="py-4 border-b border-gray-700 md:col-span-4 md:justify-center md:border-b-0 md:py-0">
                 <Show
                     when={secretData.showKey && secretData.value.length && !secretData.isLoading}
-                    fallback={<p class="py-1 px-2 md:text-center">•••••••••••••••</p>}
+                    fallback={<p title="Press the lock button to view this secret" class="py-1 px-2 md:text-center">•••••••••••••••</p>}
                 >
                     <button
                         type="button"
@@ -181,7 +182,7 @@ export default function SecretKey(props: SecretKeyProps) {
                         class="flex text-left w-full md:justify-center"
                         onClick={handleCopyValue}
                     >
-                        <p class="bg-gray-800 py-1 px-2 rounded max-w-max line-clamp-1">{secretData.value}</p>
+                        <p class="bg-gray-700 py-1 px-2 rounded max-w-max line-clamp-1">{secretData.value}</p>
                     </button>
                 </Show>
             </div>
