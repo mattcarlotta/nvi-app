@@ -188,7 +188,7 @@ export default function CreateOrUpdateSecretForm(props: CreateOrUpdateSecretForm
                         <legend class="block">
                             Environments
                         </legend>
-                        <div class="max-h-56 overflow-y-scroll">
+                        <div class="max-h-56 overflow-y-auto">
                             <p class="text-xs text-gray-500 border-b border-gray-500 pt-1 pb-2">
                                 Please select one or more environments ({props.environments.length} available)
                             </p>

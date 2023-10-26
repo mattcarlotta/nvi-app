@@ -12,6 +12,7 @@ import { fetchAPIDELETE, fetchAPIGET } from "../../utils/fetchAPI"
 import { humanReadableDate, relativeTimeFromDate } from "../../utils/timeSince"
 import ActionButton from "./ActionButton"
 import { dispatchToastError, dispatchToastEvent } from "./Toast"
+import EnvironmentIcon from "../icons/EnvironmentIcon"
 
 type SecretKeyProps = {
     id: string;
@@ -49,6 +50,7 @@ export default function SecretKey(props: SecretKeyProps) {
     }, 30000);
 
     const showKey = async () => {
+        props.handleEditSecretID("");
         setSecretData("isLoading", true);
         setSecretData("showKey", true);
         try {
@@ -151,15 +153,16 @@ export default function SecretKey(props: SecretKeyProps) {
                             >
                                 {props.key}
                             </h2>
-                            <div class="flex-wrap flex space-x-2">
+                            <div class="flex flex-nowrap overflow-x-auto py-1 select-none">
                                 <For each={props.environments}>
                                     {(environment) => (
                                         <a
                                             title={environment.name}
-                                            class="text-sm text-gray-500 text-ellipsis overflow-hidden py-0.5 hover:underline hover:text-blue-500"
+                                            class="flex flex-none space-x-0.5 items-center text-sm text-gray-500 fill-gray-500 py-0.5 mr-2 hover:underline hover:text-blue-500 hover:fill-blue-500"
                                             href={`/${props.projectName}/${environment.name}`}
                                         >
-                                            {environment.name}
+                                            <EnvironmentIcon class="w-3 h-3" />
+                                            <span>{environment.name}</span>
                                         </a>
                                     )}
                                 </For>

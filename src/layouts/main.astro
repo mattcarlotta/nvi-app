@@ -85,23 +85,39 @@ const documentType = type || "website";
                     sans-serif;
             }
 
-            * {
-                box-sizing: border-box;
-                -ms-overflow-style: none;
+            .invisible-scrollbar::-webkit-scrollbar {
+                display: none;
                 scrollbar-width: none;
+                -ms-overflow-style: none;
+            }
+
+            ::-webkit-scrollbar-track {
+                background: #313131;
             }
 
             ::-webkit-scrollbar {
-                display: none;
+                height: 6px;
+                width: 6px;
             }
 
-            :-moz-focus-inner {
-                border-width: 0px;
+            ::-webkit-scrollbar-thumb {
+                background: #888;
+                border-radius: 10px;
+            }
+
+            ::-webkit-scrollbar-thumb:hover {
+                background: #555;
+            }
+
+            * {
+                box-sizing: border-box;
+                scrollbar-width: thin;
+                scrollbar-color: #555;
             }
         </style>
         <title>{documentTitle}</title>
     </head>
-    <body>
+    <body class="invisible-scrollbar">
         <Toast client:load />
         <header class="overflow-hidden">
             <a
