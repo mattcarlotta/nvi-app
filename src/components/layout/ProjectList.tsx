@@ -1,9 +1,10 @@
 import { For, createSignal, Switch, Match, batch } from "solid-js"
 import type { Project as Proj, Projects } from "../../types"
+import AddProjectIcon from "../icons/AddProjectIcon"
 import ProjectIcon from "../icons/ProjectIcon"
+import NoSearchResultsIcon from "../icons/NoSearchResultsIcon"
 import SearchOrCreateProjectForm from "../forms/SearchOrCreateProjectForm"
 import Project from "./Project"
-import AddProjectIcon from "../icons/AddProjectIcon"
 
 type ProjectListProps = {
     projects: Projects
@@ -71,7 +72,7 @@ export default function ProjectList(props: ProjectListProps) {
             />
             <Switch>
                 <Match when={showHelpMessage()}>
-                    <div class="flex flex-col items-center justify-center w-full p-4 bg-gray-900 border border-gray-800 rounded md:p-8">
+                    <div class="flex flex-col items-center justify-center p-4 bg-gray-950 border border-gray-600 rounded md:p-8">
                         <div class="flex flex-col space-y-4 items-center w-full">
                             <h2 class="text-center text-2xl md:text-3xl md:text-left">
                                 You haven&apos;t created any projects yet!
@@ -95,7 +96,16 @@ export default function ProjectList(props: ProjectListProps) {
                     </div>
                 </Match>
                 <Match when={!projectList().length}>
-                    <h2 class="text-xl">No Results Found</h2>
+                    <h2 class="flex space-x-1 items-center">
+                        <ProjectIcon class="w-4 h-4 fill-gray-200" />
+                        <span>projects</span>
+                    </h2>
+                    <div class="flex flex-col items-center justify-center p-6 bg-gray-900 border border-gray-800 rounded md:p-8">
+                        <div class="flex flex-col space-y-1 items-center w-full">
+                            <NoSearchResultsIcon class="w-12 h-12 text-gray-200" />
+                            <h3 class="text-xl">No Projects Found</h3>
+                        </div>
+                    </div>
                 </Match>
                 <Match when={projectList().length}>
                     <h2 class="flex space-x-1 items-center">

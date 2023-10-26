@@ -4,6 +4,8 @@ import SearchSecretForm from "../forms/SearchSecretForm"
 import CreateOrUpdateSecretForm from "../forms/CreateOrUpdateSecretForm"
 import LockSecretIcon from "../icons/LockSecretIcon"
 import SecretKey from "./SecretKey"
+import SaveIcon from "../icons/SaveIcon"
+import NoSearchResultsIcon from "../icons/NoSearchResultsIcon"
 
 type SecretsListProps = {
     environment: Environment;
@@ -82,19 +84,51 @@ export default function SecretList(props: SecretsListProps) {
             />
             <Switch>
                 <Match when={showHelpMessage()}>
-                    <h2 class="text-xl my-2">
-                        You don't have any secrets within this environment! Use the form above to create a new secret.
-                    </h2>
+                    <div class="flex flex-col items-center justify-center p-4 bg-gray-950 border border-gray-600 rounded md:p-8">
+                        <div class="flex flex-col space-y-4 items-center w-full">
+                            <h2 class="text-center text-2xl md:text-3xl md:text-left">
+                                You haven&apos;t created any secrets yet!
+                            </h2>
+                            <div class="space-y-2">
+                                <h3 class="md:text-xl">Use the form above to create a new environment:</h3>
+                                <ul class="text-sm list-disc space-y-2 pl-8 md:text-base">
+                                    <li class="list-item">Input a key name for the secret key.</li>
+                                    <li class="list-item">Input a value for the secret key.</li>
+                                    <li class="list-item">Select one or more environments to add the secret key to.</li>
+                                    <li class="list-item">Click the&#32;
+                                        <button
+                                            class="bg-gray-100 border border-gray-100 text-black fill-black inline rounded p-1 transition hover:bg-gray-300"
+                                            title="Create Secret"
+                                        >
+                                            <SaveIcon class="h-5 w-5 inline" />
+                                        </button>&#32;
+                                        button.
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                 </Match>
                 <Match when={!secretList().length}>
-                    <h2 class="text-xl my-2">No Results Found</h2>
+                    <div class="space-y-0">
+                        <h2 class="flex space-x-1 items-center">
+                            <LockSecretIcon class="w-4 h-4 fill-gray-200" />
+                            <span>secrets</span>
+                        </h2>
+                        <div class="flex flex-col items-center justify-center p-6 bg-gray-950 border-2 border-gray-800 rounded md:p-8">
+                            <div class="flex flex-col space-y-1 items-center w-full">
+                                <NoSearchResultsIcon class="w-12 h-12 text-gray-200" />
+                                <h3 class="text-xl">No Secrets Found</h3>
+                            </div>
+                        </div>
+                    </div>
                 </Match>
                 <Match when={secretList().length}>
                     <div class="space-y-0">
-                        <h3 class="flex space-x-1 items-center">
+                        <h2 class="flex space-x-1 items-center">
                             <LockSecretIcon class="w-4 h-4 fill-gray-200" />
                             <span>secrets</span>
-                        </h3>
+                        </h2>
                         <section>
                             <ul class="bg-gray-950 border-2 rounded border-gray-700">
                                 <For each={secretList()}>

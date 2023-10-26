@@ -87,7 +87,7 @@ export default function EditProjectForm(props: SearchOrCreateProjectFormProps) {
     });
 
     return (
-        <div class="col-span-12">
+        <div class="col-span-12 pt-3.5 px-3.5">
             <form
                 id="edit-project-form"
                 ref={formRef}

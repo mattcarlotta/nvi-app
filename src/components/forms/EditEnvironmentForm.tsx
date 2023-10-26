@@ -88,14 +88,14 @@ export default function EditEnvironmentForm(props: SearchOrCreateEnvironmentForm
     });
 
     return (
-        <div class="col-span-12">
+        <div class="col-span-12 pt-3.5 px-3.5">
             <form
                 id="edit-environment-form"
                 ref={formRef}
                 onSubmit={handleEditEnvironment}
             >
                 <input
-                    class="w-full rounded px-2 py-3 text-black"
+                    class="w-full rounded p-2 text-black"
                     id="name"
                     name="name"
                     type="text"

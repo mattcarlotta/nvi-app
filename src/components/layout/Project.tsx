@@ -1,7 +1,9 @@
 import { Show, createSignal, onCleanup } from "solid-js";
 import type { Project as UpdatedProject } from "../../types";
+import CreatedIcon from "../icons/CreatedIcon";
 import EditProjectForm from "../forms/EditProjectForm";
 import ProjectIcon from "../icons/ProjectIcon"
+import UpdatedIcon from "../icons/UpdatedIcon";
 import clsx from "../../utils/clsx";
 import { fetchAPIDELETE } from "../../utils/fetchAPI";
 import { relativeTimeFromDate } from "../../utils/timeSince"
@@ -54,8 +56,8 @@ export default function Project(props: ProjectProps) {
     return (
         <div class={
             clsx(
-                "grid grid-cols-12 p-4 border border-gray-800 rounded bg-gray-900",
-                props.id !== props.editingProjectID && "hover:bg-gray-800 hover:border-gray-700"
+                "grid grid-cols-1 border border-gray-800 rounded bg-gray-900",
+                props.id !== props.editingProjectID && "hover:bg-gray-800"
             )
         }>
             <Show
@@ -69,20 +71,26 @@ export default function Project(props: ProjectProps) {
                     />
                 }
             >
-                <a class="col-span-10" href={`/${props.name}/`}>
-                    <div class="flex items-center space-x-2">
-                        <ProjectIcon class="flex-none w-6 h-6 fill-gray-200" />
-                        <h2 title={props.name} class="text-2xl text-ellipsis overflow-hidden">{props.name}</h2>
+                <div class="relative">
+                    <a class="col-span-1 block h-full p-4" href={`/${props.name}/`}>
+                        <div class="flex items-center space-x-2">
+                            <ProjectIcon class="flex-none w-7 h-7 fill-gray-200" />
+                            <h2 title={props.name} class="text-2xl text-ellipsis overflow-hidden pr-8">{props.name}</h2>
+                        </div>
+                        <div class="pl-1">
+                            <time class="block" datetime={props.createdAt}>
+                                <CreatedIcon class="w-4 h-4 fill-gray-200 inline" /> {relativeTimeFromDate(currentTime(), props.createdAt)}
+                            </time>
+                            {props.createdAt !== props.updatedAt && (
+                                <time class="block" datetime={props.updatedAt}>
+                                    <UpdatedIcon class="w-4 h-4 fill-gray-200 inline" /> {relativeTimeFromDate(currentTime(), props.updatedAt)}
+                                </time>
+                            )}
+                        </div>
+                    </a>
+                    <div class="col-span-1 m-4 absolute top-0 right-0">
+                        <ActionButton onEditClick={handleEditClick} onDeleteClick={handleDeleteProject} />
                     </div>
-                    <time class="block" datetime={props.createdAt}>
-                        Created: {relativeTimeFromDate(currentTime(), props.createdAt)}
-                    </time>
-                    <time class="block" datetime={props.updatedAt}>
-                        Updated: {relativeTimeFromDate(currentTime(), props.updatedAt)}
-                    </time>
-                </a>
-                <div class="col-span-2 flex justify-end">
-                    <ActionButton onEditClick={handleEditClick} onDeleteClick={handleDeleteProject} />
                 </div>
             </Show>
         </div>

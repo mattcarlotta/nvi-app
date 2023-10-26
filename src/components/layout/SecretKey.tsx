@@ -1,9 +1,11 @@
 import { For, Match, Show, Switch, batch, createSignal, onCleanup } from "solid-js"
 import { createStore } from "solid-js/store"
 import type { Environments, Secret } from "../../types"
+import CreatedIcon from "../icons/CreatedIcon"
 import CreateOrUpdateSecretForm from "../forms/CreateOrUpdateSecretForm"
 import LockedSecretIcon from "../icons/LockSecretIcon"
 import SpinnerIcon from "../icons/SpinnerIcon"
+import UpdatedIcon from "../icons/UpdatedIcon"
 import UnlockedSecretIcon from "../icons/UnlockedSecretIcon"
 import clsx from "../../utils/clsx"
 import { fetchAPIDELETE, fetchAPIGET } from "../../utils/fetchAPI"
@@ -185,13 +187,15 @@ export default function SecretKey(props: SecretKeyProps) {
             </div>
             <div class="py-2 md:py-0 md:col-span-4">
                 <div class="justify-end md:grid md:grid-cols-12">
-                    <div class="col-span-12 flex flex-col md:col-span-10 md:text-right">
+                    <div class="col-span-12 flex flex-col justify-center md:col-span-10 md:text-right">
                         <time class="block" datetime={props.createdAt}>
-                            Created: {relativeTimeFromDate(currentTime(), props.createdAt)}
+                            <CreatedIcon class="w-5 h-5 fill-gray-200 inline" /> {relativeTimeFromDate(currentTime(), props.createdAt)}
                         </time>
-                        <time class="block" datetime={props.updatedAt}>
-                            Updated: {relativeTimeFromDate(currentTime(), props.updatedAt)}
-                        </time>
+                        {props.createdAt !== props.updatedAt && (
+                            <time class="block" datetime={props.updatedAt}>
+                                <UpdatedIcon class="w-5 h-5 fill-gray-200 inline" /> {relativeTimeFromDate(currentTime(), props.updatedAt)}
+                            </time>
+                        )}
                     </div>
                     <div class="hidden md:col-span-2 md:flex md:justify-center md:items-center">
                         <ActionButton onEditClick={handleEditKey} onDeleteClick={handleDeleteKey} />

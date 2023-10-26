@@ -66,7 +66,7 @@ export default function SearchSecretForm(props: SearchSecretFormProps) {
         } finally {
             setFields("isSearching", false);
         }
-    }, 300);
+    }, 500);
 
 
     const handleFormClear = () => {
@@ -106,7 +106,7 @@ export default function SearchSecretForm(props: SearchSecretFormProps) {
                         disabled={props.disableSearch}
                         class={clsx(
                             !props.disableSearch && "bg-gray-100",
-                            props.disableSearch && "bg-gray-900 cursor-not-allowed placeholder:text-gray-600",
+                            props.disableSearch && "bg-gray-900 cursor-not-allowed placeholder:text-gray-700",
                             "w-full rounded pl-10 pr-8 py-2")
                         }
                         id="search-key"

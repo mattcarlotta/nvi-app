@@ -2,6 +2,7 @@ import { For, createSignal, Match, Switch, batch } from "solid-js"
 import type { Environment as Env, Environments } from "../../types"
 import SearchOrCreateEnvironmentForm from "../forms/SearchOrCreateEnvironmentForm"
 import AddEnvironmentIcon from "../icons/AddEnvironmentIcon"
+import NoSearchResultsIcon from "../icons/NoSearchResultsIcon"
 import EnvironmentIcon from "../icons/EnvironmentIcon"
 import Environment from "./Environment"
 
@@ -74,19 +75,19 @@ export default function EnvironmentList(props: EnvironmentListProps) {
             />
             <Switch>
                 <Match when={showHelpMessage()}>
-                    <div class="flex flex-col items-center justify-center w-full p-4 bg-gray-900 border border-gray-800 rounded md:p-8">
+                    <div class="flex flex-col items-center justify-center p-4 bg-gray-950 border border-gray-600 rounded md:p-8">
                         <div class="flex flex-col space-y-4 items-center w-full">
                             <h2 class="text-center text-2xl md:text-3xl md:text-left">
                                 You haven&apos;t created any environments yet!
                             </h2>
                             <div class="space-y-2">
-                                <h3 class="md:text-xl">Use the search field above to create a new project:</h3>
+                                <h3 class="md:text-xl">Use the search field above to create a new environment:</h3>
                                 <ul class="text-sm list-disc space-y-2 pl-8 md:text-base">
-                                    <li class="list-item">Input a new project name.</li>
+                                    <li class="list-item">Input a new environment name.</li>
                                     <li class="list-item">Click the&#32;
                                         <button
                                             class="bg-gray-100 border border-gray-100 text-black fill-black inline rounded p-1 transition hover:bg-gray-300"
-                                            title="Create Project"
+                                            title="Create Environment"
                                         >
                                             <AddEnvironmentIcon class="h-5 w-5 inline" />
                                         </button>&#32;
@@ -98,13 +99,22 @@ export default function EnvironmentList(props: EnvironmentListProps) {
                     </div>
                 </Match>
                 <Match when={!environmentList().length}>
-                    <h2 class="text-xl">No Results Found</h2>
-                </Match>
-                <Match when={environmentList().length}>
-                    <h3 class="flex space-x-1 items-center">
+                    <h2 class="flex space-x-1 items-center">
                         <EnvironmentIcon class="w-4 h-4 fill-gray-200" />
                         <span>environments</span>
-                    </h3>
+                    </h2>
+                    <div class="flex flex-col items-center justify-center p-6 bg-gray-900 border border-gray-800 rounded md:p-8">
+                        <div class="flex flex-col space-y-1 items-center w-full">
+                            <NoSearchResultsIcon class="w-12 h-12 text-gray-200" />
+                            <h3 class="text-xl">No Environments Found</h3>
+                        </div>
+                    </div>
+                </Match>
+                <Match when={environmentList().length}>
+                    <h2 class="flex space-x-1 items-center">
+                        <EnvironmentIcon class="w-4 h-4 fill-gray-200" />
+                        <span>environments</span>
+                    </h2>
                     <section class="grid grid-cols-1 gap-y-4 gap-x-8 md:grid-cols-3">
                         <For each={environmentList()}>
                             {(environment) => (

@@ -86,7 +86,7 @@ export default function SearchOrCreateEnvironmentForm(props: SearchOrCreateEnvir
         } finally {
             setFields("isSearching", false);
         }
-    }, 300)
+    }, 500)
 
 
     const handleCreateEnvironment = async (e: Event) => {
@@ -176,7 +176,7 @@ export default function SearchOrCreateEnvironmentForm(props: SearchOrCreateEnvir
                 </div>
                 <SubmitButton
                     primary
-                    title="Create an environment"
+                    title="Create Environment"
                     isSubmitting={fields.isSubmitting}
                 >
                     <AddEnvironmentIcon class="h-6 w-6" />
