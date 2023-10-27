@@ -1,0 +1,100 @@
+---
+import ActionHorizontalDots from "../icons/ActionHorizontalDots";
+import ActionVerticalDots from "../icons/ActionVerticalDots";
+import AddProjectIcon from "../icons/AddProjectIcon";
+import ProjectIcon from "../icons/ProjectIcon";
+import SaveIcon from "../icons/SaveIcon";
+---
+
+<section class="p-4 space-y-4 bg-gray-950 border border-gray-800 rounded">
+    <header>
+        <h2 id="projects" class="text-2xl">
+            <a class="hover:underline" href="#projects">
+                <ProjectIcon class="h-5 w-5 inline fill-gray-200 mr-1" />
+                <span>projects</span>
+            </a>
+        </h2>
+    </header>
+    <section class="space-y-2 pl-2">
+        <header>
+            <h3 id="create-project" class="text-xl">
+                <a class="text-blue-500 hover:underline" href="#create-project">
+                    How do I create a project?
+                </a>
+            </h3>
+        </header>
+        <div class="space-y-2 p-4 bg-gray-950 border border-gray-600 rounded">
+            <p>Use the search field to create a new project:</p>
+            <ul class="text-sm list-disc space-y-2 pl-6 md:pl-8 md:text-base">
+                <li>Input a new project name.</li>
+                <li>
+                    Click the
+                    <button
+                        class="bg-gray-100 border border-gray-100 text-black fill-black inline rounded p-1 transition hover:bg-gray-300"
+                        title="Create Project"
+                    >
+                        <AddProjectIcon class="h-5 w-5 inline" />
+                    </button>
+                     button or press the &ldquo;Enter&rdquo; key.
+                </li>
+            </ul>
+        </div>
+    </section>
+    <section class="space-y-2 pl-2">
+        <header>
+            <h3 id="edit-project" class="text-xl">
+                <a class="text-blue-500 hover:underline" href="#edit-project">
+                    How do I edit a project?
+                </a>
+            </h3>
+        </header>
+        <div class="space-y-2 p-4 bg-gray-950 border border-gray-600 rounded">
+            <p>
+                To edit a project, click on the action button:
+                <button class="rounded hover:bg-gray-700" type="button">
+                    <ActionHorizontalDots class="hidden w-6 h-6 text-white md:inline-block" />
+                    <ActionVerticalDots class="inline-block w-6 h-6 text-white md:hidden" />
+                </button>
+            </p>
+            <ul class="text-sm list-disc space-y-2 pl-6 md:pl-8 md:text-base">
+                <li>
+                    Select the <strong class="underline">Edit</strong> option.
+                </li>
+                <li>Update the project name.</li>
+                <li>
+                    Click the
+                    <button
+                        class="bg-gray-100 border border-gray-100 text-black fill-black inline rounded p-1 transition hover:bg-gray-300"
+                        title="Save Project"
+                    >
+                        <SaveIcon class="h-5 w-5 inline" />
+                    </button>
+                     button or press the &ldquo;Enter&rdquo; key to save.
+                </li>
+            </ul>
+        </div>
+    </section>
+    <section class="space-y-2 pl-2">
+        <header>
+            <h3 id="remove-project" class="text-xl">
+                <a class="text-blue-500 hover:underline" href="#remove-project">
+                    How do I remove a project?
+                </a>
+            </h3>
+        </header>
+        <div class="space-y-2 p-4 bg-gray-950 border border-gray-600 rounded">
+            <p>
+                To remove a project, click on the action button:
+                <button class="rounded hover:bg-gray-700" type="button">
+                    <ActionHorizontalDots class="hidden w-6 h-6 text-white md:inline-block" />
+                    <ActionVerticalDots class="inline-block w-6 h-6 text-white md:hidden" />
+                </button>
+            </p>
+            <ul class="text-sm list-disc space-y-2 pl-6 md:pl-8 md:text-base">
+                <li>
+                    Select the <strong class="text-red-500 underline">Remove</strong> option.
+                </li>
+            </ul>
+        </div>
+    </section>
+</section>

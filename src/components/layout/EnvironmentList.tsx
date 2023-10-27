@@ -83,8 +83,8 @@ export default function EnvironmentList(props: EnvironmentListProps) {
                             <div class="space-y-2">
                                 <h3 class="md:text-xl">Use the search field above to create a new environment:</h3>
                                 <ul class="text-sm list-disc space-y-2 pl-8 md:text-base">
-                                    <li class="list-item">Input a new environment name.</li>
-                                    <li class="list-item">Click the&#32;
+                                    <li>Input a new environment name.</li>
+                                    <li>Click the&#32;
                                         <button
                                             class="bg-gray-100 border border-gray-100 text-black fill-black inline rounded p-1 transition hover:bg-gray-300"
                                             title="Create Environment"

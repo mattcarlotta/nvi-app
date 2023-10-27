@@ -1,0 +1,108 @@
+---
+import ActionHorizontalDots from "../icons/ActionHorizontalDots";
+import ActionVerticalDots from "../icons/ActionVerticalDots";
+import AddEnvironmentIcon from "../icons/AddEnvironmentIcon";
+import EnvironmentIcon from "../icons/EnvironmentIcon";
+import SaveIcon from "../icons/SaveIcon";
+---
+
+<section class="p-4 space-y-4 bg-gray-950 border border-gray-800 rounded">
+    <header>
+        <h2 id="environments" class="text-2xl">
+            <a class="hover:underline" href="#environments">
+                <EnvironmentIcon class="h-5 w-5 inline fill-gray-200 mr-1" />
+                <span>environments</span>
+            </a>
+        </h2>
+    </header>
+    <section class="space-y-2 pl-2">
+        <header>
+            <h3 id="create-environment" class="text-xl">
+                <a class="text-blue-500 hover:underline" href="#create-environment">
+                    How do I create an environment?
+                </a>
+            </h3>
+        </header>
+        <div class="space-y-2 p-4 bg-gray-950 border border-gray-600 rounded">
+            <p>Use the search field to create a new environment:</p>
+            <ul class="text-sm list-disc space-y-2 pl-6 md:pl-8 md:text-base">
+                <li>Input a new environment name.</li>
+                <li>
+                    Click the
+                    <button
+                        class="bg-gray-100 border border-gray-100 text-black fill-black inline rounded p-1 transition hover:bg-gray-300"
+                        title="Create Environment"
+                    >
+                        <AddEnvironmentIcon class="h-5 w-5 inline" />
+                    </button>
+                     button or press the &ldquo;Enter&rdquo; key.
+                </li>
+            </ul>
+        </div>
+    </section>
+    <section class="space-y-2 pl-2">
+        <header>
+            <h3 id="edit-environment" class="text-xl">
+                <a class="text-blue-500 hover:underline" href="#edit-environment">
+                    How do I edit an environment?
+                </a>
+            </h3>
+        </header>
+        <div class="space-y-2 p-4 bg-gray-950 border border-gray-600 rounded">
+            <p>
+                To edit an environment, click on the action button:
+                <button class="rounded hover:bg-gray-700" type="button">
+                    <ActionHorizontalDots class="hidden w-6 h-6 text-white md:inline-block" />
+                    <ActionVerticalDots class="inline-block w-6 h-6 text-white md:hidden" />
+                </button>
+            </p>
+            <ul class="text-sm list-disc space-y-2 pl-6 md:pl-8 md:text-base">
+                <li>
+                    Select the <strong class="underline">Edit</strong> option.
+                </li>
+                <li>Update the evironment name.</li>
+                <li>
+                    Click the
+                    <button
+                        class="bg-gray-100 border border-gray-100 text-black fill-black inline rounded p-1 transition hover:bg-gray-300"
+                        title="Save Environment"
+                    >
+                        <SaveIcon class="h-5 w-5 inline" />
+                    </button>
+                     button or press the &ldquo;Enter&rdquo; key to save.
+                </li>
+            </ul>
+        </div>
+    </section>
+    <section class="space-y-2 pl-2">
+        <header>
+            <h3 id="remove-environment" class="text-xl">
+                <a class="text-blue-500 hover:underline" href="#remove-environment">
+                    How do I remove an environment?
+                </a>
+            </h3>
+        </header>
+        <div class="space-y-2 p-4 bg-gray-950 border border-gray-600 rounded">
+            <p>
+                To remove an environment, click on the action button:
+                <button class="rounded hover:bg-gray-700" type="button">
+                    <ActionHorizontalDots class="hidden w-6 h-6 text-white md:inline-block" />
+                    <ActionVerticalDots class="inline-block w-6 h-6 text-white md:hidden" />
+                </button>
+            </p>
+            <ul class="text-sm list-disc space-y-2 pl-6 md:pl-8 md:text-base">
+                <li>
+                    Select the <strong class="text-red-500 underline">Remove</strong> option.
+                </li>
+            </ul>
+            <p class="text-red-500">
+                <strong>&#8252; WARNING &#8252;</strong>: Deleting an environment that contains
+                shared secrets with other environments will also delete those shared secrets when
+                the environment is removed! Before removing an environment, ensure that any shared
+                secrets you wish to keep are no longer shared with it. See
+                <a href="#edit-secret" class="text-blue-500 hover:underline">editing secrets</a>
+                 for more information on how to unshare secrets.
+            </p>
+        </div>
+    </section>
+</section>

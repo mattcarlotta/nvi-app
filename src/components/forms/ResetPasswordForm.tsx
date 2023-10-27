@@ -112,7 +112,7 @@ export default function ResetPasswordForm() {
                                     Reset
                                 </SubmitButton>
                                 <p>
-                                    Having trouble resetting your password?&#31;
+                                    Having trouble resetting your password?&#32;
                                     <a class="text-blue-500 hover:underline" href="/forgot-password/">Request another password reset</a>
                                 </p>
                             </div>

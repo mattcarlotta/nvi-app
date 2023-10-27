@@ -90,18 +90,21 @@ export default function SecretList(props: SecretsListProps) {
                                 You haven&apos;t created any secrets yet!
                             </h2>
                             <div class="space-y-2">
-                                <h3 class="md:text-xl">Use the form above to create a new environment:</h3>
+                                <h3 class="md:text-xl">Use the form above to create a new secret:</h3>
                                 <ul class="text-sm list-disc space-y-2 pl-8 md:text-base">
-                                    <li class="list-item">Input a key name for the secret key.</li>
-                                    <li class="list-item">Input a value for the secret key.</li>
-                                    <li class="list-item">Select one or more environments to add the secret key to.</li>
-                                    <li class="list-item">Click the&#32;
+                                    <li>Input a <strong class="underline">key</strong> name for the secret key.</li>
+                                    <li>Input a <strong class="underline">value</strong> for the secret key.</li>
+                                    <li>
+                                        Select one or more <strong class="underline">environments</strong> to add the
+                                        secret key to.
+                                    </li>
+                                    <li>Click the
                                         <button
                                             class="bg-gray-100 border border-gray-100 text-black fill-black inline rounded p-1 transition hover:bg-gray-300"
                                             title="Create Secret"
                                         >
                                             <SaveIcon class="h-5 w-5 inline" />
-                                        </button>&#32;
+                                        </button>
                                         button.
                                     </li>
                                 </ul>
