@@ -2,6 +2,7 @@ import { Show, batch, createEffect } from "solid-js"
 import { createStore } from "solid-js/store";
 import ActionVerticalDots from "../icons/ActionVerticalDots";
 import ActionHorizontalDots from "../icons/ActionHorizontalDots";
+import FocusTrapper from "./FocusTrap";
 
 type ActionButtonProps = {
     onEditClick: () => void;
@@ -61,29 +62,31 @@ export default function ActionButton(props: ActionButtonProps) {
                 <ActionVerticalDots class="w-6 h-6 text-white md:hidden" />
             </button>
             <Show when={options.isVisible}>
-                <ul
-                    class="absolute z-10 bg-gray-950 border-2 border-gray-600 rounded p-2 min-w-[10rem]"
-                    style={`transform: translate(${options.x}px,${options.y}px);box-shadow: 0px 7px 15px 5px #030712;`}
-                >
-                    <li>
-                        <button
-                            class="w-full rounded p-2 text-left hover:bg-gray-900"
-                            type="button"
-                            onClick={handleEditClick}
-                        >
-                            Edit
-                        </button>
-                    </li>
-                    <li>
-                        <button
-                            class="w-full rounded p-2 text-left text-red-600 hover:bg-gray-900"
-                            type="button"
-                            onClick={handleDeleteClick}
-                        >
-                            Remove
-                        </button>
-                    </li>
-                </ul>
+                <FocusTrapper onEscapePress={toggleVisibility}>
+                    <ul
+                        class="absolute z-10 bg-gray-950 border-2 border-gray-600 rounded p-2 min-w-[10rem]"
+                        style={`transform: translate(${options.x}px,${options.y}px);box-shadow: 0px 7px 15px 5px #030712;`}
+                    >
+                        <li>
+                            <button
+                                class="w-full rounded p-2 text-left hover:bg-gray-900"
+                                type="button"
+                                onClick={handleEditClick}
+                            >
+                                Edit
+                            </button>
+                        </li>
+                        <li>
+                            <button
+                                class="w-full rounded p-2 text-left text-red-600 hover:bg-gray-900"
+                                type="button"
+                                onClick={handleDeleteClick}
+                            >
+                                Remove
+                            </button>
+                        </li>
+                    </ul>
+                </FocusTrapper>
             </Show>
         </div>
     );

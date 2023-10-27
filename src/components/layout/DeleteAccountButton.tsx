@@ -3,6 +3,7 @@ import { createStore } from "solid-js/store";
 import SpinnerIcon from "../icons/SpinnerIcon";
 import { fetchAPIDELETE } from "../../utils/fetchAPI";
 import { dispatchToastError } from "./Toast";
+import FocusTrapper from "./FocusTrap";
 
 type OptionsState = {
     isVisible: boolean;
@@ -72,28 +73,30 @@ export default function DeleteAccountButton() {
                 </button>
             </Show>
             <Show when={options.isVisible}>
-                <div
-                    class="absolute z-10 bg-gray-950 border-2 border-gray-600 rounded p-2 min-w-[11rem]"
-                    style={`transform: translate(${options.x}px,${options.y}px);`}
-                >
-                    <p class="text-center pb-2">Are you sure?</p>
-                    <div class="flex space-x-5">
-                        <button
-                            class="w-full text-gray-50 bg-gray-800 border border-gray-700 rounded p-2 hover:bg-gray-700 hover:border-gray-600 md:p-1.5"
-                            type="button"
-                            onClick={handleEditClick}
-                        >
-                            Cancel
-                        </button>
-                        <button
-                            class="w-full text-gray-50 bg-red-800 border border-red-600 rounded p-2 hover:bg-red-900 md:p-1.5"
-                            type="button"
-                            onClick={handleDeleteClick}
-                        >
-                            Delete
-                        </button>
+                <FocusTrapper onEscapePress={toggleVisibility}>
+                    <div
+                        class="absolute z-10 bg-gray-950 border-2 border-gray-600 rounded p-2 min-w-[11rem]"
+                        style={`transform: translate(${options.x}px,${options.y}px);`}
+                    >
+                        <p class="text-center pb-2">Are you sure?</p>
+                        <div class="flex space-x-5">
+                            <button
+                                class="w-full text-gray-50 bg-gray-800 border border-gray-700 rounded p-2 hover:bg-gray-700 hover:border-gray-600 md:p-1.5"
+                                type="button"
+                                onClick={handleEditClick}
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                class="w-full text-gray-50 bg-red-800 border border-red-600 rounded p-2 hover:bg-red-900 md:p-1.5"
+                                type="button"
+                                onClick={handleDeleteClick}
+                            >
+                                Delete
+                            </button>
+                        </div>
                     </div>
-                </div>
+                </FocusTrapper>
             </Show>
         </div>
     );

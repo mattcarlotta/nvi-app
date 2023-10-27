@@ -8,6 +8,7 @@ import { dispatchToastEvent } from "../layout/Toast";
 import { ErrorStatusCode, getMessageFromStatusCode } from "../../utils/errors";
 import { fetchAPIPUT } from "../../utils/fetchAPI";
 import { nameRegex } from "../../utils/regexValidations";
+import FocusTrapper from "../layout/FocusTrap";
 
 type CreateEnvironmentFormStore = {
     isSubmitting: boolean;
@@ -88,7 +89,7 @@ export default function EditEnvironmentForm(props: SearchOrCreateEnvironmentForm
     });
 
     return (
-        <div class="col-span-12 pt-3.5 px-3.5">
+        <FocusTrapper class="col-span-12 pt-3.5 px-3.5" onEscapePress={handleCancelClick}>
             <form
                 id="edit-environment-form"
                 ref={formRef}
@@ -127,7 +128,7 @@ export default function EditEnvironmentForm(props: SearchOrCreateEnvironmentForm
             <Show when={fields.formError}>
                 <p class="font-bold text-red-600">{fields.formError}</p>
             </Show>
-        </div>
+        </FocusTrapper>
     );
 };
 

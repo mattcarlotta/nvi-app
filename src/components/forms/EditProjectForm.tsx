@@ -3,6 +3,7 @@ import { createStore } from "solid-js/store";
 import type { Project } from "../../types";
 import CloseIcon from "../icons/CloseIcon";
 import SaveIcon from "../icons/SaveIcon";
+import FocusTrapper from "../layout/FocusTrap";
 import SubmitButton from "../layout/SubmitButton";
 import { dispatchToastEvent } from "../layout/Toast";
 import { ErrorStatusCode, getMessageFromStatusCode } from "../../utils/errors";
@@ -87,7 +88,7 @@ export default function EditProjectForm(props: SearchOrCreateProjectFormProps) {
     });
 
     return (
-        <div class="col-span-12 pt-3.5 px-3.5">
+        <FocusTrapper class="col-span-12 pt-3.5 px-3.5" onEscapePress={handleCancelClick}>
             <form
                 id="edit-project-form"
                 ref={formRef}
@@ -126,7 +127,7 @@ export default function EditProjectForm(props: SearchOrCreateProjectFormProps) {
             <Show when={fields.formError}>
                 <p class="font-bold text-red-600">{fields.formError}</p>
             </Show>
-        </div>
+        </FocusTrapper>
     );
 };
 
