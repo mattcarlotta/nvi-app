@@ -123,6 +123,7 @@ export default function SearchSecretForm(props: SearchSecretFormProps) {
                         <button
                             disabled={props.disableSearch}
                             class={clsx("h-full absolute p-2 right-0", props.disableSearch && "fill-gray-600")}
+                            aria-label="clear"
                             title="Clear"
                             type="button"
                             onClick={handleFormClear}

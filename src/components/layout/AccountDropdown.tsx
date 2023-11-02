@@ -55,6 +55,7 @@ export default function AccountDropdown(props: AccountDropdownProps) {
             <button
                 class="uppercase border border-gray-600 rounded-full py-1 px-2.5 bg-gray-900 hover:bg-gray-700"
                 type="button"
+                aria-label="my account"
                 onClick={toggleVisibility}
             >
                 {props.userName?.charAt(0)}

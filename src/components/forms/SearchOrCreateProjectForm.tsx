@@ -164,6 +164,7 @@ export default function SearchOrCreateProjectForm(props: SearchOrCreateProjectFo
                     <Show when={fields.hasValue}>
                         <button
                             class="h-full absolute p-2 right-0"
+                            aria-label="clear"
                             title="Clear"
                             type="button"
                             onClick={handleFormClear}

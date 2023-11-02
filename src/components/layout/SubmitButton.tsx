@@ -31,6 +31,7 @@ export default function SubmitButton(props: SubmitButtonProps) {
                 )}
                 disabled={props.disabled || props.isSubmitting}
                 onClick={props.onClick}
+                aria-label={props.title?.toLowerCase()}
                 title={props.title}
                 type={props.type || "submit"}
             >

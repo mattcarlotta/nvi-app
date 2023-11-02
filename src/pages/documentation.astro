@@ -2,9 +2,14 @@
 import type { User } from "../types";
 import LoginForm from "../components/forms/LoginForm";
 import DocumentationIcon from "../components/icons/DocumentationIcon";
+import EnvironmentIcon from "../components/icons/EnvironmentIcon";
+import LockSecretIcon from "../components/icons/LockSecretIcon";
+import ProjectIcon from "../components/icons/ProjectIcon";
+import SettingsIcon from "../components/icons/SettingsIcon";
 import EnvironmentHelpSection from "../components/layout/EnvironmentHelpSection.astro";
 import ProjectHelpSection from "../components/layout/ProjectHelpSection.astro";
 import SecretHelpSection from "../components/layout/SecretHelpSection.astro";
+import SettingsHelpSection from "../components/layout/SettingsHelpSection.astro";
 import NavBar from "../components/layout/NavBar.astro";
 import MainLayout from "../layouts/main.astro";
 import { fetchAPIGET } from "../utils/fetchAPI";
@@ -44,25 +49,35 @@ try {
                     <header>
                         <h2 class="text-2xl">sections</h2>
                     </header>
-                    <ul class="pl-2">
+                    <ul class="pl-4">
+                        <li>
+                            <a class="text-2xl text-blue-500 hover:underline" href="#settings">
+                                <SettingsIcon class="h-5 w-5 inline fill-blue-500 mr-1" />
+                                <span>settings</span>
+                            </a>
+                        </li>
                         <li>
                             <a class="text-2xl text-blue-500 hover:underline" href="#projects">
-                                projects
+                                <ProjectIcon class="h-5 w-5 inline fill-blue-500 mr-1" />
+                                <span>projects</span>
                             </a>
                         </li>
                         <li>
                             <a class="text-2xl text-blue-500 hover:underline" href="#environments">
-                                environments
+                                <EnvironmentIcon class="h-5 w-5 inline fill-blue-500 mr-1" />
+                                <span>environments</span>
                             </a>
                         </li>
                         <li>
                             <a class="text-2xl text-blue-500 hover:underline" href="#secrets">
-                                secrets
+                                <LockSecretIcon class="h-5 w-5 inline fill-blue-500 mr-1" />
+                                <span>secrets</span>
                             </a>
                         </li>
                     </ul>
                 </section>
                 <div class="space-y-8">
+                    <SettingsHelpSection />
                     <ProjectHelpSection />
                     <EnvironmentHelpSection />
                     <SecretHelpSection />

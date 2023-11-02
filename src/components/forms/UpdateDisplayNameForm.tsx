@@ -47,7 +47,7 @@ export default function EditEnvironmentForm(props: UpdateDisplayNameFormProps) {
     };
 
     onMount(() => {
-        const name = (formRef.querySelector("#name") as HTMLInputElement);
+        const name = (formRef.querySelector("#display-name") as HTMLInputElement);
         name.value = props.name || "";
     });
 
@@ -59,7 +59,7 @@ export default function EditEnvironmentForm(props: UpdateDisplayNameFormProps) {
                 id="edit-display-name-form"
                 onSubmit={handleUpdateDisplayName}
             >
-                <label id="display-name" class="block text-2xl" html-for="name">
+                <label class="block text-2xl" html-for="display-name">
                     display name
                 </label>
                 <p>
@@ -68,7 +68,7 @@ export default function EditEnvironmentForm(props: UpdateDisplayNameFormProps) {
                 <div class="flex space-x-2 items-center">
                     <input
                         class="w-full max-w-[15rem] rounded px-2 py-2.5 text-black"
-                        id="name"
+                        id="display-name"
                         name="name"
                         type="text"
                         placeholder="Enter a display name..."

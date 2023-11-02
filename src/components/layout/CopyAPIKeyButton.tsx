@@ -66,7 +66,7 @@ export default function CopyAPIKeyButton(props: CopyAPIKeyButtonProps) {
             >
                 {apiKey.value}
             </pre>
-            <button title="Copy API Key" disabled={copied()} type="button" onClick={handleCopyButtonClick}>
+            <button aria-label="copy api key" title="Copy API Key" disabled={copied()} type="button" onClick={handleCopyButtonClick}>
                 <Show
                     when={!copied()}
                     fallback={<CopySuccessIcon class="w-6 h-6 text-white" />}
@@ -74,7 +74,7 @@ export default function CopyAPIKeyButton(props: CopyAPIKeyButtonProps) {
                     <CopyIcon class="w-6 h-5 fill-white" />
                 </Show>
             </button>
-            <button title="Refresh API Key" type="button" onClick={handleUpdateAPIKey}>
+            <button aria-label="refresh api key" title="Refresh API Key" type="button" onClick={handleUpdateAPIKey}>
                 <Switch>
                     <Match when={apiKey.isLoading}>
                         <SpinnerIcon class="w-6 h-6 border-white" />

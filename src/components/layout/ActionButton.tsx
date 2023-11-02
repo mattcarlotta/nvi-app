@@ -60,7 +60,7 @@ export default function ActionButton(props: ActionButtonProps) {
 
     return (
         <div ref={wrapperRef}>
-            <button class="hover:bg-gray-700 p-2 rounded" type="button" onClick={toggleVisibility}>
+            <button aria-label="actions" class="hover:bg-gray-700 p-2 rounded" type="button" onClick={toggleVisibility}>
                 <ActionHorizontalDots class="hidden w-6 h-6 text-white md:block" />
                 <ActionVerticalDots class="w-6 h-6 text-white md:hidden" />
             </button>

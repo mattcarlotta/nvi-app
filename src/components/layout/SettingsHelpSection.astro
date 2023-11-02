@@ -1,0 +1,130 @@
+---
+import ActionHorizontalDots from "../icons/ActionHorizontalDots";
+import ActionVerticalDots from "../icons/ActionVerticalDots";
+import RefreshIcon from "../icons/RefreshIcon";
+import SettingsIcon from "../icons/SettingsIcon";
+import SaveIcon from "../icons/SaveIcon";
+import ExternalLink from "./ExternalLink.astro";
+---
+
+<section class="p-4 space-y-4 bg-gray-950 border border-gray-800 rounded">
+    <header>
+        <h2 id="settings" class="text-2xl">
+            <a class="hover:underline" href="#settings">
+                <SettingsIcon class="h-5 w-5 inline fill-gray-200 mr-1" />
+                <span>settings</span>
+            </a>
+        </h2>
+    </header>
+    <section class="space-y-2 pl-2">
+        <header>
+            <h3 id="create-secret" class="text-xl">
+                <a class="text-blue-500 hover:underline" href="#update-email">
+                    How do I update my email?
+                </a>
+            </h3>
+        </header>
+        <div class="p-4 bg-gray-950 border border-gray-600 rounded">
+            <p>
+                Updating your email address has been
+                <strong class="underline text-red-500">disabled</strong> during the beta.
+            </p>
+        </div>
+    </section>
+    <section class="space-y-2 pl-2">
+        <header>
+            <h3 id="edit-display-name" class="text-xl">
+                <a class="text-blue-500 hover:underline" href="#edit-display-name">
+                    How do I edit my display name?
+                </a>
+            </h3>
+        </header>
+        <div class="space-y-2 p-4 bg-gray-950 border border-gray-600 rounded">
+            <p>
+                To edit your display name, locate your current <ExternalLink
+                    href="/settings/#display-name"
+                    title="display name"
+                />.
+            </p>
+            <ul class="text-sm list-disc space-y-2 pl-6 md:pl-8 md:text-base">
+                <li>Enter a full name or a nick name between 2-64 characters.</li>
+                <li>
+                    Click the
+                    <button
+                        class="bg-gray-100 border border-gray-100 text-black fill-black inline rounded p-1 transition hover:bg-gray-300"
+                        aria-label="save display name"
+                        title="Save Display Name"
+                    >
+                        <SaveIcon class="h-5 w-5 inline" />
+                    </button>
+                     button to save and update your display name.
+                </li>
+            </ul>
+        </div>
+        <section class="space-y-2 pl-2">
+            <header>
+                <h3 id="reset-api-key" class="text-xl">
+                    <a class="text-blue-500 hover:underline" href="#reset-api-key">
+                        How do I reset my api key?
+                    </a>
+                </h3>
+            </header>
+            <div class="space-y-2 p-4 bg-gray-950 border border-gray-600 rounded">
+                <p>
+                    To reset your api key, locate your current <ExternalLink
+                        href="/settings/#api"
+                        title="api key"
+                    />.
+                </p>
+                <ul class="text-sm list-disc space-y-2 pl-6 md:pl-8 md:text-base">
+                    <li>
+                        Click on the
+                        <button
+                            class="bg-gray-800 p-2 border border-gray-700 rounded"
+                            aria-label="refresh api key"
+                            title="Refresh API Key"
+                            type="button"
+                        >
+                            <RefreshIcon class="w-6 h-6 fill-white" />
+                        </button> button to reset your API key.
+                    </li>
+                </ul>
+            </div>
+        </section>
+        <section class="space-y-2 pl-2">
+            <header>
+                <h3 id="delete-account" class="text-xl">
+                    <a class="text-blue-500 hover:underline" href="#delete-account">
+                        How do I delete my account?
+                    </a>
+                </h3>
+            </header>
+            <div class="space-y-2 p-4 bg-gray-950 border border-gray-600 rounded">
+                <p>
+                    To delete your account, locate the account <ExternalLink
+                        href="/settings/#delete"
+                        title="delete"
+                    /> section.
+                </p>
+                <ul class="text-sm list-disc space-y-2 pl-6 md:pl-8 md:text-base">
+                    <li>
+                        Click on the
+                        <button
+                            class="text-gray-50 bg-red-800 border border-red-600 p-2 rounded hover:bg-red-900"
+                            type="button"
+                        >
+                            Delete Account
+                        </button>
+                         button.
+                    </li>
+                </ul>
+                <p class="text-red-500 p-2 bg-red-500 bg-opacity-25 rounded">
+                    <strong>&#8252; WARNING &#8252;</strong>: This will permanently delete your
+                    account and all of its contents from the nvi platform. As a result, this action
+                    is <strong class="underline text-red-500">irreversible</strong>, so continue
+                    with caution.
+                </p>
+            </div>
+        </section>
+    </section>
+</section>

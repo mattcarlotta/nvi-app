@@ -127,6 +127,7 @@ export default function SecretKey(props: SecretKeyProps) {
                             </Match>
                             <Match when={secretData.showKey && !secretData.isLoading}>
                                 <button
+                                    aria-label="lock secret"
                                     title="Lock Secret"
                                     type="button"
                                     class="p-2 rounded hover:bg-gray-700"
@@ -137,6 +138,7 @@ export default function SecretKey(props: SecretKeyProps) {
                             </Match>
                             <Match when={!secretData.showKey && !secretData.isLoading}>
                                 <button
+                                    aria-label="unlock secret"
                                     title="Unlock Secret"
                                     type="button"
                                     class="p-2 rounded hover:bg-gray-700"
@@ -181,7 +183,8 @@ export default function SecretKey(props: SecretKeyProps) {
                 >
                     <button
                         type="button"
-                        title="Click to copy value"
+                        aria-label="copy secret key value"
+                        title="Click to copy secret key value"
                         class="flex text-left w-full md:justify-center"
                         onClick={handleCopyValue}
                     >

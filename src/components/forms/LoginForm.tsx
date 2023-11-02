@@ -90,6 +90,7 @@ export default function LoginForm(props: LoginFormProps) {
                             </label>
                             <button
                                 type="button"
+                                aria-label={`${fields.showPassword ? "show" : "hide"} password`}
                                 title={`${fields.showPassword ? "Show" : "Hide"} Password`}
                                 onClick={toggleShowPassword}
                             >

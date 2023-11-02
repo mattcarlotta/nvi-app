@@ -87,6 +87,7 @@ export default function EnvironmentList(props: EnvironmentListProps) {
                                     <li>Click the&#32;
                                         <button
                                             class="bg-gray-100 border border-gray-100 text-black fill-black inline rounded p-1 transition hover:bg-gray-300"
+                                            aria-label="create environment"
                                             title="Create Environment"
                                         >
                                             <AddEnvironmentIcon class="h-5 w-5 inline" />
