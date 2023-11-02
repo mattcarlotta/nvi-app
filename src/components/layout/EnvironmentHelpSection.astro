@@ -96,12 +96,10 @@ import SaveIcon from "../icons/SaveIcon";
                 </li>
             </ul>
             <p class="text-red-500">
-                <strong>&#8252; WARNING &#8252;</strong>: Deleting an environment that contains
-                shared secrets with other environments will also delete those shared secrets when
-                the environment is removed! Before removing an environment, ensure that any shared
-                secrets you wish to keep are no longer shared with it. See
-                <a href="#edit-secret" class="text-blue-500 hover:underline">editing secrets</a>
-                 for more information on how to unshare secrets.
+                <strong>&#8252; WARNING &#8252;</strong>: Any secrets that are shared with other
+                environments will be removed from those environments as well. See
+                <a href="#edit-secret" class="text-blue-500 hover:underline">editing secret</a>
+                 for more information on how to unshare a secret.
             </p>
         </div>
     </section>

@@ -80,6 +80,7 @@ export default function FocusTrapper(props: FocusTrapperProps) {
 
         if (tabbableItems.length) {
             setTabIndex(0);
+            tabbableItems[0]?.focus();
         }
     });
 

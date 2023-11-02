@@ -1,4 +1,4 @@
-import { Show, batch, createEffect } from "solid-js"
+import { Show, batch, createEffect, onCleanup } from "solid-js"
 import { createStore } from "solid-js/store";
 import DashboardIcon from "../icons/DashboardIcon";
 import DocumentationIcon from "../icons/DocumentationIcon";
@@ -42,7 +42,10 @@ export default function AccountDropdown(props: AccountDropdownProps) {
 
     createEffect(() => {
         document.addEventListener("click", handleClickOutside);
-        return () => {
+    });
+
+    onCleanup(() => {
+        if (typeof document !== "undefined") {
             document.removeEventListener("click", handleClickOutside);
         }
     });

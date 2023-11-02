@@ -1,4 +1,4 @@
-import { Show, batch, createEffect } from "solid-js"
+import { Show, batch, createEffect, onCleanup } from "solid-js"
 import { createStore } from "solid-js/store";
 import ActionVerticalDots from "../icons/ActionVerticalDots";
 import ActionHorizontalDots from "../icons/ActionHorizontalDots";
@@ -50,7 +50,10 @@ export default function ActionButton(props: ActionButtonProps) {
 
     createEffect(() => {
         document.addEventListener("click", handleClickOutside);
-        return () => {
+    });
+
+    onCleanup(() => {
+        if (typeof document !== "undefined") {
             document.removeEventListener("click", handleClickOutside);
         }
     });

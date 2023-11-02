@@ -1,4 +1,4 @@
-import { Show, batch, createEffect, createSignal } from "solid-js"
+import { Show, batch, createEffect, createSignal, onCleanup } from "solid-js"
 import { createStore } from "solid-js/store";
 import SpinnerIcon from "../icons/SpinnerIcon";
 import { fetchAPIDELETE } from "../../utils/fetchAPI";
@@ -53,7 +53,10 @@ export default function DeleteAccountButton() {
 
     createEffect(() => {
         document.addEventListener("click", handleClickOutside);
-        return () => {
+    });
+
+    onCleanup(() => {
+        if (typeof document !== "undefined") {
             document.removeEventListener("click", handleClickOutside);
         }
     });

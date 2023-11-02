@@ -97,20 +97,20 @@ export default function SecretList(props: SecretsListProps) {
                             <div class="space-y-2">
                                 <h3 class="md:text-xl">Use the form above to create a new secret:</h3>
                                 <ul class="text-sm list-disc space-y-2 pl-8 md:text-base">
-                                    <li>Input a <strong class="underline">key</strong> name for the secret key.</li>
-                                    <li>Input a <strong class="underline">value</strong> for the secret key.</li>
+                                    <li>Input a <strong class="underline">key</strong>.</li>
+                                    <li>Input a <strong class="underline">value</strong>.</li>
                                     <li>
                                         Select one or more <strong class="underline">environments</strong> to add the
                                         secret key to.
                                     </li>
-                                    <li>Click the&nbsp;
+                                    <li>Click the&#32;
                                         <button
                                             class="bg-gray-100 border border-gray-100 text-black fill-black inline rounded p-1 transition hover:bg-gray-300"
                                             title="Create Secret"
                                         >
                                             <SaveIcon class="h-5 w-5 inline" />
                                         </button>
-                                        &nbsp;button.
+                                        &#32;button.
                                     </li>
                                 </ul>
                             </div>
