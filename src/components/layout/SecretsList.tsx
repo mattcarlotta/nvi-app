@@ -54,11 +54,16 @@ export default function SecretList(props: SecretsListProps) {
     }
 
     const handleEditSecretUpdate = (updatedSecret: Secret) => {
-        const newInitialList = initialSecretList().map(s =>
-            s.id === editingSecretID()
-                ? updatedSecret
-                : s
-        );
+        const newInitialList = initialSecretList().reduce((acc: Secret[], secret) => {
+            const isUpdatedSecret = secret.id === updatedSecret.id;
+            if (isUpdatedSecret && !updatedSecret.environments.some(e => e.id === props.environment.id)) {
+                return acc;
+            }
+
+            acc.push(isUpdatedSecret ? updatedSecret : secret);
+
+            return acc;
+        }, []);
 
         batch(() => {
             setInitialSecretList(newInitialList);
@@ -98,14 +103,14 @@ export default function SecretList(props: SecretsListProps) {
                                         Select one or more <strong class="underline">environments</strong> to add the
                                         secret key to.
                                     </li>
-                                    <li>Click the
+                                    <li>Click the&nbsp;
                                         <button
                                             class="bg-gray-100 border border-gray-100 text-black fill-black inline rounded p-1 transition hover:bg-gray-300"
                                             title="Create Secret"
                                         >
                                             <SaveIcon class="h-5 w-5 inline" />
                                         </button>
-                                        button.
+                                        &nbsp;button.
                                     </li>
                                 </ul>
                             </div>
