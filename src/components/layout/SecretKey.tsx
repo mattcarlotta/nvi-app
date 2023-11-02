@@ -185,10 +185,10 @@ export default function SecretKey(props: SecretKeyProps) {
                         type="button"
                         aria-label="copy secret key value"
                         title="Click to copy secret key value"
-                        class="flex text-left w-full md:justify-center"
+                        class="bg-gray-700 flex text-left w-full rounded md:justify-center"
                         onClick={handleCopyValue}
                     >
-                        <p class="bg-gray-700 py-1 px-2 rounded max-w-max line-clamp-1">{secretData.value}</p>
+                        <p class="py-1 px-2 max-w-max line-clamp-1">{secretData.value}</p>
                     </button>
                 </Show>
             </div>

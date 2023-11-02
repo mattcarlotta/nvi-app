@@ -1,4 +1,4 @@
-import { For, Show, batch, onMount } from "solid-js";
+import { For, Show, batch, createSignal, onMount } from "solid-js";
 import { createStore } from "solid-js/store";
 import type { Environments, Secret } from "../../types";
 import ClearFormIcon from "../icons/ClearFormIcon";
@@ -35,6 +35,7 @@ export default function CreateOrUpdateSecretForm(props: CreateOrUpdateSecretForm
         isLoading: false,
         isSubmitting: false,
     });
+    const [secretLength, setSecretLength] = createSignal(0);
 
     const handleFormSubmit = async (e: Event) => {
         e.preventDefault();
@@ -99,6 +100,7 @@ export default function CreateOrUpdateSecretForm(props: CreateOrUpdateSecretForm
         batch(() => {
             setFields("formError", "");
             setFields("isSubmitting", false);
+            setSecretLength(0);
         });
     }
 
@@ -120,6 +122,7 @@ export default function CreateOrUpdateSecretForm(props: CreateOrUpdateSecretForm
 
                 const value = (formRef.querySelector("#value") as HTMLInputElement);
                 value.value = res.data?.value;
+                setSecretLength(res.data?.value.length || 0);
                 const checkedEnvironments = Array.from(formRef.querySelectorAll("input[type='checkbox']")) as HTMLInputElement[];
                 checkedEnvironments.forEach(e => {
                     if (res.data?.environmentIDs?.includes(e.value)) {
@@ -177,11 +180,14 @@ export default function CreateOrUpdateSecretForm(props: CreateOrUpdateSecretForm
                                 id="value"
                                 name="value"
                                 rows="4"
-                                placeholder="secret value"
+                                placeholder="enter a secret..."
                                 maxlength="5000"
+                                autocomplete="off"
                                 disabled={fields.isLoading}
+                                onInput={event => setSecretLength(event.target.value.length)}
                                 required
                             />
+                            <p class="text-gray-500 text-right text-xs">{secretLength()}/5000</p>
                         </div>
                     </div>
                     <fieldset class="md:col-span-6">
@@ -217,7 +223,7 @@ export default function CreateOrUpdateSecretForm(props: CreateOrUpdateSecretForm
                     </fieldset>
                 </div>
                 <div class="grid grid-cols-12 gap-x-2 mt-2">
-                    <div class="cof-span-12 md:col-span-10">
+                    <div class="col-span-12 md:col-span-10">
                         <Show when={fields.formError}>
                             <p class="font-bold text-red-600">{fields.formError}</p>
                         </Show>
