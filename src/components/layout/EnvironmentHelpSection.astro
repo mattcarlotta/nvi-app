@@ -4,6 +4,7 @@ import ActionVerticalDots from "../icons/ActionVerticalDots";
 import AddEnvironmentIcon from "../icons/AddEnvironmentIcon";
 import EnvironmentIcon from "../icons/EnvironmentIcon";
 import SaveIcon from "../icons/SaveIcon";
+import WarningIcon from "../icons/WarningIcon";
 ---
 
 <section class="p-4 space-y-4 bg-gray-950 border border-gray-800 rounded">
@@ -98,8 +99,8 @@ import SaveIcon from "../icons/SaveIcon";
                 </li>
             </ul>
             <p class="text-red-500 p-2 bg-red-500 bg-opacity-25 rounded">
-                <strong>&#8252; WARNING &#8252;</strong>: Any secrets that are shared with other
-                environments will be removed from those environments as well. See
+                <WarningIcon class="w-6 h-6 inline" /><strong>WARNING</strong>: Any secrets that are
+                shared with other environments will be removed from those environments as well. See
                 <a href="#edit-secret" class="text-blue-500 hover:underline">editing secret</a>
                  for more information on how to unshare a secret.
             </p>

@@ -4,6 +4,7 @@ import ActionVerticalDots from "../icons/ActionVerticalDots";
 import RefreshIcon from "../icons/RefreshIcon";
 import SettingsIcon from "../icons/SettingsIcon";
 import SaveIcon from "../icons/SaveIcon";
+import WarningIcon from "../icons/WarningIcon";
 import ExternalLink from "./ExternalLink.astro";
 ---
 
@@ -119,10 +120,11 @@ import ExternalLink from "./ExternalLink.astro";
                     </li>
                 </ul>
                 <p class="text-red-500 p-2 bg-red-500 bg-opacity-25 rounded">
-                    <strong>&#8252; WARNING &#8252;</strong>: This will permanently delete your
-                    account and all of its contents from the nvi platform. As a result, this action
-                    is <strong class="underline text-red-500">irreversible</strong>, so continue
-                    with caution.
+                    <WarningIcon class="w-6 h-6 inline" /><strong>WARNING</strong>: This will
+                    permanently delete your account and all of its contents from the nvi platform.
+                    As a result, this action is <strong class="underline text-red-500"
+                        >irreversible</strong
+                    >, so continue with caution.
                 </p>
             </div>
         </section>

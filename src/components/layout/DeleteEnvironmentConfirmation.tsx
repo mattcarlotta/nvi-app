@@ -1,4 +1,5 @@
 import FocusTrapper from "./FocusTrap";
+import WarningIcon from "../icons/WarningIcon";
 
 type DeleteEnvironmentConfirmation = {
     onCancel: () => void;
@@ -9,7 +10,8 @@ export default function DeleteEnvironmentConfirmation(props: DeleteEnvironmentCo
     return (
         <FocusTrapper class="p-2" onEscapePress={props.onCancel}>
             <h3 class="text-lg text-red-500 font-bold text-center">
-                WARNING
+                <WarningIcon class="w-6 h-6 inline" />
+                <span>WARNING</span>
             </h3>
             <p class="text-red-500 text-sm pb-2.5">
                 Any secrets that are shared with other environments will be removed from those environments as well.
