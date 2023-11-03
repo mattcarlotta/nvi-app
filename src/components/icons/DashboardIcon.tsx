@@ -1,6 +1,7 @@
 export default function DashboardIcon(props: { class: string }) {
     return (
         <svg class={props.class} viewBox="0 0 24 24">
+            <title>Dashboard Icon</title>
             <path
                 d="M19 10V6C19 5.44772 18.5523 5 18 5H10.0351C9.73195 5 9.44513 4.86245 9.25533 4.62602L8.25023 3.37398C8.06042 3.13755 7.77361 3 7.47042 3H3C2.44772 3 2 3.44772 2 4L2 15C2 15.5523 2.44772 16 3 16H5"
                 stroke="currentColor"

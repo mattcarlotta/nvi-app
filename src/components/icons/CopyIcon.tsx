@@ -1,6 +1,7 @@
 export default function CopyIcon(props: { class: string }) {
     return (
         <svg class={props.class} viewBox="0 0 16 16">
+            <title>Copy Icon</title>
             <path
                 d="M13.49 3 10.74.37A1.22 1.22 0 0 0 9.86 0h-4a1.25 1.25 0 0 0-1.22 1.25v11a1.25 1.25 0 0 0 1.25 1.25h6.72a1.25 1.25 0 0 0 1.25-1.25V3.88a1.22 1.22 0 0 0-.37-.88zm-.88 9.25H5.89v-11h2.72v2.63a1.25 1.25 0 0 0 1.25 1.25h2.75zm0-8.37H9.86V1.25l2.75 2.63z"
             />

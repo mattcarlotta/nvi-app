@@ -81,7 +81,7 @@ export default function ActionButton(props: ActionButtonProps) {
                         </li>
                         <li>
                             <button
-                                class="w-full rounded p-2 text-left text-red-600 hover:bg-gray-900"
+                                class="w-full rounded p-2 text-left text-red-500 hover:bg-gray-900"
                                 type="button"
                                 onClick={handleDeleteClick}
                             >

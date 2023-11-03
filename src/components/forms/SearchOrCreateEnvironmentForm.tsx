@@ -184,7 +184,7 @@ export default function SearchOrCreateEnvironmentForm(props: SearchOrCreateEnvir
                 </SubmitButton>
             </form>
             <Show when={fields.formError}>
-                <p class="font-bold text-red-600">{fields.formError}</p>
+                <p class="font-bold text-red-500">{fields.formError}</p>
             </Show>
         </div>
     );

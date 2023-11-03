@@ -160,7 +160,7 @@ export default function SecretKey(props: SecretKeyProps) {
                                     {(environment) => (
                                         <a
                                             title={environment.name}
-                                            class="flex flex-none space-x-0.5 items-center text-sm text-gray-500 fill-gray-500 py-0.5 mr-2 hover:underline hover:text-blue-500 hover:fill-blue-500"
+                                            class="flex flex-none space-x-0.5 items-center text-sm text-gray-400 fill-gray-400 py-0.5 mr-2 hover:underline hover:text-blue-500 hover:fill-blue-500"
                                             href={`/${props.projectName}/${environment.name}`}
                                         >
                                             <EnvironmentIcon class="w-3 h-3" />

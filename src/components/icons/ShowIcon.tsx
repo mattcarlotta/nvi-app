@@ -1,6 +1,7 @@
 export default function ShowIcon(props: { class: string }) {
     return (
         <svg class={props.class} fill="currentColor" viewBox="0 0 24 24">
+            <title>Show Icon</title>
             <path
                 fill-rule="evenodd"
                 clip-rule="evenodd"

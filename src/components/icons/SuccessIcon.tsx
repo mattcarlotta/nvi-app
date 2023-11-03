@@ -1,6 +1,7 @@
 export default function SuccessIcon(props: { class: string }) {
     return (
         <svg class={props.class} viewBox="0 0 16 16">
+            <title>Success Icon</title>
             <path
                 d="M6.53 9.02 4.58 7.07l-.88.89 2.83 2.83.88-.89 4.78-4.77-.89-.88-4.77 4.77z"
             />

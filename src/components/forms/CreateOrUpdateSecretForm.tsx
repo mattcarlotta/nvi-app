@@ -187,7 +187,7 @@ export default function CreateOrUpdateSecretForm(props: CreateOrUpdateSecretForm
                                 onInput={event => setSecretLength(event.target.value.length)}
                                 required
                             />
-                            <p class="text-gray-500 text-right text-xs">{secretLength()}/5000</p>
+                            <p class="text-gray-400 text-right text-xs">{secretLength()}/5000</p>
                         </div>
                     </div>
                     <fieldset class="md:col-span-6">
@@ -195,7 +195,7 @@ export default function CreateOrUpdateSecretForm(props: CreateOrUpdateSecretForm
                             Environments
                         </legend>
                         <div class="max-h-56 overflow-y-auto">
-                            <p class="text-xs text-gray-500 border-b border-gray-500 pt-1 pb-2">
+                            <p class="text-xs text-gray-400 border-b border-gray-500 pt-1 pb-2">
                                 Please select one or more environments ({props.environments.length} available)
                             </p>
                             <For each={props.environments}>
@@ -225,7 +225,7 @@ export default function CreateOrUpdateSecretForm(props: CreateOrUpdateSecretForm
                 <div class="grid grid-cols-12 gap-x-2 mt-2">
                     <div class="col-span-12 md:col-span-10">
                         <Show when={fields.formError}>
-                            <p class="font-bold text-red-600">{fields.formError}</p>
+                            <p class="font-bold text-red-500">{fields.formError}</p>
                         </Show>
                     </div>
                     <div class="col-span-12 flex space-x-2 md:col-span-2 md:justify-end">

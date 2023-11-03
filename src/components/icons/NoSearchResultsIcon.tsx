@@ -1,6 +1,7 @@
 export default function NoSearchResultsIcon(props: { class: string }) {
     return (
         <svg class={props.class} viewBox="0 -0.5 17 17">
+            <title>No Search Results Icon</title>
             <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                 <g transform="translate(2.000000, 0.000000)" fill="currentColor">
                     <ellipse cx="6.43" cy="2.421" rx="6.43" ry="2.421" />

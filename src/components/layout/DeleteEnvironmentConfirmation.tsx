@@ -15,7 +15,7 @@ export default function DeleteEnvironmentConfirmation(props: DeleteEnvironmentCo
             </h3>
             <p class="text-red-500 text-sm pb-2.5">
                 Any secrets that are shared with other environments will be removed from those environments as well.
-                See <a href="/documentation/#edit-secret" class="text-blue-500 hover:underline">editing a secret</a>&#32;
+                See <a href="/documentation/#edit-secret" class="text-blue-500 underline">editing a secret</a>&#32;
                 for more information.
             </p>
             <div class="block space-y-4 sm:flex sm:space-x-5 sm:space-y-0">

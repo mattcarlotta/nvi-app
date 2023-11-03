@@ -1,6 +1,7 @@
 export default function AddEnvironmentIcon(props: { class: string }) {
     return (
         <svg class={props.class} viewBox="0 0 32 32">
+            <title>Add Environment Icon</title>
             <polygon
                 stroke="currentColor"
                 stroke-width="0.5"

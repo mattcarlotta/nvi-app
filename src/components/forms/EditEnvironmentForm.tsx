@@ -126,7 +126,7 @@ export default function EditEnvironmentForm(props: SearchOrCreateEnvironmentForm
                 </div>
             </form>
             <Show when={fields.formError}>
-                <p class="font-bold text-red-600">{fields.formError}</p>
+                <p class="font-bold text-red-500">{fields.formError}</p>
             </Show>
         </FocusTrapper>
     );

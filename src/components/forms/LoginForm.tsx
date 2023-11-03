@@ -114,7 +114,7 @@ export default function LoginForm(props: LoginFormProps) {
                         />
                     </div>
                     <Show when={fields.formError}>
-                        <p class="font-bold text-red-600">{fields.formError}</p>
+                        <p class="font-bold text-red-500">{fields.formError}</p>
                     </Show>
                     <div class="flex flex-col space-y-2">
                         <SubmitButton
@@ -123,9 +123,7 @@ export default function LoginForm(props: LoginFormProps) {
                         >
                             Login
                         </SubmitButton>
-                        <p>
-                            Don't have an account? <a class="text-blue-500 hover:underline" href="/register/">Sign up</a>
-                        </p>
+                        <a class="block text-blue-500 hover:underline" href="/register/">Don't have an account? Sign up</a>
                         <a class="block text-blue-500 hover:underline" href="/forgot-password/">Forgot your password?</a>
                     </div>
                 </form>

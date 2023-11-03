@@ -55,18 +55,19 @@ try {
                                 email
                             </h2>
                         </header>
-                        <label class="block" html-for="email">
-                            Updating your email address has been
-                            <strong class="underline text-red-500">disabled</strong> during the
-                            beta.
+                        <label class="flex flex-col space-y-4">
+                            <p>
+                                Updating your email address has been
+                                <strong class="underline text-red-500">disabled</strong> during the
+                                beta.
+                            </p>
+                            <input
+                                class="cursor-not-allowed w-full max-w-[15rem] rounded px-2 py-2.5 text-gray-800 bg-gray-400"
+                                value={user.email}
+                                readonly
+                                disabled
+                            />
                         </label>
-                        <input
-                            id="email"
-                            class="cursor-not-allowed w-full max-w-[15rem] rounded px-2 py-2.5 text-gray-600 bg-gray-400"
-                            value={user.email}
-                            readonly
-                            disabled
-                        />
                         <div class="border-t border-t-gray-700 py-2">
                             <p>
                                 Registered

@@ -107,7 +107,7 @@ export default function ResetPasswordForm() {
                                 />
                             </div>
                             <Show when={fields.formError}>
-                                <p class="font-bold text-red-600">{fields.formError}</p>
+                                <p class="font-bold text-red-500">{fields.formError}</p>
                             </Show>
                             <div class="flex flex-col space-y-2">
                                 <SubmitButton
@@ -116,10 +116,7 @@ export default function ResetPasswordForm() {
                                 >
                                     Reset
                                 </SubmitButton>
-                                <p>
-                                    Having trouble resetting your password?&#32;
-                                    <a class="text-blue-500 hover:underline" href="/forgot-password/">Request another password reset</a>
-                                </p>
+                                <a class="block text-blue-500 hover:underline" href="/forgot-password/">Having trouble? Request another password reset</a>
                             </div>
                         </form>
                     </>
