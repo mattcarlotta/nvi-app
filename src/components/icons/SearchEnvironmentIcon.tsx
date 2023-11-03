@@ -1,7 +1,7 @@
 export default function SearchEnvironmentIcon(props: { class: string }) {
     return (
         <svg class={props.class} viewBox="0 0 50 50">
-            <title>Search Environment Icon</title>
+            <title>Search Environment</title>
             <path
                 stroke="currentColor"
                 stroke-width="2"

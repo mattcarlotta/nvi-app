@@ -1,7 +1,7 @@
 export default function CopySuccessIcon(props: { class: string }) {
     return (
         <svg class={props.class} viewBox="0 0 24 24">
-            <title>Copy Success Icon</title>
+            <title>Copy Success</title>
             <path
                 d="M9 5C9 3.89543 9.89543 3 11 3H13C14.1046 3 15 3.89543 15 5V7H9V5Z"
                 stroke="currentColor"
