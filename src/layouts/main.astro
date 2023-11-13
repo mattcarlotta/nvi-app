@@ -130,8 +130,8 @@ const documentType = type || "website";
         <slot name="navbar">
             {!hideHeader && <NavHeader />}
         </slot>
-        <main id="main" class="mx-auto w-full max-w-main p-2.5 md:pt-12">
-            <div class="min-h-mobile md:min-h-desktop pb-10">
+        <main id="main" class="mx-auto w-full max-w-main p-2.5">
+            <div class="pb-10 min-h-mobile md:min-h-desktop">
                 <slot />
             </div>
         </main>

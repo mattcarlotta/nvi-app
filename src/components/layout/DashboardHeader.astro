@@ -1,5 +1,6 @@
 ---
 import AccountDropdown from "./AccountDropdown";
+import DesktopTabs from "./DesktopTabs";
 
 interface Props {
     email?: string;
@@ -17,5 +18,10 @@ const { email, userName } = Astro.props;
         <div>
             <AccountDropdown client:load email={email} userName={userName} />
         </div>
+    </nav>
+</div>
+<div class="hidden md:flex md:justify-center md:items-center -mb-2.5">
+    <nav class="w-full max-w-main flex h-12 py-1">
+        <DesktopTabs client:load />
     </nav>
 </div>
