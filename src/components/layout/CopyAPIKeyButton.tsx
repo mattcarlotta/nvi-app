@@ -59,7 +59,7 @@ export default function CopyAPIKeyButton(props: CopyAPIKeyButtonProps) {
     }
 
     return (
-        <div class="flex flex-wrap space-x-2">
+        <div class="flex no-wrap space-x-2">
             <pre
                 title={apiKey.value}
                 class="overflow-hidden text-ellipsis"
