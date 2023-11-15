@@ -2,6 +2,7 @@
 import type { Environments, Project, User } from "../../types/";
 import DashboardIcon from "../../components/icons/DashboardIcon";
 import ProjectIcon from "../../components/icons/ProjectIcon";
+import NoSearchResultsIcon from "../../components/icons/NoSearchResultsIcon";
 import EnvironmentList from "../../components/layout/EnvironmentList";
 import LoginForm from "../../components/forms/LoginForm";
 import NavBar from "../../components/layout/NavBar.astro";
@@ -9,6 +10,7 @@ import MainLayout from "../../layouts/main.astro";
 import { fetchAPIGET } from "../../utils/fetchAPI";
 
 const sessionToken = Astro.cookies.get("SESSION_TOKEN");
+const projectName = Astro.url.pathname.replace(/\//g, "");
 let user: User | null = null;
 let project: Project | null = null;
 let environments: Environments = [];
@@ -75,7 +77,18 @@ try {
                 />
             </>
         ) : (
-            <h1>Project Not Found</h1>
+            <div class="flex flex-col items-center justify-center p-4 bg-gray-950 border border-gray-600 rounded md:p-8">
+                <div class="flex flex-col space-y-2 items-center w-full">
+                    <NoSearchResultsIcon class="w-12 h-12 text-gray-200" />
+                    <h1 class="text-center text-2xl text-red-500 md:text-left">
+                        Unable to locate the &ldquo;{decodeURIComponent(projectName)}&rdquo;
+                        project.
+                    </h1>
+                    <h2 class="text-center md:text-left">
+                        The project may have been deleted or hasn&apos;t been created yet.
+                    </h2>
+                </div>
+            </div>
         )
     }
 </MainLayout>
