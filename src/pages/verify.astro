@@ -17,7 +17,10 @@ try {
 }
 ---
 
-<MainLayout description={message ? "successfully verified account" : "account verification failed"}>
+<MainLayout
+    description={message ? "successfully verified account" : "account verification failed"}
+    paddingTop
+>
     <div class="flex flex-col items-center justify-center">
         <div class="flex flex-col items-center space-y-4 w-full max-w-xl p-8 bg-gray-900 rounded">
             {

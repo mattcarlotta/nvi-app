@@ -2,17 +2,19 @@
 import NavHeader from "../components/layout/NavHeader.astro";
 import GithubIcon from "../components/icons/GithubIcon";
 import Toast from "../components/layout/Toast";
+import clsx from "../utils/clsx";
 import concatTitle from "../utils/concatTitle";
 
 interface Props {
     description?: string;
     hideHeader?: boolean;
     hideFooter?: boolean;
+    paddingTop?: boolean;
     title?: string;
     type?: string;
 }
 
-const { description, hideHeader, hideFooter, title, type } = Astro.props;
+const { description, hideHeader, hideFooter, paddingTop, title, type } = Astro.props;
 const canonicalURL = Astro.url.toString();
 const documentTitle = concatTitle(title, description);
 const documentType = type || "website";
@@ -130,7 +132,7 @@ const documentType = type || "website";
         <slot name="navbar">
             {!hideHeader && <NavHeader />}
         </slot>
-        <main id="main" class="mx-auto w-full max-w-main p-2.5">
+        <main id="main" class={clsx("mx-auto w-full max-w-main p-2.5", paddingTop && "md:pt-12")}>
             <div class="pb-10 min-h-mobile md:min-h-desktop">
                 <slot />
             </div>

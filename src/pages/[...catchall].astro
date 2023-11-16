@@ -3,10 +3,7 @@ import MainLayout from "../layouts/main.astro";
 import NavHeader from "../components/layout/NavHeader.astro";
 ---
 
-<MainLayout
-    title="page not found"
-    description="unable to locate the requested page"
->
+<MainLayout title="page not found" description="unable to locate the requested page" paddingTop>
     <NavHeader slot="navbar" />
     <h1 class="text-3xl">Page Not Found</h1>
 </MainLayout>
